@@ -4,7 +4,7 @@ import arcade
 # Set how many rows and columns we will have
 ROW_COUNT = 40
 COLUMN_COUNT = 40
-BIOME_STEP=5
+BIOME_STEP = 5
 
 # This sets the WIDTH and HEIGHT of each grid location
 WIDTH = 20
@@ -20,9 +20,12 @@ SCREEN_HEIGHT = (HEIGHT + MARGIN) * ROW_COUNT + MARGIN
 
 
 class Game(arcade.Window):
+    def get_cell_color(self, row, column):
+        return self.color[self.grid[row][column]]
+
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
-        self.grid = generate_map(ROW_COUNT,COLUMN_COUNT,BIOME_STEP)
+        self.grid = generate_map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
         self.background_color = arcade.color.BLACK
         self.color = [
             arcade.color.BLACK,
@@ -32,28 +35,28 @@ class Game(arcade.Window):
             arcade.color.ORANGE,
             arcade.color.RED,
         ]
-        self.update_grid()
 
-    def update_grid(self):
-        """
-        Create the shapes for our current grid.
+        # One dimensional list of all sprites in the two-dimensional sprite list
+        self.grid_sprite_list = arcade.SpriteList()
 
-        We look at the values in each cell.
-        If the cell contains 0 we crate a white shape.
-        If the cell contains 1 we crate a green shape.
-        """
-        self.shape_list = arcade.ShapeElementList()
+        # This will be a two-dimensional grid of sprites to mirror the two
+        # dimensional grid of numbers. This points to the SAME sprites that are
+        # in grid_sprite_list, just in a 2d manner.
+        self.grid_sprites = []
+
+        # Create a list of solid-color sprites to represent each grid location
         for row in range(ROW_COUNT):
+            self.grid_sprites.append([])
             for column in range(COLUMN_COUNT):
-                color = self.color[self.grid[row][column]]
-
-                x = (MARGIN + WIDTH) * column + MARGIN + WIDTH // 2
-                y = (MARGIN + HEIGHT) * row + MARGIN + HEIGHT // 2
-
-                current_rect = arcade.create_rectangle_filled(
-                    x, y, WIDTH, HEIGHT, color
+                x = column * (WIDTH + MARGIN) + (WIDTH / 2 + MARGIN)
+                y = row * (HEIGHT + MARGIN) + (HEIGHT / 2 + MARGIN)
+                sprite = arcade.SpriteSolidColor(
+                    WIDTH, HEIGHT, self.get_cell_color(row, column)
                 )
-                self.shape_list.append(current_rect)
+                sprite.center_x = x
+                sprite.center_y = y
+                self.grid_sprite_list.append(sprite)
+                self.grid_sprites[row].append(sprite)
 
     def on_draw(self):
         """
@@ -62,8 +65,8 @@ class Game(arcade.Window):
         # We should always start by clearing the window pixels
         self.clear()
 
-        # Draw the shapes representing our current grid
-        self.shape_list.draw()
+        # Draw the sprites representing our current grid
+        self.grid_sprite_list.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         """
@@ -89,9 +92,6 @@ class Game(arcade.Window):
         #     self.grid[row][column] = 1
         # else:
         #     self.grid[row][column] = 0
-
-        # Rebuild the shapes
-        self.update_grid()
 
 
 def main():
