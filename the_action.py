@@ -18,8 +18,10 @@ MARGIN = 2
 SCREEN_WIDTH = (WIDTH + MARGIN) * COLUMN_COUNT + MARGIN
 SCREEN_HEIGHT = (HEIGHT + MARGIN) * ROW_COUNT + MARGIN
 
-def mix_color(a,b):
-    return ((a[0]+b[0])//2,(a[1]+b[1])//2,(a[2]+b[2]//2))
+
+def mix_color(a, b):
+    return ((a[0] + b[0]) // 2, (a[1] + b[1]) // 2, (a[2] + b[2] // 2))
+
 
 class Game(arcade.Window):
     def grid_to_central_coordinate(self, row, column):
@@ -66,7 +68,7 @@ class Game(arcade.Window):
             for column in range(COLUMN_COUNT):
                 x, y = self.grid_to_central_coordinate(row, column)
                 sprite = arcade.SpriteSolidColor(WIDTH, HEIGHT, arcade.color.WHITE)
-                sprite.color = self.get_cell_color(row,column)
+                sprite.color = self.get_cell_color(row, column)
                 sprite.center_x, sprite.center_y = x, y
                 self.grid_sprite_list.append(sprite)
                 self.grid_sprites[row].append(sprite)
@@ -102,10 +104,12 @@ class Game(arcade.Window):
         # Flip the color of the sprite
         # self.grid_selected=[row,column]
         if self.grid_selected:
-            srow,scol=self.grid_selected
-            self.grid_sprites[srow][scol].color=self.get_cell_color(srow,scol)
-        self.grid_sprites[row][column].color=mix_color(self.grid_sprites[row][column].color,arcade.color.GRAY)
-        self.grid_selected=[row,column]
+            srow, scol = self.grid_selected
+            self.grid_sprites[srow][scol].color = self.get_cell_color(srow, scol)
+        self.grid_sprites[row][column].color = mix_color(
+            self.grid_sprites[row][column].color, arcade.color.GRAY
+        )
+        self.grid_selected = [row, column]
 
 
 def main():
