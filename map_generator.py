@@ -10,7 +10,7 @@ class Biome(Enum):
 # chances
 biome_chances = {Biome.PLAIN: 60, Biome.HILL: 40}
 plain_chances = [80, 20]
-hill_chances = [10, 20, 30, 30, 10]
+hill_chances = [10, 40, 40, 10]
 
 
 def convert_chance(n, chances):
@@ -55,10 +55,3 @@ def generate_map(row_count, column_count, biome_step, seed=None):
         for y in range(len(grid[x])):
             grid[x][y] = random_height(biome[x // biome_step - 1][y // biome_step - 1])
     return grid
-
-
-if __name__ == "__main__":
-    for x in generate_map(114):
-        for y in x:
-            print(y, end=" ")
-        print()
