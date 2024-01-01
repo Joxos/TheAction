@@ -1,4 +1,8 @@
-from config import *
+from config import (
+    WIDTH,
+    HEIGHT,
+    BOARDER,
+)
 
 
 def mix_color(a, b):

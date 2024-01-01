@@ -1,7 +1,16 @@
 from map_generator import generate_map
 import arcade
-from config import *
+from config import (
+    ROW_COUNT,
+    COLUMN_COUNT,
+    BIOME_STEP,
+    WIDTH,
+    HEIGHT,
+    SCREEN_WIDTH,
+    SCREEN_HEIGHT,
+)
 from utils import mix_color, grid_to_central_coordinate, coordinate_to_grid
+from army import generate_army
 
 
 class Game(arcade.Window):
@@ -46,6 +55,9 @@ class Game(arcade.Window):
                 self.grid_sprite_list.append(sprite)
                 self.grid_sprites[row].append(sprite)
 
+        self.movable_units = arcade.SpriteList()
+        self.movable_units.append(generate_army(10, 10))
+
     def on_draw(self):
         """
         Render the screen.
@@ -55,6 +67,7 @@ class Game(arcade.Window):
 
         # Draw the sprites representing our current grid
         self.grid_sprite_list.draw()
+        self.movable_units.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         """
@@ -67,7 +80,7 @@ class Game(arcade.Window):
         # Make sure we are on-grid. It is possible to click in the upper right
         # corner in the margin and go to a grid location that doesn't exist
         if row >= ROW_COUNT or column >= COLUMN_COUNT:
-            print(f"Click out of grid.")
+            print("Click out of grid.")
             return
 
         print(

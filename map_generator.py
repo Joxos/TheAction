@@ -57,3 +57,9 @@ def generate_map(row_count, column_count, biome_step, seed=None):
         for y in range(len(grid[x])):
             grid[x][y] = random_height(biome[x // biome_step - 1][y // biome_step - 1])
     return grid
+
+
+class Map:
+    def __init__(self, row_count, column_count, biome_step, seed=None):
+        self.height_map = generate_map(row_count, column_count, biome_step, seed)
+        self.movable_units = []
