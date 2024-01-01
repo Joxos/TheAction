@@ -1,39 +1,43 @@
 from map_generator import generate_map
 import arcade
 
+# map configuration
 # Set how many rows and columns we will have
 ROW_COUNT = 40
 COLUMN_COUNT = 40
 BIOME_STEP = 5
 
+# display configuration
 # This sets the WIDTH and HEIGHT of each grid location
 WIDTH = 20
 HEIGHT = 20
 
 # This sets the margin between each cell
 # and on the edges of the screen.
-MARGIN = 2
+BOARDER = 2
 
 # Do the math to figure out our screen dimensions
-SCREEN_WIDTH = (WIDTH + MARGIN) * COLUMN_COUNT + MARGIN
-SCREEN_HEIGHT = (HEIGHT + MARGIN) * ROW_COUNT + MARGIN
+SCREEN_WIDTH = (WIDTH + BOARDER) * COLUMN_COUNT + BOARDER
+SCREEN_HEIGHT = (HEIGHT + BOARDER) * ROW_COUNT + BOARDER
 
 
 def mix_color(a, b):
     return ((a[0] + b[0]) // 2, (a[1] + b[1]) // 2, (a[2] + b[2] // 2))
 
 
+def grid_to_central_coordinate(row, column):
+    x = column * (WIDTH + BOARDER) + (WIDTH / 2 + BOARDER)
+    y = row * (HEIGHT + BOARDER) + (HEIGHT / 2 + BOARDER)
+    return [x, y]
+
+
+def coordinate_to_grid(x, y):
+    column = int(x // (WIDTH + BOARDER))
+    row = int(y // (HEIGHT + BOARDER))
+    return [row, column]
+
+
 class Game(arcade.Window):
-    def grid_to_central_coordinate(self, row, column):
-        x = column * (WIDTH + MARGIN) + (WIDTH / 2 + MARGIN)
-        y = row * (HEIGHT + MARGIN) + (HEIGHT / 2 + MARGIN)
-        return [x, y]
-
-    def coordinate_to_grid(self, x, y):
-        column = int(x // (WIDTH + MARGIN))
-        row = int(y // (HEIGHT + MARGIN))
-        return [row, column]
-
     def get_cell_color(self, row, column):
         return self.height_color[self.grid_height[row][column]]
 
@@ -66,7 +70,7 @@ class Game(arcade.Window):
         for row in range(ROW_COUNT):
             self.grid_sprites.append([])
             for column in range(COLUMN_COUNT):
-                x, y = self.grid_to_central_coordinate(row, column)
+                x, y = grid_to_central_coordinate(row, column)
                 sprite = arcade.SpriteSolidColor(WIDTH, HEIGHT, arcade.color.WHITE)
                 sprite.color = self.get_cell_color(row, column)
                 sprite.center_x, sprite.center_y = x, y
@@ -89,7 +93,7 @@ class Game(arcade.Window):
         """
 
         # Convert the clicked mouse position into grid coordinates
-        row, column = self.coordinate_to_grid(x, y)
+        row, column = coordinate_to_grid(x, y)
 
         # Make sure we are on-grid. It is possible to click in the upper right
         # corner in the margin and go to a grid location that doesn't exist

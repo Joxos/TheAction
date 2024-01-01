@@ -13,13 +13,13 @@ plain_chances = [80, 20]
 hill_chances = [10, 40, 40, 10]
 
 
-def convert_chance(n, chances):
+def convert_chance(n: int, chances: list):
     cur = 0
     for i in range(0, len(chances)):
         cur += chances[i]
         if n <= cur:
             return i + 1
-    # throw convert error
+    raise ValueError(f"{n} is bigger than the sum of chances({sum(chances)}).")
 
 
 def random_biome():
@@ -43,7 +43,9 @@ def random_height(biome: Biome):
 
 def generate_map(row_count, column_count, biome_step, seed=None):
     if row_count % biome_step != 0 or column_count % biome_step != 0:
-        return None
+        raise ValueError(
+            f"Row count({row_count}) or column count({column_count}) is not divided by biome step({biome_step})."
+        )
     if seed:
         random.seed(seed)
     grid = [[1 for _ in range(column_count)] for _ in range(row_count)]
