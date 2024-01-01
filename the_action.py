@@ -44,8 +44,6 @@ class Game(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
-        self.grid_height = generate_map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
-
         self.background_color = arcade.color.BLACK
         self.height_color = [
             arcade.color.BLACK,
@@ -57,6 +55,10 @@ class Game(arcade.Window):
         ]
 
         self.grid_selected = None
+
+    def setup(self):
+        # generate the map height
+        self.grid_height = generate_map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
 
         # One dimensional list of all sprites in the two-dimensional sprite list
         self.grid_sprite_list = arcade.SpriteList()
@@ -111,13 +113,14 @@ class Game(arcade.Window):
             srow, scol = self.grid_selected
             self.grid_sprites[srow][scol].color = self.get_cell_color(srow, scol)
         self.grid_sprites[row][column].color = mix_color(
-            self.grid_sprites[row][column].color, arcade.color.GRAY
+            self.grid_sprites[row][column].color, arcade.color.VIOLET
         )
         self.grid_selected = [row, column]
 
 
 def main():
-    Game(SCREEN_WIDTH, SCREEN_HEIGHT, "The Action")
+    game=Game(SCREEN_WIDTH, SCREEN_HEIGHT, "The Action")
+    game.setup()
     arcade.run()
 
 
