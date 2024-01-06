@@ -1,4 +1,4 @@
-from map_generator import Map
+from map import Map
 import arcade
 from config import (
     ROW_COUNT,
