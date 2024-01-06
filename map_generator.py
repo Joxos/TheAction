@@ -1,5 +1,6 @@
 import random
 from enum import Enum, auto
+from collections import OrderedDict
 
 
 class Biome(Enum):
@@ -9,34 +10,32 @@ class Biome(Enum):
 
 # chances
 biome_chances = {Biome.PLAIN: 60, Biome.HILL: 40}
-plain_chances = [80, 20]
-hill_chances = [10, 40, 40, 10]
+biome_chances_max = sum(biome_chances.values())
+plain_chances = OrderedDict({1: 80, 2: 10})
+plain_chances_max = sum(plain_chances.values())
+hill_chances = OrderedDict({1: 10, 2: 40, 3: 40, 4: 10})
+hill_chances_max = sum(hill_chances.values())
 
 
-def convert_chance(n: int, chances: list):
-    cur = 0
-    for i in range(0, len(chances)):
-        cur += chances[i]
-        if n <= cur:
-            return i + 1
-    raise ValueError(f"{n} is bigger than the sum of chances({sum(chances)}).")
+def convert_chances(chances: OrderedDict, max_value):
+    current = 0
+    choice = random.randint(1, max_value)
+    for selection, chance in chances.items():
+        current += chance
+        if choice <= current:
+            return selection
+    raise ValueError(f"{choice} is bigger than the sum of chances({max_value}).")
 
 
 def random_biome():
-    choice = random.randint(1, 100)
-    chance = (
-        convert_chance(choice, list(biome_chances.values())) - 1
-    )  # minus 1 because it has been plus 1 for the height can't be 0
-    return list(biome_chances.keys())[chance]
+    return convert_chances(biome_chances, biome_chances_max)
 
 
 def random_height(biome: Biome):
     if biome == Biome.PLAIN:
-        choice = random.randint(1, 100)
-        return convert_chance(choice, plain_chances)
+        return convert_chances(plain_chances, plain_chances_max)
     elif biome == Biome.HILL:
-        choice = random.randint(1, 100)
-        return convert_chance(choice, hill_chances)
+        return convert_chances(hill_chances, hill_chances_max)
     else:
         return 0
 
@@ -59,6 +58,7 @@ def generate_map(row_count, column_count, biome_step, seed=None):
     return grid
 
 
+# map object
 class Map:
     def __init__(self, row_count, column_count, biome_step, seed=None):
         self.height_map = generate_map(row_count, column_count, biome_step, seed)

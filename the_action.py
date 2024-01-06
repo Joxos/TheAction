@@ -1,4 +1,4 @@
-from map_generator import generate_map
+from map_generator import Map
 import arcade
 from config import (
     ROW_COUNT,
@@ -8,6 +8,7 @@ from config import (
     HEIGHT,
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
+    HEIGHT_COLOR,
 )
 from utils import mix_color, grid_to_central_coordinate, coordinate_to_grid
 from army import generate_army
@@ -15,26 +16,17 @@ from army import generate_army
 
 class Game(arcade.Window):
     def get_cell_color(self, row, column):
-        return self.height_color[self.grid_height[row][column]]
+        return HEIGHT_COLOR[self.map.height_map[row][column]]
 
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
         self.background_color = arcade.color.BLACK
-        self.height_color = [
-            arcade.color.BLACK,
-            arcade.color.GREEN,
-            arcade.color.YELLOW_GREEN,
-            arcade.color.YELLOW,
-            arcade.color.ORANGE,
-            arcade.color.RED,
-        ]
-
         self.grid_selected = None
 
     def setup(self):
         # generate the map height
-        self.grid_height = generate_map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
+        self.map=Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
 
         # One dimensional list of all sprites in the two-dimensional sprite list
         self.grid_sprite_list = arcade.SpriteList()
@@ -84,7 +76,7 @@ class Game(arcade.Window):
             return
 
         print(
-            f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}), Height: {self.grid_height[row][column]}, Color: {self.grid_sprites[row][column].color}"
+            f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}), Height: {self.map.height_map[row][column]}, Color: {self.grid_sprites[row][column].color}"
         )
 
         # Flip the color of the sprite
