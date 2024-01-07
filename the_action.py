@@ -58,16 +58,16 @@ class Game(arcade.Window):
         self.put_army(1, (10, 10), arcade.color.RED)
 
         # render side bar
-        self.side_bar = arcade.SpriteList()
-        side_bar_bg = arcade.SpriteSolidColor(
+        self.sidebar = arcade.SpriteList()
+        sidebar_bg = arcade.SpriteSolidColor(
             SIDE_BAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
         )
-        side_bar_bg.color = arcade.color.AERO_BLUE
-        side_bar_bg.center_x, side_bar_bg.center_y = (
+        sidebar_bg.color = arcade.color.AERO_BLUE
+        sidebar_bg.center_x, sidebar_bg.center_y = (
             GRID_WIDTH + SIDE_BAR_WIDTH / 2,
             SCREEN_HEIGHT / 2,
         )
-        self.side_bar.append(side_bar_bg)
+        self.sidebar.append(sidebar_bg)
 
     def on_draw(self):
         """
@@ -79,7 +79,7 @@ class Game(arcade.Window):
         # Draw the sprites representing our current grid
         self.cell_sprites.draw()
         self.armies_sprites.draw()
-        self.side_bar.draw()
+        self.sidebar.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         """
@@ -92,11 +92,11 @@ class Game(arcade.Window):
         # Make sure we are on-grid. It is possible to click in the upper right
         # corner in the margin and go to a grid location that doesn't exist
         if row >= ROW_COUNT or column >= COLUMN_COUNT:
-            print("Click out of grid.")
+            print(f"Click on sidebar. Coordinates: ({x}, {y}).")
             return
 
         print(
-            f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}), Height: {self.map.height_map[row][column]}, Color: {self.cell_sprites_2d[row][column].color}"
+            f"Click on cell. Coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}), Height: {self.map.height_map[row][column]}, Color: {self.cell_sprites_2d[row][column].color}"
         )
 
         # Flip the color of the sprite
