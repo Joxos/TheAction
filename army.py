@@ -10,6 +10,6 @@ class Army:
 
 
 def generate_army(info: Army):
-    army = arcade.SpriteCircle(3, info.color)
+    army = arcade.SpriteCircle(6, info.color)
     army.center_x, army.center_y = grid_to_central_coordinate(info.pos[0], info.pos[1])
     return army

@@ -9,6 +9,8 @@ from config import (
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
     HEIGHT_COLOR,
+    SIDE_BAR_WIDTH,
+    GRID_WIDTH,
 )
 from utils import mix_color, grid_to_central_coordinate, coordinate_to_grid
 from army import generate_army, Army
@@ -55,6 +57,18 @@ class Game(arcade.Window):
         self.armies_sprites = arcade.SpriteList()
         self.put_army(1, (10, 10), arcade.color.RED)
 
+        # render side bar
+        self.side_bar = arcade.SpriteList()
+        side_bar_bg = arcade.SpriteSolidColor(
+            SIDE_BAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
+        )
+        side_bar_bg.color = arcade.color.AERO_BLUE
+        side_bar_bg.center_x, side_bar_bg.center_y = (
+            GRID_WIDTH + SIDE_BAR_WIDTH / 2,
+            SCREEN_HEIGHT / 2,
+        )
+        self.side_bar.append(side_bar_bg)
+
     def on_draw(self):
         """
         Render the screen.
@@ -65,6 +79,7 @@ class Game(arcade.Window):
         # Draw the sprites representing our current grid
         self.cell_sprites.draw()
         self.armies_sprites.draw()
+        self.side_bar.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         """

@@ -14,9 +14,11 @@ HEIGHT = 20
 # This sets the margin between each cell
 # and on the edges of the screen.
 BOARDER = 2
+SIDE_BAR_WIDTH = 200
 
 # Do the math to figure out our screen dimensions
-SCREEN_WIDTH = (WIDTH + BOARDER) * COLUMN_COUNT + BOARDER
+GRID_WIDTH = (WIDTH + BOARDER) * COLUMN_COUNT + BOARDER
+SCREEN_WIDTH = GRID_WIDTH + SIDE_BAR_WIDTH
 SCREEN_HEIGHT = (HEIGHT + BOARDER) * ROW_COUNT + BOARDER
 
 HEIGHT_COLOR = [
