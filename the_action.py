@@ -11,12 +11,17 @@ from config import (
     HEIGHT_COLOR,
 )
 from utils import mix_color, grid_to_central_coordinate, coordinate_to_grid
-from army import generate_army
+from army import generate_army, Army
 
 
 class Game(arcade.Window):
     def get_cell_color(self, row, column):
         return HEIGHT_COLOR[self.map.height_map[row][column]]
+
+    def put_army(self, id, pos: tuple[int, int], color):
+        army_info = Army(id, pos, color)
+        self.map.armies.append(army_info)
+        self.armies_sprites.append(generate_army(army_info))
 
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
@@ -26,29 +31,29 @@ class Game(arcade.Window):
 
     def setup(self):
         # generate the map height
-        self.map=Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
+        self.map = Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
 
         # One dimensional list of all sprites in the two-dimensional sprite list
-        self.grid_sprite_list = arcade.SpriteList()
+        self.cell_sprites = arcade.SpriteList()
 
         # This will be a two-dimensional grid of sprites to mirror the two
         # dimensional grid of numbers. This points to the SAME sprites that are
         # in grid_sprite_list, just in a 2d manner.
-        self.grid_sprites = []
+        self.cell_sprites_2d = []
 
         # Create a list of solid-color sprites to represent each grid location
         for row in range(ROW_COUNT):
-            self.grid_sprites.append([])
+            self.cell_sprites_2d.append([])
             for column in range(COLUMN_COUNT):
                 x, y = grid_to_central_coordinate(row, column)
                 sprite = arcade.SpriteSolidColor(WIDTH, HEIGHT, arcade.color.WHITE)
                 sprite.color = self.get_cell_color(row, column)
                 sprite.center_x, sprite.center_y = x, y
-                self.grid_sprite_list.append(sprite)
-                self.grid_sprites[row].append(sprite)
+                self.cell_sprites.append(sprite)
+                self.cell_sprites_2d[row].append(sprite)
 
-        self.movable_units = arcade.SpriteList()
-        self.movable_units.append(generate_army(10, 10))
+        self.armies_sprites = arcade.SpriteList()
+        self.put_army(1, (10, 10), arcade.color.RED)
 
     def on_draw(self):
         """
@@ -58,8 +63,8 @@ class Game(arcade.Window):
         self.clear()
 
         # Draw the sprites representing our current grid
-        self.grid_sprite_list.draw()
-        self.movable_units.draw()
+        self.cell_sprites.draw()
+        self.armies_sprites.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         """
@@ -76,16 +81,16 @@ class Game(arcade.Window):
             return
 
         print(
-            f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}), Height: {self.map.height_map[row][column]}, Color: {self.grid_sprites[row][column].color}"
+            f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}), Height: {self.map.height_map[row][column]}, Color: {self.cell_sprites_2d[row][column].color}"
         )
 
         # Flip the color of the sprite
         # self.grid_selected=[row,column]
         if self.grid_selected:
             srow, scol = self.grid_selected
-            self.grid_sprites[srow][scol].color = self.get_cell_color(srow, scol)
-        self.grid_sprites[row][column].color = mix_color(
-            self.grid_sprites[row][column].color, arcade.color.VIOLET
+            self.cell_sprites_2d[srow][scol].color = self.get_cell_color(srow, scol)
+        self.cell_sprites_2d[row][column].color = mix_color(
+            self.cell_sprites_2d[row][column].color, arcade.color.VIOLET
         )
         self.grid_selected = [row, column]
 

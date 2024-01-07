@@ -62,4 +62,4 @@ def generate_map(row_count, column_count, biome_step, seed=None):
 class Map:
     def __init__(self, row_count, column_count, biome_step, seed=None):
         self.height_map = generate_map(row_count, column_count, biome_step, seed)
-        self.movable_units = []
+        self.armies = []
