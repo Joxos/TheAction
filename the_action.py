@@ -4,12 +4,12 @@ from config import (
     ROW_COUNT,
     COLUMN_COUNT,
     BIOME_STEP,
-    WIDTH,
-    HEIGHT,
+    CELL_WIDTH,
+    CELL_HEIGHT,
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
     HEIGHT_COLOR,
-    SIDE_BAR_WIDTH,
+    SIDEBAR_WIDTH,
     GRID_WIDTH,
 )
 from utils import mix_color, grid_to_central_coordinate, coordinate_to_grid
@@ -48,7 +48,7 @@ class Game(arcade.Window):
             self.cell_sprites_2d.append([])
             for column in range(COLUMN_COUNT):
                 x, y = grid_to_central_coordinate(row, column)
-                sprite = arcade.SpriteSolidColor(WIDTH, HEIGHT, arcade.color.WHITE)
+                sprite = arcade.SpriteSolidColor(CELL_WIDTH, CELL_HEIGHT, arcade.color.WHITE)
                 sprite.color = self.get_cell_color(row, column)
                 sprite.center_x, sprite.center_y = x, y
                 self.cell_sprites.append(sprite)
@@ -60,11 +60,11 @@ class Game(arcade.Window):
         # render side bar
         self.sidebar = arcade.SpriteList()
         sidebar_bg = arcade.SpriteSolidColor(
-            SIDE_BAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
+            SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
         )
         sidebar_bg.color = arcade.color.AERO_BLUE
         sidebar_bg.center_x, sidebar_bg.center_y = (
-            GRID_WIDTH + SIDE_BAR_WIDTH / 2,
+            GRID_WIDTH + SIDEBAR_WIDTH / 2,
             SCREEN_HEIGHT / 2,
         )
         self.sidebar.append(sidebar_bg)

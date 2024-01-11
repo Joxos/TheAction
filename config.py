@@ -8,18 +8,18 @@ BIOME_STEP = 5
 
 # display configuration
 # This sets the WIDTH and HEIGHT of each grid location
-WIDTH = 20
-HEIGHT = 20
+CELL_WIDTH = 20
+CELL_HEIGHT = 20
 
 # This sets the margin between each cell
 # and on the edges of the screen.
-BOARDER = 2
-SIDE_BAR_WIDTH = 200
+BOARDER_WIDTH = 2
+SIDEBAR_WIDTH = 200
 
 # Do the math to figure out our screen dimensions
-GRID_WIDTH = (WIDTH + BOARDER) * COLUMN_COUNT + BOARDER
-SCREEN_WIDTH = GRID_WIDTH + SIDE_BAR_WIDTH
-SCREEN_HEIGHT = (HEIGHT + BOARDER) * ROW_COUNT + BOARDER
+GRID_WIDTH = (CELL_WIDTH + BOARDER_WIDTH) * COLUMN_COUNT + BOARDER_WIDTH
+SCREEN_WIDTH = GRID_WIDTH + SIDEBAR_WIDTH
+SCREEN_HEIGHT = (CELL_HEIGHT + BOARDER_WIDTH) * ROW_COUNT + BOARDER_WIDTH
 
 HEIGHT_COLOR = [
     arcade.color.BLACK,
