@@ -38,18 +38,15 @@ class Game(arcade.Window):
         self.grid_selected = None
 
     def setup(self):
-        # generate the map height
+        # map setup
         self.map = Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
 
-        # One dimensional list of all sprites in the two-dimensional sprite list
+        # cell render setup
+        # 1d list for arcade to render
         self.cell_sprites = arcade.SpriteList()
 
-        # This will be a two-dimensional grid of sprites to mirror the two
-        # dimensional grid of numbers. This points to the SAME sprites that are
-        # in grid_sprite_list, just in a 2d manner.
+        # 2d list to control the game
         self.cell_sprites_2d = []
-
-        # Create a list of solid-color sprites to represent each grid location
         for row in range(ROW_COUNT):
             self.cell_sprites_2d.append([])
             for column in range(COLUMN_COUNT):
@@ -62,10 +59,11 @@ class Game(arcade.Window):
                 self.cell_sprites.append(sprite)
                 self.cell_sprites_2d[row].append(sprite)
 
+        # a test army
         self.armies_sprites = arcade.SpriteList()
         self.put_army(1, (10, 10), arcade.color.RED)
 
-        # render side bar
+        # sidebar render setup
         self.sidebar = arcade.SpriteList()
         sidebar_bg = arcade.SpriteSolidColor(
             SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
@@ -77,7 +75,7 @@ class Game(arcade.Window):
         )
         self.sidebar.append(sidebar_bg)
 
-        # init sidebar text
+        # sidebar text render setup
         start_y = SCREEN_HEIGHT - SIDEBAR_TEXT_Y_MARGIN
 
         self.grid_info = arcade.Text(
@@ -102,18 +100,17 @@ class Game(arcade.Window):
         """
         Render the screen.
         """
-        # We should always start by clearing the window pixels
         self.clear()
 
-        # Draw the sprites representing our current grid
         self.cell_sprites.draw()
         self.armies_sprites.draw()
         self.sidebar.draw()
 
         # render sidebar text
         if self.grid_selected:
-            text = f"Height {self.map.height_map[self.grid_selected[0]][self.grid_selected[1]]} "
-            text += f"({self.grid_selected[0]}, {self.grid_selected[1]})"
+            height=f'{self.map.height_map[self.grid_selected[0]][self.grid_selected[1]]}'
+            grid_coordinate=f'({self.grid_selected[0]}, {self.grid_selected[1]})'
+            text = f"{grid_coordinate}: {height}"
             self.grid_info.text = text
             self.grid_info.draw()
             text = ""
@@ -126,6 +123,7 @@ class Game(arcade.Window):
                     text = f"army {army.id}"
             self.army_info.text = text
             self.army_info.draw()
+            text=''
         else:
             self.grid_info.text = "No cell selected."
             self.grid_info.draw()
