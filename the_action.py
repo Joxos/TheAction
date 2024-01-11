@@ -11,6 +11,9 @@ from config import (
     HEIGHT_COLOR,
     SIDEBAR_WIDTH,
     GRID_WIDTH,
+    SIDEBAR_TEXT_X_MARGIN,
+    SIDEBAR_TEXT_Y_MARGIN,
+    DEFAULT_FONT_SIZE
 )
 from utils import mix_color, grid_to_central_coordinate, coordinate_to_grid
 from army import generate_army, Army
@@ -70,6 +73,7 @@ class Game(arcade.Window):
             SCREEN_HEIGHT / 2,
         )
         self.sidebar.append(sidebar_bg)
+        self.text_grid_info=arcade.Text('Grid info:',GRID_WIDTH+SIDEBAR_TEXT_X_MARGIN,SCREEN_HEIGHT-SIDEBAR_TEXT_Y_MARGIN,arcade.color.PURPLE,DEFAULT_FONT_SIZE)
 
     def on_draw(self):
         """
@@ -82,6 +86,9 @@ class Game(arcade.Window):
         self.cell_sprites.draw()
         self.armies_sprites.draw()
         self.sidebar.draw()
+        
+        # draw text
+        self.text_grid_info.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         """
