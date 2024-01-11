@@ -15,7 +15,8 @@ from config import (
     SIDEBAR_TEXT_Y_MARGIN,
     DEFAULT_FONT_SIZE,
     LINE_SPACING,
-    FONT_COLOR
+    FONT_COLOR,
+    GAME_TITLE,
 )
 from utils import mix_color, grid_to_central_coordinate, coordinate_to_grid
 from army import generate_army, Army
@@ -77,15 +78,25 @@ class Game(arcade.Window):
         self.sidebar.append(sidebar_bg)
 
         # init sidebar text
-        start_y=SCREEN_HEIGHT-SIDEBAR_TEXT_Y_MARGIN
+        start_y = SCREEN_HEIGHT - SIDEBAR_TEXT_Y_MARGIN
 
-        self.grid_info=arcade.Text('',GRID_WIDTH+SIDEBAR_TEXT_X_MARGIN,start_y,FONT_COLOR,DEFAULT_FONT_SIZE)
-        start_y-=LINE_SPACING
+        self.grid_info = arcade.Text(
+            "",
+            GRID_WIDTH + SIDEBAR_TEXT_X_MARGIN,
+            start_y,
+            FONT_COLOR,
+            DEFAULT_FONT_SIZE,
+        )
+        start_y -= LINE_SPACING
 
-        self.army_info=arcade.Text('',GRID_WIDTH+SIDEBAR_TEXT_X_MARGIN,start_y,FONT_COLOR,DEFAULT_FONT_SIZE)
-        start_y-=LINE_SPACING
-
-
+        self.army_info = arcade.Text(
+            "",
+            GRID_WIDTH + SIDEBAR_TEXT_X_MARGIN,
+            start_y,
+            FONT_COLOR,
+            DEFAULT_FONT_SIZE,
+        )
+        start_y -= LINE_SPACING
 
     def on_draw(self):
         """
@@ -98,24 +109,26 @@ class Game(arcade.Window):
         self.cell_sprites.draw()
         self.armies_sprites.draw()
         self.sidebar.draw()
-        
+
         # render sidebar text
         if self.grid_selected:
-            text=f'Height: {self.map.height_map[self.grid_selected[0]][self.grid_selected[1]]} '
-            text+=f'({self.grid_selected[0]}, {self.grid_selected[1]})'
-            self.grid_info.text=text
+            text = f"Height {self.map.height_map[self.grid_selected[0]][self.grid_selected[1]]} "
+            text += f"({self.grid_selected[0]}, {self.grid_selected[1]})"
+            self.grid_info.text = text
             self.grid_info.draw()
-            text=''
+            text = ""
 
             for army in self.map.armies:
-                if army.pos[0]==self.grid_selected[0] and army.pos[1]==self.grid_selected[1]:
-                    text=f'army {army.id}'
-            self.army_info.text=text
+                if (
+                    army.pos[0] == self.grid_selected[0]
+                    and army.pos[1] == self.grid_selected[1]
+                ):
+                    text = f"army {army.id}"
+            self.army_info.text = text
             self.army_info.draw()
         else:
-            self.grid_info.text='No cell selected.'
+            self.grid_info.text = "No cell selected."
             self.grid_info.draw()
-
 
     def on_mouse_press(self, x, y, button, modifiers):
         """
@@ -125,21 +138,19 @@ class Game(arcade.Window):
         # Convert the clicked mouse position into grid coordinates
         row, column = coordinate_to_grid(x, y)
 
-        # Make sure we are on-grid. It is possible to click in the upper right
-        # corner in the margin and go to a grid location that doesn't exist
-        if row >= ROW_COUNT or column >= COLUMN_COUNT:
-            print(f"Click on sidebar. Coordinates: ({x}, {y}).")
-            return
+        # if row >= ROW_COUNT or column >= COLUMN_COUNT:
+        #     print(f"Click on sidebar. Coordinates: ({x}, {y}).")
+        #     return
 
-        print(
-            f"Click on cell. Coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}), Height: {self.map.height_map[row][column]}, Color: {self.cell_sprites_2d[row][column].color}"
-        )
+        # print(
+        #     f"Click on cell. Coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}), Height: {self.map.height_map[row][column]}, Color: {self.cell_sprites_2d[row][column].color}"
+        # )
 
-        # Flip the color of the sprite
-        # self.grid_selected=[row,column]
+        # recover the color of last selected cell
         if self.grid_selected:
             srow, scol = self.grid_selected
             self.cell_sprites_2d[srow][scol].color = self.get_cell_color(srow, scol)
+        # change the color of newly selected cell
         self.cell_sprites_2d[row][column].color = mix_color(
             self.cell_sprites_2d[row][column].color, arcade.color.VIOLET
         )
@@ -147,7 +158,7 @@ class Game(arcade.Window):
 
 
 def main():
-    game = Game(SCREEN_WIDTH, SCREEN_HEIGHT, "The Action")
+    game = Game(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE)
     game.setup()
     arcade.run()
 
