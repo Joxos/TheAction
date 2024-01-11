@@ -48,7 +48,9 @@ class Game(arcade.Window):
             self.cell_sprites_2d.append([])
             for column in range(COLUMN_COUNT):
                 x, y = grid_to_central_coordinate(row, column)
-                sprite = arcade.SpriteSolidColor(CELL_WIDTH, CELL_HEIGHT, arcade.color.WHITE)
+                sprite = arcade.SpriteSolidColor(
+                    CELL_WIDTH, CELL_HEIGHT, arcade.color.WHITE
+                )
                 sprite.color = self.get_cell_color(row, column)
                 sprite.center_x, sprite.center_y = x, y
                 self.cell_sprites.append(sprite)
