@@ -13,7 +13,8 @@ from config import (
     GRID_WIDTH,
     SIDEBAR_TEXT_X_MARGIN,
     SIDEBAR_TEXT_Y_MARGIN,
-    DEFAULT_FONT_SIZE
+    DEFAULT_FONT_SIZE,
+    LINE_SPACING
 )
 from utils import mix_color, grid_to_central_coordinate, coordinate_to_grid
 from army import generate_army, Army
@@ -73,7 +74,14 @@ class Game(arcade.Window):
             SCREEN_HEIGHT / 2,
         )
         self.sidebar.append(sidebar_bg)
-        self.text_grid_info=arcade.Text('Grid info:',GRID_WIDTH+SIDEBAR_TEXT_X_MARGIN,SCREEN_HEIGHT-SIDEBAR_TEXT_Y_MARGIN,arcade.color.PURPLE,DEFAULT_FONT_SIZE)
+
+        # init sidebar text
+        start_y=SCREEN_HEIGHT-SIDEBAR_TEXT_Y_MARGIN
+
+        self.text_grid_info=arcade.Text(f'{self.grid_selected}',GRID_WIDTH+SIDEBAR_TEXT_X_MARGIN,start_y,arcade.color.PURPLE,DEFAULT_FONT_SIZE)
+        start_y-=LINE_SPACING
+
+
 
     def on_draw(self):
         """
@@ -87,8 +95,16 @@ class Game(arcade.Window):
         self.armies_sprites.draw()
         self.sidebar.draw()
         
-        # draw text
+        # render sidebar text
+        start_y=SCREEN_HEIGHT-SIDEBAR_TEXT_Y_MARGIN
+
+        if self.grid_selected:
+            self.text_grid_info.text=f'({self.grid_selected[0]}, {self.grid_selected[1]})'
+        else:
+            self.text_grid_info.text='No cell selected.'
         self.text_grid_info.draw()
+        start_y-=LINE_SPACING
+
 
     def on_mouse_press(self, x, y, button, modifiers):
         """
