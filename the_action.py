@@ -76,11 +76,17 @@ class Game(arcade.Window):
         self.sidebar.append(sidebar_bg)
 
         # sidebar text render setup
+        start_x = GRID_WIDTH + SIDEBAR_TEXT_X_MARGIN
         start_y = SCREEN_HEIGHT - SIDEBAR_TEXT_Y_MARGIN
+
+        self.hover_info = arcade.Text(
+            "", start_x, start_y, FONT_COLOR, DEFAULT_FONT_SIZE
+        )
+        start_y -= LINE_SPACING
 
         self.grid_info = arcade.Text(
             "",
-            GRID_WIDTH + SIDEBAR_TEXT_X_MARGIN,
+            start_x,
             start_y,
             FONT_COLOR,
             DEFAULT_FONT_SIZE,
@@ -89,7 +95,7 @@ class Game(arcade.Window):
 
         self.army_info = arcade.Text(
             "",
-            GRID_WIDTH + SIDEBAR_TEXT_X_MARGIN,
+            start_x,
             start_y,
             FONT_COLOR,
             DEFAULT_FONT_SIZE,
@@ -106,53 +112,62 @@ class Game(arcade.Window):
         self.armies_sprites.draw()
         self.sidebar.draw()
 
-        # render sidebar text
-        if self.grid_selected:
-            height=f'{self.map.height_map[self.grid_selected[0]][self.grid_selected[1]]}'
-            grid_coordinate=f'({self.grid_selected[0]}, {self.grid_selected[1]})'
-            text = f"{grid_coordinate}: {height}"
-            self.grid_info.text = text
-            self.grid_info.draw()
-            text = ""
+        self.grid_info.draw()
+        self.army_info.draw()
+        self.hover_info.draw()
 
-            for army in self.map.armies:
-                if (
-                    army.pos[0] == self.grid_selected[0]
-                    and army.pos[1] == self.grid_selected[1]
-                ):
-                    text = f"army {army.id}"
-            self.army_info.text = text
-            self.army_info.draw()
-            text=''
-        else:
-            self.grid_info.text = "No cell selected."
-            self.grid_info.draw()
+    def on_mouse_motion(self, x, y, delta_x, delta_y):
+        """
+        Called whenever the mouse moves.
+        """
+        # update sidebar info
+        row, column = coordinate_to_grid(x, y)
+        if row >= ROW_COUNT or column >= COLUMN_COUNT:
+            return
+        height = f"{self.map.height_map[row][column]}"
+        grid_coordinate = f"({row}, {column})"
+        self.hover_info.text = f"{grid_coordinate}: {height}"
 
     def on_mouse_press(self, x, y, button, modifiers):
-        """
-        Called when the user presses a mouse button.
-        """
-
-        # Convert the clicked mouse position into grid coordinates
         row, column = coordinate_to_grid(x, y)
 
-        # if row >= ROW_COUNT or column >= COLUMN_COUNT:
-        #     print(f"Click on sidebar. Coordinates: ({x}, {y}).")
-        #     return
+        if row >= ROW_COUNT or column >= COLUMN_COUNT:
+            print(f"Click on sidebar. Coordinates: ({x}, {y}).")
+            return
 
         # print(
         #     f"Click on cell. Coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}), Height: {self.map.height_map[row][column]}, Color: {self.cell_sprites_2d[row][column].color}"
         # )
 
-        # recover the color of last selected cell
         if self.grid_selected:
+            # recover the color of last selected cell
             srow, scol = self.grid_selected
             self.cell_sprites_2d[srow][scol].color = self.get_cell_color(srow, scol)
+
+        # update sidebar info
+        height = f"{self.map.height_map[row][column]}"
+        grid_coordinate = f"({row}, {column})"
+        self.grid_info.text = f"{grid_coordinate}: {height}"
+        self.grid_info.draw()
+
+        text = ""
+        for army in self.map.armies:
+            if army.pos[0] == row and army.pos[1] == column:
+                text = f"army {army.id}"
+        self.army_info.text = text
+        self.army_info.draw()
+        text = ""
         # change the color of newly selected cell
         self.cell_sprites_2d[row][column].color = mix_color(
             self.cell_sprites_2d[row][column].color, arcade.color.VIOLET
         )
         self.grid_selected = [row, column]
+
+    def on_mouse_release(self, x, y, button, key_modifiers):
+        """
+        Called when a user releases a mouse button.
+        """
+        pass
 
 
 def main():
