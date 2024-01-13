@@ -1,5 +1,6 @@
-from map import Map
 import arcade
+from fractions import Fraction
+from map import Map
 from config import (
     ROW_COUNT,
     COLUMN_COUNT,
@@ -20,6 +21,7 @@ from config import (
 )
 from utils import mix_color, grid_to_central_coordinate, coordinate_to_grid
 from army import generate_army, Army
+from line import sampling, calculate_distance
 
 
 class Game(arcade.Window):
@@ -30,6 +32,22 @@ class Game(arcade.Window):
         army_info = Army(id, pos, color)
         self.map.armies.append(army_info)
         self.armies_sprites.append(generate_army(army_info))
+
+    def spot(self, p1, p2):
+        points = sampling(p1, p2)
+        h1 = self.map.height_map[p1[0]][p1[1]]
+        h2 = self.map.height_map[p2[0]][p2[1]]
+        for point in points:
+            hp = self.map.height_map[point[0]][point[1]]
+            dh1 = hp - h1
+            dh2 = hp - h2
+            dx1 = calculate_distance(p1, point)
+            dx2 = calculate_distance(p2, point)
+            k1 = dh1 / dx1
+            k2 = dh2 / dx2
+            if abs(k1) > abs(k2) and h1 < h2 or abs(k2) < abs(k2) and h1 > h2:
+                return False
+        return True
 
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
@@ -102,6 +120,15 @@ class Game(arcade.Window):
         )
         start_y -= LINE_SPACING
 
+        self.spot_info = arcade.Text(
+            "",
+            start_x,
+            start_y,
+            FONT_COLOR,
+            DEFAULT_FONT_SIZE,
+        )
+        start_y -= LINE_SPACING
+
     def on_draw(self):
         """
         Render the screen.
@@ -115,6 +142,7 @@ class Game(arcade.Window):
         self.grid_info.draw()
         self.army_info.draw()
         self.hover_info.draw()
+        self.spot_info.draw()
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
         """
@@ -127,6 +155,10 @@ class Game(arcade.Window):
         height = f"{self.map.height_map[row][column]}"
         grid_coordinate = f"({row}, {column})"
         self.hover_info.text = f"{grid_coordinate}: {height}"
+        if self.grid_selected:
+            self.spot_info.text = self.spot(
+                (row, column), (self.grid_selected[0], self.grid_selected[1])
+            )
 
     def on_mouse_press(self, x, y, button, modifiers):
         row, column = coordinate_to_grid(x, y)
