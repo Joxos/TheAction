@@ -21,9 +21,9 @@ def sampling(p1, p2):
     if p1 == p2:
         return []
     elif p1[0] == p2[0]:
-        return [(p1[0], i) for i in range(min(p1[0], p2[0]) + 1, max(p1[0], p2[0]))]
+        return [(p1[0], i) for i in range(min(p1[1], p2[1]) + 1, max(p1[1], p2[1]))]
     elif p1[1] == p2[1]:
-        return [(i, p1[1]) for i in range(min(p1[1], p2[1]) + 1, max(p1[1], p2[1]))]
+        return [(i, p1[1]) for i in range(min(p1[0], p2[0]) + 1, max(p1[0], p2[0]))]
     line = Line(p1, p2)
     points = []
 

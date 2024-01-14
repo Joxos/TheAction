@@ -163,14 +163,12 @@ class Game(arcade.Window):
         height = f"{self.map.height_map[row][column]}"
         grid_coordinate = f"({row}, {column})"
         self.grid_info.text = f"{grid_coordinate}: {height}"
-        self.grid_info.draw()
 
         text = ""
         for army in self.map.armies:
             if army.pos[0] == row and army.pos[1] == column:
                 text = f"army {army.id}"
         self.army_info.text = text
-        self.army_info.draw()
         text = ""
         # change the color of newly selected cell
         self.cell_sprites_2d[row][column].color = mix_color(

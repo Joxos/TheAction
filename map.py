@@ -92,6 +92,4 @@ class Map:
 if __name__ == "__main__":
     map = Map(6, 2, 1)
     map.height_map = [[3, 2], [2, 2], [3, 3], [2, 2], [1, 1], [1, 1]]
-    print(map.is_obstructed((0, 0), (5, 1)))
-    print()
-    print(map.is_obstructed((5, 1), (0, 0)))
+    print(map.is_obstructed((1, 0), (5, 0)))
