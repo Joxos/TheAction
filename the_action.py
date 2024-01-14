@@ -103,7 +103,7 @@ class Game(arcade.Window):
         )
         start_y -= LINE_SPACING
 
-        self.spot_info = arcade.Text(
+        self.obstruct_info = arcade.Text(
             "",
             start_x,
             start_y,
@@ -125,7 +125,7 @@ class Game(arcade.Window):
         self.grid_info.draw()
         self.army_info.draw()
         self.hover_info.draw()
-        self.spot_info.draw()
+        self.obstruct_info.draw()
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
         """
@@ -139,7 +139,7 @@ class Game(arcade.Window):
         grid_coordinate = f"({row}, {column})"
         self.hover_info.text = f"{grid_coordinate}: {height}"
         if self.grid_selected:
-            self.spot_info.text = self.map.is_obstructed(
+            self.obstruct_info.text = self.map.is_obstructed(
                 (row, column), self.grid_selected
             )
 
