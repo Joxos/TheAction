@@ -21,7 +21,6 @@ from config import (
 )
 from utils import mix_color, grid_to_central_coordinate, coordinate_to_grid
 from army import generate_army, Army
-from line import sampling, calculate_distance
 
 
 class Game(arcade.Window):
@@ -32,22 +31,6 @@ class Game(arcade.Window):
         army_info = Army(id, pos, color)
         self.map.armies.append(army_info)
         self.armies_sprites.append(generate_army(army_info))
-
-    def spot(self, p1, p2):
-        points = sampling(p1, p2)
-        h1 = self.map.height_map[p1[0]][p1[1]]
-        h2 = self.map.height_map[p2[0]][p2[1]]
-        for point in points:
-            hp = self.map.height_map[point[0]][point[1]]
-            dh1 = hp - h1
-            dh2 = hp - h2
-            dx1 = calculate_distance(p1, point)
-            dx2 = calculate_distance(p2, point)
-            k1 = dh1 / dx1
-            k2 = dh2 / dx2
-            if abs(k1) > abs(k2) and h1 < h2 or abs(k2) < abs(k2) and h1 > h2:
-                return False
-        return True
 
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
@@ -156,8 +139,8 @@ class Game(arcade.Window):
         grid_coordinate = f"({row}, {column})"
         self.hover_info.text = f"{grid_coordinate}: {height}"
         if self.grid_selected:
-            self.spot_info.text = self.spot(
-                (row, column), (self.grid_selected[0], self.grid_selected[1])
+            self.spot_info.text = self.map.is_obstructed(
+                (row, column), self.grid_selected
             )
 
     def on_mouse_press(self, x, y, button, modifiers):

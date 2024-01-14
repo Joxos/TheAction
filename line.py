@@ -31,13 +31,13 @@ def sampling(p1, p2):
     min_x = min(p1[0], p2[0])
     max_x = max(p1[0], p2[0])
     for x in range(min_x + 1, max_x):
-        points.append((x, int(line.calculate_y(x))))
+        points.append((x, round(line.calculate_y(x))))
 
     # y samples
     min_y = min(p1[1], p2[1])
     max_y = max(p1[1], p2[1])
     for y in range(min_y + 1, max_y):
-        points.append((int(line.calculate_x(y)), y))
+        points.append((round(line.calculate_x(y)), y))
 
     return points
 

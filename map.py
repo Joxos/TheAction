@@ -1,6 +1,7 @@
 import random
 from enum import Enum, auto
 from collections import OrderedDict
+from line import sampling, calculate_distance
 
 
 class Biome(Enum):
@@ -63,3 +64,34 @@ class Map:
     def __init__(self, row_count, column_count, biome_step, seed=None):
         self.height_map = generate_map(row_count, column_count, biome_step, seed)
         self.armies = []
+
+    def is_obstructed(self, p1, p2):
+        points = sampling(p1, p2)
+        h1 = self.height_map[p1[0]][p1[1]]
+        h2 = self.height_map[p2[0]][p2[1]]
+        for point in points:
+            hp = self.height_map[point[0]][point[1]]
+            dh1 = h1 - hp
+            dh2 = h2 - hp
+            dx1 = calculate_distance(p1, point)
+            dx2 = calculate_distance(p2, point)
+            k1 = dh1 / dx1
+            k2 = dh2 / dx2
+            if (
+                hp > h1
+                and hp > h2
+                or abs(k1) > abs(k2)
+                and h1 < h2
+                or abs(k1) < abs(k2)
+                and h1 > h2
+            ):
+                return False
+        return True
+
+
+if __name__ == "__main__":
+    map = Map(6, 2, 1)
+    map.height_map = [[3, 2], [2, 2], [3, 3], [2, 2], [1, 1], [1, 1]]
+    print(map.is_obstructed((0, 0), (5, 1)))
+    print()
+    print(map.is_obstructed((5, 1), (0, 0)))
