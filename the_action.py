@@ -32,6 +32,29 @@ class Game(arcade.Window):
         self.map.armies.append(army_info)
         self.armies_sprites.append(generate_army(army_info))
 
+    def select_cell(self, row, column):
+        if self.grid_selected:
+            # recover the color of last selected cell
+            srow, scol = self.grid_selected
+            self.cell_sprites_2d[srow][scol].color = self.get_cell_color(srow, scol)
+        # change the color of newly selected cell
+        self.cell_sprites_2d[row][column].color = mix_color(
+            self.cell_sprites_2d[row][column].color, arcade.color.VIOLET
+        )
+        self.grid_selected = [row, column]
+
+        # update sidebar info
+        height = f"{self.map.height_map[row][column]}"
+        grid_coordinate = f"({row}, {column})"
+        self.grid_info.text = f"{grid_coordinate}: {height}"
+
+        text = ""
+        for army in self.map.armies:
+            if army.pos[0] == row and army.pos[1] == column:
+                text = f"army {army.id}"
+        self.army_info.text = text
+        text = ""
+
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
@@ -113,9 +136,6 @@ class Game(arcade.Window):
         start_y -= LINE_SPACING
 
     def on_draw(self):
-        """
-        Render the screen.
-        """
         self.clear()
 
         self.cell_sprites.draw()
@@ -128,9 +148,6 @@ class Game(arcade.Window):
         self.obstruct_info.draw()
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
-        """
-        Called whenever the mouse moves.
-        """
         # update sidebar info
         row, column = coordinate_to_grid(x, y)
         if row >= ROW_COUNT or column >= COLUMN_COUNT:
@@ -144,6 +161,9 @@ class Game(arcade.Window):
             )
 
     def on_mouse_press(self, x, y, button, modifiers):
+        pass
+
+    def on_mouse_release(self, x, y, button, key_modifiers):
         row, column = coordinate_to_grid(x, y)
 
         if row >= ROW_COUNT or column >= COLUMN_COUNT:
@@ -154,33 +174,7 @@ class Game(arcade.Window):
         #     f"Click on cell. Coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}), Height: {self.map.height_map[row][column]}, Color: {self.cell_sprites_2d[row][column].color}"
         # )
 
-        if self.grid_selected:
-            # recover the color of last selected cell
-            srow, scol = self.grid_selected
-            self.cell_sprites_2d[srow][scol].color = self.get_cell_color(srow, scol)
-
-        # update sidebar info
-        height = f"{self.map.height_map[row][column]}"
-        grid_coordinate = f"({row}, {column})"
-        self.grid_info.text = f"{grid_coordinate}: {height}"
-
-        text = ""
-        for army in self.map.armies:
-            if army.pos[0] == row and army.pos[1] == column:
-                text = f"army {army.id}"
-        self.army_info.text = text
-        text = ""
-        # change the color of newly selected cell
-        self.cell_sprites_2d[row][column].color = mix_color(
-            self.cell_sprites_2d[row][column].color, arcade.color.VIOLET
-        )
-        self.grid_selected = [row, column]
-
-    def on_mouse_release(self, x, y, button, key_modifiers):
-        """
-        Called when a user releases a mouse button.
-        """
-        pass
+        self.select_cell(row, column)
 
 
 def main():
