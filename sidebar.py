@@ -1,5 +1,5 @@
 import arcade
-from events import OnMouseMotion, OnDraw, OnSetup
+from events import OnMouseMotion, OnSetup
 from utils import coordinate_to_grid
 from config import (
     ROW_COUNT,
@@ -29,14 +29,6 @@ def update_sidebar_info(game, event: OnMouseMotion):
         )
 
 
-def on_draw(game, event: OnDraw):
-    game.sidebar.draw()
-    game.hover_info.draw()
-    game.obstruct_info.draw()
-    game.grid_info.draw()
-    game.army_info.draw()
-
-
 def on_setup(game, event: OnSetup):
     game.sidebar = arcade.SpriteList()
     sidebar_bg = arcade.SpriteSolidColor(
@@ -48,12 +40,14 @@ def on_setup(game, event: OnSetup):
         SCREEN_HEIGHT / 2,
     )
     game.sidebar.append(sidebar_bg)
+    game.draw_list.append(game.sidebar)
 
     # sidebar text render setup
     start_x = GRID_WIDTH + SIDEBAR_TEXT_X_MARGIN
     start_y = SCREEN_HEIGHT - SIDEBAR_TEXT_Y_MARGIN
 
     game.hover_info = arcade.Text("", start_x, start_y, FONT_COLOR, DEFAULT_FONT_SIZE)
+    game.draw_list.append(game.hover_info)
     start_y -= LINE_SPACING
 
     game.grid_info = arcade.Text(
@@ -63,6 +57,7 @@ def on_setup(game, event: OnSetup):
         FONT_COLOR,
         DEFAULT_FONT_SIZE,
     )
+    game.draw_list.append(game.grid_info)
     start_y -= LINE_SPACING
 
     game.army_info = arcade.Text(
@@ -72,6 +67,7 @@ def on_setup(game, event: OnSetup):
         FONT_COLOR,
         DEFAULT_FONT_SIZE,
     )
+    game.draw_list.append(game.army_info)
     start_y -= LINE_SPACING
 
     game.obstruct_info = arcade.Text(
@@ -81,7 +77,8 @@ def on_setup(game, event: OnSetup):
         FONT_COLOR,
         DEFAULT_FONT_SIZE,
     )
+    game.draw_list.append(game.obstruct_info)
     start_y -= LINE_SPACING
 
 
-subscriptions = {OnMouseMotion: update_sidebar_info, OnDraw: on_draw, OnSetup: on_setup}
+subscriptions = {OnMouseMotion: update_sidebar_info, OnSetup: on_setup}

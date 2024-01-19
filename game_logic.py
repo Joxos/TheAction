@@ -28,12 +28,16 @@ def on_mouse_release(game, event: OnMouseRelease):
 def on_draw(game, event: OnDraw):
     game.clear()
 
-    game.cell_sprites.draw()
-    game.armies_sprites.draw()
+    for sprite in game.draw_list:
+        sprite.draw()
 
 
 def on_setup(game, event):
     game.map = Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
+
+    # we use a draw list to avoid problems
+    # when multiple modules want to draw and clear the screen after previous module has drawn up
+    game.draw_list = []
 
     # cell render setup
     # 1d list for arcade to render
@@ -53,9 +57,13 @@ def on_setup(game, event):
             game.cell_sprites.append(sprite)
             game.cell_sprites_2d[row].append(sprite)
 
+    game.draw_list.append(game.cell_sprites)
+
     # a test army
     game.armies_sprites = arcade.SpriteList()
     game.put_army(1, (10, 10), arcade.color.RED)
+
+    game.draw_list.append(game.armies_sprites)
 
 
 subscriptions = {OnDraw: on_draw, OnSetup: on_setup, OnMouseRelease: on_mouse_release}
