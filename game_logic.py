@@ -1,7 +1,7 @@
 from utils import coordinate_to_grid, grid_to_central_coordinate
 import arcade
 from map import Map
-from events import OnMouseMotion, OnMouseRelease
+from events import OnDraw, OnMouseRelease, OnSetup
 from config import (
     ROW_COUNT,
     COLUMN_COUNT,
@@ -25,7 +25,7 @@ def on_mouse_release(game, event: OnMouseRelease):
     game.select_cell(row, column)
 
 
-def on_draw(game, event):
+def on_draw(game, event: OnDraw):
     game.clear()
 
     game.cell_sprites.draw()
@@ -56,3 +56,6 @@ def on_setup(game, event):
     # a test army
     game.armies_sprites = arcade.SpriteList()
     game.put_army(1, (10, 10), arcade.color.RED)
+
+
+subscriptions = {OnDraw: on_draw, OnSetup: on_setup, OnMouseRelease: on_mouse_release}

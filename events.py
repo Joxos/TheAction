@@ -24,9 +24,9 @@ class EventsManager:
         else:
             self.events[event].append(func)
 
-    def multi_subscribe(self,subscriptions):
-        for event,func in subscriptions.items():
-            self.subscribe(event,func)
+    def multi_subscribe(self, subscriptions):
+        for event, func in subscriptions.items():
+            self.subscribe(event, func)
 
     def new_event(self, new_event):
         event_type = type(new_event)
