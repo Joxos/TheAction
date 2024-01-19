@@ -7,8 +7,8 @@ from config import (
 )
 from utils import mix_color
 from army import generate_army, Army
-from events import EventsManager, OnMouseMotion, OnMouseRelease,OnDraw,OnSetup
-from game_logic import on_mouse_motion, on_mouse_release,on_draw,on_setup
+from events import EventsManager, OnMouseMotion, OnMouseRelease, OnDraw, OnSetup
+from game_logic import on_mouse_motion, on_mouse_release, on_draw, on_setup
 
 events_manager = EventsManager()
 
@@ -76,9 +76,9 @@ def main():
     events_manager.register(OnMouseRelease)
     events_manager.subscribe(OnMouseRelease, on_mouse_release)
     events_manager.register(OnDraw)
-    events_manager.subscribe(OnDraw,on_draw)
+    events_manager.subscribe(OnDraw, on_draw)
     events_manager.register(OnSetup)
-    events_manager.subscribe(OnSetup,on_setup)
+    events_manager.subscribe(OnSetup, on_setup)
     game.setup()
     arcade.run()
 

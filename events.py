@@ -52,9 +52,11 @@ class OnMouseRelease(Event):
         self.x = x
         self.y = y
 
+
 class OnDraw(Event):
     def __init__(self):
         pass
+
 
 class OnSetup(Event):
     def __init__(self):

@@ -1,4 +1,4 @@
-from utils import coordinate_to_grid,grid_to_central_coordinate
+from utils import coordinate_to_grid, grid_to_central_coordinate
 import arcade
 from map import Map
 from config import (
@@ -48,7 +48,8 @@ def on_mouse_release(game, event):
 
     game.select_cell(row, column)
 
-def on_draw(game,event):
+
+def on_draw(game, event):
     game.clear()
 
     game.cell_sprites.draw()
@@ -60,7 +61,8 @@ def on_draw(game,event):
     game.hover_info.draw()
     game.obstruct_info.draw()
 
-def on_setup(game,event):
+
+def on_setup(game, event):
     game.map = Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
 
     # cell render setup
@@ -101,9 +103,7 @@ def on_setup(game,event):
     start_x = GRID_WIDTH + SIDEBAR_TEXT_X_MARGIN
     start_y = SCREEN_HEIGHT - SIDEBAR_TEXT_Y_MARGIN
 
-    game.hover_info = arcade.Text(
-        "", start_x, start_y, FONT_COLOR, DEFAULT_FONT_SIZE
-    )
+    game.hover_info = arcade.Text("", start_x, start_y, FONT_COLOR, DEFAULT_FONT_SIZE)
     start_y -= LINE_SPACING
 
     game.grid_info = arcade.Text(
