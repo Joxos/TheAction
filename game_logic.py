@@ -1,6 +1,7 @@
 from utils import coordinate_to_grid, grid_to_central_coordinate
 import arcade
 from map import Map
+from events import OnMouseMotion, OnMouseRelease
 from config import (
     ROW_COUNT,
     COLUMN_COUNT,
@@ -21,7 +22,7 @@ from config import (
 )
 
 
-def on_mouse_motion(game, event):
+def on_mouse_motion(game, event: OnMouseMotion):
     # update sidebar info
     row, column = coordinate_to_grid(event.x, event.y)
     if row >= ROW_COUNT or column >= COLUMN_COUNT:
@@ -35,7 +36,7 @@ def on_mouse_motion(game, event):
         )
 
 
-def on_mouse_release(game, event):
+def on_mouse_release(game, event: OnMouseRelease):
     row, column = coordinate_to_grid(event.x, event.y)
 
     if row >= ROW_COUNT or column >= COLUMN_COUNT:

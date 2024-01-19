@@ -35,12 +35,6 @@ class OnMouseMotion(Event):
         self.y = y
 
 
-class OnCellSelected(Event):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-
 class OnMousePress(Event):
     def __init__(self, x, y):
         self.x = x
