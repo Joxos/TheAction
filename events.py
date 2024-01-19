@@ -18,7 +18,11 @@ class EventsManager:
             self.events[event] = []
 
     def subscribe(self, event, func):
-        self.events[event].append(func)
+        if type(func) == list:
+            for f in func:
+                self.events[event].append(f)
+        else:
+            self.events[event].append(func)
 
     def new_event(self, new_event):
         event_type = type(new_event)
