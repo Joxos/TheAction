@@ -77,6 +77,9 @@ def main():
     events_manager.register(OnDraw)
     events_manager.register(OnSetup)
 
+    # note that the sequence matters when modules subscribe to on_draw()
+    # maybe a hidden bug in the future
+    # try to figure out a solution
     events_manager.multi_subscribe(game_logic.subscriptions)
     events_manager.multi_subscribe(sidebar.subscriptions)
 
