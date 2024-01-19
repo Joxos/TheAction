@@ -1,7 +1,7 @@
 import random
 from enum import Enum, auto
 from collections import OrderedDict
-from line import sampling, calculate_distance
+from line import sampling, distance_squared
 
 
 class Biome(Enum):
@@ -73,8 +73,8 @@ class Map:
             hp = self.height_map[point[0]][point[1]]
             dh1 = h1 - hp
             dh2 = h2 - hp
-            dx1 = calculate_distance(p1, point)
-            dx2 = calculate_distance(p2, point)
+            dx1 = distance_squared(p1, point)
+            dx2 = distance_squared(p2, point)
             k1 = dh1 / dx1
             k2 = dh2 / dx2
             if (

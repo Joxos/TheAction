@@ -1,8 +1,8 @@
 from fractions import Fraction
 
 
-def calculate_distance(p1, p2):
-    return ((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2) ** (1 / 2)
+def distance_squared(p1, p2):
+    return (p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2
 
 
 class Line:
@@ -46,4 +46,4 @@ if __name__ == "__main__":
     p1 = (0, 3)
     p2 = (3, 1)
     print(sampling(p1, p2))
-    print(calculate_distance(p1, p2))
+    print(distance_squared(p1, p2))
