@@ -12,7 +12,7 @@ GAME_TITLE = "The Action"
 # cell and boarder
 CELL_WIDTH = 20
 CELL_HEIGHT = 20
-BOARDER_WIDTH = 2
+BOARDER_WIDTH = 1
 
 # sidebar
 DEFAULT_FONT_SIZE = 15
