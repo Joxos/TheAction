@@ -34,7 +34,7 @@ def on_setup(game, event: OnSetup):
     sidebar_bg = arcade.SpriteSolidColor(
         SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
     )
-    sidebar_bg.color = arcade.color.AERO_BLUE
+    sidebar_bg.color = arcade.color.ARSENIC
     sidebar_bg.center_x, sidebar_bg.center_y = (
         GRID_WIDTH + SIDEBAR_WIDTH / 2,
         SCREEN_HEIGHT / 2,

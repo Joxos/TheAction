@@ -7,7 +7,15 @@ from config import (
 )
 from utils import mix_color
 from army import generate_army, Army
-from events import EventsManager, OnMouseMotion, OnMouseRelease, OnDraw, OnSetup
+from events import (
+    EventsManager,
+    default_events_list,
+    OnSetup,
+    OnDraw,
+    OnMouseMotion,
+    OnMousePress,
+    OnMouseRelease,
+)
 import sidebar
 import game_logic
 
@@ -72,10 +80,7 @@ def main():
     game = Game(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE)
     events_manager.set_game_ref(game)
 
-    events_manager.register(OnMouseMotion)
-    events_manager.register(OnMouseRelease)
-    events_manager.register(OnDraw)
-    events_manager.register(OnSetup)
+    events_manager.register(default_events_list)
 
     # note that the sequence matters when modules subscribe to on_draw()
     # maybe a hidden bug in the future
