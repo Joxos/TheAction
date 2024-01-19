@@ -8,32 +8,7 @@ from config import (
     BIOME_STEP,
     CELL_WIDTH,
     CELL_HEIGHT,
-    SCREEN_WIDTH,
-    SCREEN_HEIGHT,
-    HEIGHT_COLOR,
-    SIDEBAR_WIDTH,
-    GRID_WIDTH,
-    SIDEBAR_TEXT_X_MARGIN,
-    SIDEBAR_TEXT_Y_MARGIN,
-    DEFAULT_FONT_SIZE,
-    LINE_SPACING,
-    FONT_COLOR,
-    GAME_TITLE,
 )
-
-
-def on_mouse_motion(game, event: OnMouseMotion):
-    # update sidebar info
-    row, column = coordinate_to_grid(event.x, event.y)
-    if row >= ROW_COUNT or column >= COLUMN_COUNT:
-        return
-    height = f"{game.map.height_map[row][column]}"
-    grid_coordinate = f"({row}, {column})"
-    game.hover_info.text = f"{grid_coordinate}: {height}"
-    if game.grid_selected:
-        game.obstruct_info.text = game.map.is_obstructed(
-            (row, column), game.grid_selected
-        )
 
 
 def on_mouse_release(game, event: OnMouseRelease):
@@ -55,12 +30,6 @@ def on_draw(game, event):
 
     game.cell_sprites.draw()
     game.armies_sprites.draw()
-    game.sidebar.draw()
-
-    game.grid_info.draw()
-    game.army_info.draw()
-    game.hover_info.draw()
-    game.obstruct_info.draw()
 
 
 def on_setup(game, event):
@@ -87,49 +56,3 @@ def on_setup(game, event):
     # a test army
     game.armies_sprites = arcade.SpriteList()
     game.put_army(1, (10, 10), arcade.color.RED)
-
-    # sidebar render setup
-    game.sidebar = arcade.SpriteList()
-    sidebar_bg = arcade.SpriteSolidColor(
-        SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
-    )
-    sidebar_bg.color = arcade.color.AERO_BLUE
-    sidebar_bg.center_x, sidebar_bg.center_y = (
-        GRID_WIDTH + SIDEBAR_WIDTH / 2,
-        SCREEN_HEIGHT / 2,
-    )
-    game.sidebar.append(sidebar_bg)
-
-    # sidebar text render setup
-    start_x = GRID_WIDTH + SIDEBAR_TEXT_X_MARGIN
-    start_y = SCREEN_HEIGHT - SIDEBAR_TEXT_Y_MARGIN
-
-    game.hover_info = arcade.Text("", start_x, start_y, FONT_COLOR, DEFAULT_FONT_SIZE)
-    start_y -= LINE_SPACING
-
-    game.grid_info = arcade.Text(
-        "",
-        start_x,
-        start_y,
-        FONT_COLOR,
-        DEFAULT_FONT_SIZE,
-    )
-    start_y -= LINE_SPACING
-
-    game.army_info = arcade.Text(
-        "",
-        start_x,
-        start_y,
-        FONT_COLOR,
-        DEFAULT_FONT_SIZE,
-    )
-    start_y -= LINE_SPACING
-
-    game.obstruct_info = arcade.Text(
-        "",
-        start_x,
-        start_y,
-        FONT_COLOR,
-        DEFAULT_FONT_SIZE,
-    )
-    start_y -= LINE_SPACING
