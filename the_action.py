@@ -73,18 +73,15 @@ def main():
     events_manager.set_game_ref(game)
 
     events_manager.register(OnMouseMotion)
-    events_manager.subscribe(OnMouseMotion, sidebar.update_sidebar_info)
-
     events_manager.register(OnMouseRelease)
-    events_manager.subscribe(OnMouseRelease, game_logic.on_mouse_release)
-
     events_manager.register(OnDraw)
-    events_manager.subscribe(OnDraw, game_logic.on_draw)
-    events_manager.subscribe(OnDraw, sidebar.on_draw)
-
     events_manager.register(OnSetup)
+
+    events_manager.subscribe(OnDraw, game_logic.on_draw)
+    events_manager.subscribe(OnMouseRelease, game_logic.on_mouse_release)
     events_manager.subscribe(OnSetup, game_logic.on_setup)
-    events_manager.subscribe(OnSetup, sidebar.on_setup)
+
+    events_manager.multi_subscribe(sidebar.subscriptions)
 
     game.setup()
     arcade.run()

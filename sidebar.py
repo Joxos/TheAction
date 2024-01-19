@@ -1,6 +1,6 @@
 import arcade
-from events import OnMouseMotion, OnMouseRelease, OnDraw, OnSetup
-from utils import coordinate_to_grid, grid_to_central_coordinate
+from events import OnMouseMotion, OnDraw, OnSetup
+from utils import coordinate_to_grid
 from config import (
     ROW_COUNT,
     COLUMN_COUNT,
@@ -82,3 +82,6 @@ def on_setup(game, event: OnSetup):
         DEFAULT_FONT_SIZE,
     )
     start_y -= LINE_SPACING
+
+
+subscriptions = {OnMouseMotion: update_sidebar_info, OnDraw: on_draw, OnSetup: on_setup}
