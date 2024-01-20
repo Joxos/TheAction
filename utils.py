@@ -1,8 +1,4 @@
-from config import (
-    CELL_WIDTH,
-    CELL_HEIGHT,
-    BOARDER_WIDTH,
-)
+from config import CELL_WIDTH, CELL_HEIGHT, BOARDER_WIDTH, SIDEBAR_WIDTH
 
 
 def mix_color(a, b):

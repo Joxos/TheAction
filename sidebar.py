@@ -12,12 +12,13 @@ from config import (
     DEFAULT_FONT_SIZE,
     LINE_SPACING,
     FONT_COLOR,
+    BOARDER_WIDTH,
 )
 
 
 def update_sidebar_info(game, event: OnMouseMotion):
-    row, column = coordinate_to_grid(event.x, event.y)
-    if row >= ROW_COUNT or column >= COLUMN_COUNT:
+    row, column = coordinate_to_grid(event.x - SIDEBAR_WIDTH, event.y)
+    if event.x < SIDEBAR_WIDTH or event.x > SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH:
         # not in grid
         return
     height = f"{game.map.height_map[row][column]}"
