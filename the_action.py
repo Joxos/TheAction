@@ -15,11 +15,16 @@ from events import (
     OnMouseMotion,
     OnMousePress,
     OnMouseRelease,
+    BeforeGameInit,
 )
 import sidebar
 import game_logic
 
 events_manager = EventsManager()
+events_manager.register(default_events_list)
+events_manager.multi_subscribe(game_logic.subscriptions)
+events_manager.multi_subscribe(sidebar.subscriptions)
+events_manager.new_event(BeforeGameInit())
 
 
 class Game(arcade.Window):
@@ -79,15 +84,6 @@ class Game(arcade.Window):
 def main():
     game = Game(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE)
     events_manager.set_game_ref(game)
-
-    events_manager.register(default_events_list)
-
-    # note that the sequence matters when modules subscribe to on_draw()
-    # maybe a hidden bug in the future
-    # try to figure out a solution
-    events_manager.multi_subscribe(game_logic.subscriptions)
-    events_manager.multi_subscribe(sidebar.subscriptions)
-
     game.setup()
     arcade.run()
 

@@ -6,6 +6,7 @@ class Event:
 class EventsManager:
     def __init__(self):
         self.events = {}
+        self.game_ref = None
 
     def set_game_ref(self, game_ref):
         self.game_ref = game_ref
@@ -65,4 +66,16 @@ class OnSetup(Event):
         pass
 
 
-default_events_list = [OnDraw, OnMouseMotion, OnMousePress, OnMouseRelease, OnSetup]
+class BeforeGameInit(Event):
+    def __init__(self):
+        pass
+
+
+default_events_list = [
+    OnDraw,
+    OnMouseMotion,
+    OnMousePress,
+    OnMouseRelease,
+    OnSetup,
+    BeforeGameInit,
+]
