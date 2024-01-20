@@ -62,6 +62,7 @@ class Game(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
+        # actually the color of boarder
         self.background_color = arcade.color.BLACK
         self.grid_selected = None
 
