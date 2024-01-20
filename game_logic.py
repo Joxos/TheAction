@@ -8,13 +8,15 @@ from config import (
     BIOME_STEP,
     CELL_WIDTH,
     CELL_HEIGHT,
+    SIDEBAR_WIDTH,
+    GRID_WIDTH,
+    BOARDER_WIDTH,
 )
 
 
 def on_mouse_release(game, event: OnMouseRelease):
-    row, column = coordinate_to_grid(event.x, event.y)
-
-    if row >= ROW_COUNT or column >= COLUMN_COUNT:
+    row, column = coordinate_to_grid(event.x - SIDEBAR_WIDTH, event.y)
+    if event.x < SIDEBAR_WIDTH or event.x > SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH:
         print(f"Click on sidebar. Coordinates: ({event.x}, {event.y}).")
         return
 
@@ -53,17 +55,17 @@ def on_setup(game, event):
                 CELL_WIDTH, CELL_HEIGHT, arcade.color.WHITE
             )
             sprite.color = game.get_cell_color(row, column)
-            sprite.center_x, sprite.center_y = x, y
+            sprite.center_x, sprite.center_y = SIDEBAR_WIDTH + x, y
             game.cell_sprites.append(sprite)
             game.cell_sprites_2d[row].append(sprite)
 
     game.draw_list.append(game.cell_sprites)
 
     # a test army
-    game.armies_sprites = arcade.SpriteList()
-    game.put_army(1, (10, 10), arcade.color.RED)
+    # game.armies_sprites = arcade.SpriteList()
+    # game.put_army(1, (10, 10), arcade.color.RED)
 
-    game.draw_list.append(game.armies_sprites)
+    # game.draw_list.append(game.armies_sprites)
 
 
 subscriptions = {OnDraw: on_draw, OnSetup: on_setup, OnMouseRelease: on_mouse_release}

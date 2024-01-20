@@ -30,20 +30,20 @@ def update_sidebar_info(game, event: OnMouseMotion):
 
 
 def on_setup(game, event: OnSetup):
-    game.sidebar = arcade.SpriteList()
+    game.left_sidebar = arcade.SpriteList()
     sidebar_bg = arcade.SpriteSolidColor(
         SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
     )
     sidebar_bg.color = arcade.color.ARSENIC
     sidebar_bg.center_x, sidebar_bg.center_y = (
-        GRID_WIDTH + SIDEBAR_WIDTH / 2,
+        SIDEBAR_WIDTH / 2,
         SCREEN_HEIGHT / 2,
     )
-    game.sidebar.append(sidebar_bg)
-    game.draw_list.append(game.sidebar)
+    game.left_sidebar.append(sidebar_bg)
+    game.draw_list.append(game.left_sidebar)
 
     # sidebar text render setup
-    start_x = GRID_WIDTH + SIDEBAR_TEXT_X_MARGIN
+    start_x = SIDEBAR_TEXT_X_MARGIN
     start_y = SCREEN_HEIGHT - SIDEBAR_TEXT_Y_MARGIN
 
     game.hover_info = arcade.Text("", start_x, start_y, FONT_COLOR, DEFAULT_FONT_SIZE)
@@ -79,6 +79,18 @@ def on_setup(game, event: OnSetup):
     )
     game.draw_list.append(game.obstruct_info)
     start_y -= LINE_SPACING
+
+    game.right_sidebar = arcade.SpriteList()
+    sidebar_bg = arcade.SpriteSolidColor(
+        SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
+    )
+    sidebar_bg.color = arcade.color.ARSENIC
+    sidebar_bg.center_x, sidebar_bg.center_y = (
+        SIDEBAR_WIDTH + GRID_WIDTH + SIDEBAR_WIDTH / 2,
+        SCREEN_HEIGHT / 2,
+    )
+    game.left_sidebar.append(sidebar_bg)
+    game.draw_list.append(game.right_sidebar)
 
 
 subscriptions = {OnMouseMotion: update_sidebar_info, OnSetup: on_setup}
