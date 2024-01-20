@@ -18,7 +18,11 @@ from config import (
 
 def update_sidebar_info(game, event: OnMouseMotion):
     row, column = coordinate_to_grid(event.x - SIDEBAR_WIDTH, event.y)
-    if event.x < SIDEBAR_WIDTH or event.x > SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH:
+    if (
+        event.x <= SIDEBAR_WIDTH
+        or event.x >= SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH
+        or event.y >= SCREEN_HEIGHT - BOARDER_WIDTH
+    ):
         # not in grid
         return
     height = f"{game.map.height_map[row][column]}"
