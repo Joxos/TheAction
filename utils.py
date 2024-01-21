@@ -12,6 +12,6 @@ def grid_to_central_coordinate(row, column):
 
 
 def coordinate_to_grid(x, y):
-    column = int(x // (CELL_WIDTH + BOARDER_WIDTH))
-    row = int(y // (CELL_HEIGHT + BOARDER_WIDTH))
+    column = x // (CELL_WIDTH + BOARDER_WIDTH)
+    row = y // (CELL_HEIGHT + BOARDER_WIDTH)
     return [row, column]
