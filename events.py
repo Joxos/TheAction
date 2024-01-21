@@ -39,21 +39,27 @@ class EventsManager:
 
 
 class OnMouseMotion(Event):
-    def __init__(self, x, y):
+    def __init__(self, x, y, delta_x, delta_y):
         self.x = x
         self.y = y
+        self.delta_x = delta_x
+        self.delta_y = delta_y
 
 
 class OnMousePress(Event):
-    def __init__(self, x, y):
+    def __init__(self, x, y, button, key_modifiers):
         self.x = x
         self.y = y
+        self.button = button
+        self.key_modifiers = key_modifiers
 
 
 class OnMouseRelease(Event):
-    def __init__(self, x, y):
+    def __init__(self, x, y, button, key_modifiers):
         self.x = x
         self.y = y
+        self.button = button
+        self.key_modifiers = key_modifiers
 
 
 class OnDraw(Event):
@@ -71,6 +77,28 @@ class BeforeGameInit(Event):
         pass
 
 
+class OnUpdate(Event):
+    def __init__(self, delta_time):
+        self.delta_time = delta_time
+
+
+class OnKeyPress(Event):
+    def __init__(self, key, key_modifiers):
+        self.key = key
+        self.key_modifiers = key_modifiers
+
+
+class OnKeyRelease(Event):
+    def __init__(self, key, key_modifiers):
+        self.key = key
+        self.key_modifiers = key_modifiers
+
+
+class OnGameInit(Event):
+    def __init__(self):
+        pass
+
+
 default_events_list = [
     OnDraw,
     OnMouseMotion,
@@ -78,4 +106,8 @@ default_events_list = [
     OnMouseRelease,
     OnSetup,
     BeforeGameInit,
+    OnGameInit,
+    OnUpdate,
+    OnKeyPress,
+    OnKeyRelease,
 ]

@@ -65,7 +65,7 @@ class Map:
         self.height_map = generate_map(row_count, column_count, biome_step, seed)
         self.armies = []
 
-    def point(self,pos):
+    def point(self, pos):
         return self.height_map[pos[0]][pos[1]]
 
     def is_obstructed(self, p1, p2):
@@ -91,12 +91,12 @@ class Map:
                 return False
         return True
 
-    def return_all_obstructed(self,point):
-        obstructed_points=[]
+    def return_all_obstructed(self, point):
+        obstructed_points = []
         for x in range(len(self.height_map)):
             for y in range(len(x)):
-                if self.is_obstructed((x,y),point):
-                    obstructed_points.append((x,y))
+                if self.is_obstructed((x, y), point):
+                    obstructed_points.append((x, y))
         return obstructed_points
 
 

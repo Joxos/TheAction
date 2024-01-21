@@ -16,6 +16,10 @@ from events import (
     OnMousePress,
     OnMouseRelease,
     BeforeGameInit,
+    OnUpdate,
+    OnKeyPress,
+    OnGameInit,
+    OnKeyRelease,
 )
 import sidebar
 import game_logic
@@ -61,10 +65,8 @@ class Game(arcade.Window):
 
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
-
-        # actually the color of boarder
-        self.background_color = arcade.color.BLACK
-        self.grid_selected = None
+        events_manager.set_game_ref(self)
+        events_manager.new_event(OnGameInit())
 
     def setup(self):
         events_manager.new_event(OnSetup())
@@ -73,18 +75,30 @@ class Game(arcade.Window):
         events_manager.new_event(OnDraw())
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
-        events_manager.new_event(OnMouseMotion(x, y))
+        events_manager.new_event(OnMouseMotion(x, y, delta_x, delta_y))
 
-    def on_mouse_press(self, x, y, button, modifiers):
-        pass
+    def on_mouse_press(self, x, y, button, key_modifiers):
+        events_manager.new_event(OnMousePress(x, y, button, key_modifiers))
 
     def on_mouse_release(self, x, y, button, key_modifiers):
-        events_manager.new_event(OnMouseRelease(x, y))
+        events_manager.new_event(OnMouseRelease(x, y, button, key_modifiers))
+
+    def on_update(self, delta_time):
+        events_manager.new_event(OnUpdate(delta_time))
+
+    def on_key_press(self, key, key_modifiers):
+        """
+        For a full list of keys, see:
+        https://api.arcade.academy/en/latest/arcade.key.html
+        """
+        events_manager.new_event(OnKeyPress(key, key_modifiers))
+
+    def on_key_release(self, key, key_modifiers):
+        events_manager.new_event(OnKeyRelease(key, key_modifiers))
 
 
 def main():
     game = Game(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE)
-    events_manager.set_game_ref(game)
     game.setup()
     arcade.run()
 

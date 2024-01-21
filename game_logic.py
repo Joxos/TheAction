@@ -1,7 +1,7 @@
 from utils import coordinate_to_grid, grid_to_central_coordinate
 import arcade
 from map import Map
-from events import OnDraw, OnMouseRelease, OnSetup
+from events import OnDraw, OnMouseRelease, OnSetup, OnGameInit
 from config import (
     ROW_COUNT,
     COLUMN_COUNT,
@@ -68,4 +68,15 @@ def on_setup(game, event):
     # game.draw_list.append(game.armies_sprites)
 
 
-subscriptions = {OnDraw: on_draw, OnSetup: on_setup, OnMouseRelease: on_mouse_release}
+def on_game_init(game, event):
+    # actually the color of boarder
+    game.background_color = arcade.color.BLACK
+    game.grid_selected = None
+
+
+subscriptions = {
+    OnDraw: on_draw,
+    OnSetup: on_setup,
+    OnMouseRelease: on_mouse_release,
+    OnGameInit: on_game_init,
+}
