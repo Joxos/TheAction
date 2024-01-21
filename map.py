@@ -1,7 +1,10 @@
 import random
+import arcade
 from enum import Enum, auto
 from collections import OrderedDict
 from line import sampling, distance_squared
+from events import OnKeyPress, OnKeyRelease
+from utils import mix_color
 
 
 class Biome(Enum):
@@ -92,13 +95,36 @@ class Map:
         return True
 
     def return_all_obstructed(self, point):
-        obstructed_points = []
-        for x in range(len(self.height_map)):
-            for y in range(len(x)):
-                if self.is_obstructed((x, y), point):
-                    obstructed_points.append((x, y))
-        return obstructed_points
+        return [
+            (x, y)
+            for x in range(len(self.height_map))
+            for y in range(len(self.height_map[x]))
+            if self.is_obstructed((x, y), point)
+        ]
 
+
+def dim_all_obstructed_cell(game, event: OnKeyPress):
+    if event.key == arcade.key.D:
+        obstructed_cells = game.map.return_all_obstructed(game.grid_selected)
+        for cell in obstructed_cells:
+            game.cell_sprites_2d[cell[0]][cell[1]].color = mix_color(
+                game.cell_sprites_2d[cell[0]][cell[1]].color, (255, 0, 0)
+            )
+
+
+def recover_all_obstructed_cell(game, event: OnKeyRelease):
+    if event.key == arcade.key.D:
+        obstructed_cells = game.map.return_all_obstructed(game.grid_selected)
+        for cell in obstructed_cells:
+            game.cell_sprites_2d[cell[0]][cell[1]].color = game.get_cell_color(
+                cell[0], cell[1]
+            )
+
+
+subscriptions = {
+    OnKeyPress: dim_all_obstructed_cell,
+    OnKeyRelease: recover_all_obstructed_cell,
+}
 
 if __name__ == "__main__":
     map = Map(6, 2, 1)

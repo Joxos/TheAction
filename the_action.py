@@ -23,11 +23,13 @@ from events import (
 )
 import sidebar
 import game_logic
+import map
 
 events_manager = EventsManager()
 events_manager.register(default_events_list)
 events_manager.multi_subscribe(game_logic.subscriptions)
 events_manager.multi_subscribe(sidebar.subscriptions)
+events_manager.multi_subscribe(map.subscriptions)
 events_manager.new_event(BeforeGameInit())
 
 
