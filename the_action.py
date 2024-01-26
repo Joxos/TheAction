@@ -34,8 +34,6 @@ events_manager.new_event(BeforeGameInit())
 
 
 class Game(arcade.Window):
-    def get_cell_color(self, row, column):
-        return HEIGHT_COLOR[self.map.height_map[row][column]]
 
     def put_army(self, id, pos: tuple[int, int], color):
         army_info = Army(id, pos, color)
@@ -46,7 +44,7 @@ class Game(arcade.Window):
         if self.grid_selected:
             # recover the color of last selected cell
             srow, scol = self.grid_selected
-            self.cell_sprites_2d[srow][scol].color = self.get_cell_color(srow, scol)
+            self.cell_sprites_2d[srow][scol].color = self.map.get_cell_color(srow, scol)
         # change the color of newly selected cell
         self.cell_sprites_2d[row][column].color = mix_color(
             self.cell_sprites_2d[row][column].color, arcade.color.VIOLET

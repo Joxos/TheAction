@@ -5,6 +5,7 @@ from collections import OrderedDict
 from line import sampling, distance_squared
 from events import OnKeyPress, OnKeyRelease
 from utils import mix_color
+from config import HEIGHT_COLOR
 
 
 class Biome(Enum):
@@ -102,6 +103,8 @@ class Map:
             if self.is_obstructed((x, y), point)
         ]
 
+    def get_cell_color(self, row, column):
+        return HEIGHT_COLOR[self.height_map[row][column]]
 
 def dim_all_obstructed_cell(game, event: OnKeyPress):
     if event.key == arcade.key.D:
@@ -116,7 +119,7 @@ def recover_all_obstructed_cell(game, event: OnKeyRelease):
     if event.key == arcade.key.D:
         obstructed_cells = game.map.return_all_obstructed(game.grid_selected)
         for cell in obstructed_cells:
-            game.cell_sprites_2d[cell[0]][cell[1]].color = game.get_cell_color(
+            game.cell_sprites_2d[cell[0]][cell[1]].color = game.map.get_cell_color(
                 cell[0], cell[1]
             )
 

@@ -54,7 +54,7 @@ def on_setup(game, event):
             sprite = arcade.SpriteSolidColor(
                 CELL_WIDTH, CELL_HEIGHT, arcade.color.WHITE
             )
-            sprite.color = game.get_cell_color(row, column)
+            sprite.color = game.map.get_cell_color(row, column)
             sprite.center_x, sprite.center_y = SIDEBAR_WIDTH + x, y
             game.cell_sprites.append(sprite)
             game.cell_sprites_2d[row].append(sprite)
