@@ -2,12 +2,10 @@ import arcade
 from config import (
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
-    HEIGHT_COLOR,
     GAME_TITLE,
     DEFAULT_MODULES,
 )
 from utils import mix_color
-from army import generate_army, Army
 from events import (
     EventsManager,
     default_events_list,

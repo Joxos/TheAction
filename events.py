@@ -15,14 +15,14 @@ class EventsManager:
         self.game_ref = game_ref
 
     def register(self, event):
-        if type(event) == list:
+        if isinstance(event, list):
             for e in event:
                 self.events[e] = []
         else:
             self.events[event] = []
 
     def subscribe(self, event, func):
-        if type(func) == list:
+        if isinstance(event, list):
             for f in func:
                 self.events[event].append(f)
         else:

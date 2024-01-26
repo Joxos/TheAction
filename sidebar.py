@@ -2,8 +2,6 @@ import arcade
 from events import OnMouseMotion, OnSetup
 from utils import coordinate_to_grid
 from config import (
-    ROW_COUNT,
-    COLUMN_COUNT,
     SCREEN_HEIGHT,
     SIDEBAR_WIDTH,
     GRID_WIDTH,

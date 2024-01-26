@@ -1,7 +1,6 @@
 from utils import coordinate_to_grid
-import arcade
 from map import Map
-from events import OnDraw, OnMouseRelease, OnSetup, OnGameInit
+from events import OnDraw, OnMouseRelease, OnGameInit
 from config import (
     ROW_COUNT,
     COLUMN_COUNT,
