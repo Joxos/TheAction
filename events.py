@@ -1,3 +1,6 @@
+import importlib
+
+
 class Event:
     def __init__(self):
         pass
@@ -36,6 +39,15 @@ class EventsManager:
                 for func in func_list:
                     func(self.game_ref, new_event)
                 return
+
+    def import_module(self, name):
+        module = importlib.import_module(name)
+        if hasattr(module, "subscriptions"):
+            self.multi_subscribe(module.subscriptions)
+
+    def import_modules(self, names):
+        for name in names:
+            self.import_module(name)
 
 
 class OnMouseMotion(Event):
