@@ -6,6 +6,7 @@ from line import sampling, distance_squared
 from events import OnKeyPress, OnKeyRelease
 from utils import mix_color
 from config import HEIGHT_COLOR
+from render import recover_all_cell
 
 
 class Biome(Enum):
@@ -118,11 +119,7 @@ def dim_all_obstructed_cell(game, event: OnKeyPress):
 
 def recover_all_obstructed_cell(game, event: OnKeyRelease):
     if event.key == arcade.key.D:
-        obstructed_cells = game.map.return_all_obstructed(game.grid_selected)
-        for cell in obstructed_cells:
-            game.cell_sprites_2d[cell[0]][cell[1]].color = game.map.get_cell_color(
-                cell[0], cell[1]
-            )
+        recover_all_cell(game)
 
 
 subscriptions = {

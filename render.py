@@ -1,7 +1,8 @@
-from events import OnSetup,OnGameInit
+from events import OnSetup, OnGameInit
 import arcade
 from config import ROW_COUNT, COLUMN_COUNT, CELL_WIDTH, CELL_HEIGHT, SIDEBAR_WIDTH
 from utils import grid_to_central_coordinate
+
 
 def on_init(game, event: OnGameInit):
     game.background_color = arcade.color.BLACK
@@ -16,6 +17,15 @@ def on_init(game, event: OnGameInit):
 
     # 2d list to control the game
     game.cell_sprites_2d = []
+
+
+def recover_all_cell(game):
+    for cell_sprite_list in range(len(game.cell_sprites_2d)):
+        for cell_sprite in range(len(game.cell_sprites_2d[cell_sprite_list])):
+            game.cell_sprites_2d[cell_sprite_list][
+                cell_sprite
+            ].color = game.map.get_cell_color(cell_sprite_list, cell_sprite)
+
 
 def on_setup(game, event: OnSetup):
     for row in range(ROW_COUNT):
@@ -33,4 +43,4 @@ def on_setup(game, event: OnSetup):
     game.draw_list.append(game.cell_sprites)
 
 
-subscriptions = {OnSetup: on_setup,OnGameInit: on_init}
+subscriptions = {OnSetup: on_setup, OnGameInit: on_init}
