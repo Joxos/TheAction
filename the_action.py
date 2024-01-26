@@ -24,12 +24,17 @@ from events import (
 import sidebar
 import game_logic
 import map
+import render
+import game_log
 
 events_manager = EventsManager()
 events_manager.register(default_events_list)
 events_manager.multi_subscribe(game_logic.subscriptions)
+events_manager.multi_subscribe(game_log.subscriptions)
 events_manager.multi_subscribe(sidebar.subscriptions)
 events_manager.multi_subscribe(map.subscriptions)
+events_manager.multi_subscribe(render.subscriptions)
+events_manager.multi_subscribe
 events_manager.new_event(BeforeGameInit())
 
 

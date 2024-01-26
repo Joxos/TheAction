@@ -1,4 +1,4 @@
-from utils import coordinate_to_grid, grid_to_central_coordinate
+from utils import coordinate_to_grid
 import arcade
 from map import Map
 from events import OnDraw, OnMouseRelease, OnSetup, OnGameInit
@@ -6,8 +6,6 @@ from config import (
     ROW_COUNT,
     COLUMN_COUNT,
     BIOME_STEP,
-    CELL_WIDTH,
-    CELL_HEIGHT,
     SIDEBAR_WIDTH,
     GRID_WIDTH,
     BOARDER_WIDTH,
@@ -17,12 +15,7 @@ from config import (
 def on_mouse_release(game, event: OnMouseRelease):
     row, column = coordinate_to_grid(event.x - SIDEBAR_WIDTH, event.y)
     if event.x < SIDEBAR_WIDTH or event.x > SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH:
-        print(f"Click on sidebar. Coordinates: ({event.x}, {event.y}).")
         return
-
-    # print(
-    #     f"Click on cell. Coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}), Height: {self.map.height_map[row][column]}, Color: {self.cell_sprites_2d[row][column].color}"
-    # )
 
     game.select_cell(row, column)
 
@@ -34,49 +27,14 @@ def on_draw(game, event: OnDraw):
         sprite.draw()
 
 
-def on_setup(game, event):
-    game.map = Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
-
-    # we use a draw list to avoid problems
-    # when multiple modules want to draw and clear the screen after previous module has drawn up
-    game.draw_list = []
-
-    # cell render setup
-    # 1d list for arcade to render
-    game.cell_sprites = arcade.SpriteList()
-
-    # 2d list to control the game
-    game.cell_sprites_2d = []
-    for row in range(ROW_COUNT):
-        game.cell_sprites_2d.append([])
-        for column in range(COLUMN_COUNT):
-            x, y = grid_to_central_coordinate(row, column)
-            sprite = arcade.SpriteSolidColor(
-                CELL_WIDTH, CELL_HEIGHT, arcade.color.WHITE
-            )
-            sprite.color = game.map.get_cell_color(row, column)
-            sprite.center_x, sprite.center_y = SIDEBAR_WIDTH + x, y
-            game.cell_sprites.append(sprite)
-            game.cell_sprites_2d[row].append(sprite)
-
-    game.draw_list.append(game.cell_sprites)
-
-    # a test army
-    # game.armies_sprites = arcade.SpriteList()
-    # game.put_army(1, (10, 10), arcade.color.RED)
-
-    # game.draw_list.append(game.armies_sprites)
-
-
 def on_game_init(game, event):
     # actually the color of boarder
-    game.background_color = arcade.color.BLACK
     game.grid_selected = None
+    game.map = Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
 
 
 subscriptions = {
     OnDraw: on_draw,
-    OnSetup: on_setup,
     OnMouseRelease: on_mouse_release,
     OnGameInit: on_game_init,
 }
