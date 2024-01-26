@@ -106,6 +106,7 @@ class Map:
     def get_cell_color(self, row, column):
         return HEIGHT_COLOR[self.height_map[row][column]]
 
+
 def dim_all_obstructed_cell(game, event: OnKeyPress):
     if event.key == arcade.key.D:
         obstructed_cells = game.map.return_all_obstructed(game.grid_selected)

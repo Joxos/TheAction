@@ -34,12 +34,6 @@ events_manager.new_event(BeforeGameInit())
 
 
 class Game(arcade.Window):
-
-    def put_army(self, id, pos: tuple[int, int], color):
-        army_info = Army(id, pos, color)
-        self.map.armies.append(army_info)
-        self.armies_sprites.append(generate_army(army_info))
-
     def select_cell(self, row, column):
         if self.grid_selected:
             # recover the color of last selected cell
