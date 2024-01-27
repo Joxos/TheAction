@@ -38,4 +38,4 @@ HEIGHT_COLOR = [
     arcade.color.RED,
 ]
 
-DEFAULT_MODULES = ["sidebar", "game_logic", "map", "render", "game_log"]
+DEFAULT_MODULES = ["sidebar", "game_logic", "map", "render", "game_logging"]
