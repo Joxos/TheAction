@@ -1,5 +1,5 @@
 import arcade
-from events import OnMouseMotion, OnSetup
+from events import OnMouseMotion, OnGameSetup
 from utils import coordinate_to_grid
 from config import (
     SCREEN_HEIGHT,
@@ -32,7 +32,7 @@ def update_sidebar_info(game, event: OnMouseMotion):
         )
 
 
-def on_setup(game, event: OnSetup):
+def on_setup(game, event: OnGameSetup):
     game.left_sidebar = arcade.SpriteList()
     sidebar_bg = arcade.SpriteSolidColor(
         SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
@@ -96,4 +96,4 @@ def on_setup(game, event: OnSetup):
     game.draw_list.append(game.right_sidebar)
 
 
-subscriptions = {OnMouseMotion: update_sidebar_info, OnSetup: on_setup}
+subscriptions = {OnMouseMotion: update_sidebar_info, OnGameSetup: on_setup}

@@ -9,7 +9,7 @@ from utils import mix_color
 from events import (
     EventsManager,
     default_events_list,
-    OnSetup,
+    OnGameSetup,
     OnDraw,
     OnMouseMotion,
     OnMousePress,
@@ -57,7 +57,7 @@ class Game(arcade.Window):
         events_manager.new_event(OnGameInit())
 
     def setup(self):
-        events_manager.new_event(OnSetup())
+        events_manager.new_event(OnGameSetup())
 
     def on_draw(self):
         events_manager.new_event(OnDraw())

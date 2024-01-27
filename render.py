@@ -1,4 +1,4 @@
-from events import OnSetup, OnGameInit
+from events import OnGameSetup, OnGameInit
 import arcade
 from config import ROW_COUNT, COLUMN_COUNT, CELL_WIDTH, CELL_HEIGHT, SIDEBAR_WIDTH
 from utils import grid_to_central_coordinate
@@ -27,7 +27,7 @@ def recover_all_cell(game):
             ].color = game.map.get_cell_color(cell_sprite_list, cell_sprite)
 
 
-def on_setup(game, event: OnSetup):
+def on_setup(game, event: OnGameSetup):
     for row in range(ROW_COUNT):
         game.cell_sprites_2d.append([])
         for column in range(COLUMN_COUNT):
@@ -43,4 +43,4 @@ def on_setup(game, event: OnSetup):
     game.draw_list.append(game.cell_sprites)
 
 
-subscriptions = {OnSetup: on_setup, OnGameInit: on_init}
+subscriptions = {OnGameSetup: on_setup, OnGameInit: on_init}

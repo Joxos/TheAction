@@ -79,7 +79,7 @@ class OnDraw(Event):
         pass
 
 
-class OnSetup(Event):
+class OnGameSetup(Event):
     def __init__(self):
         pass
 
@@ -116,7 +116,7 @@ default_events_list = [
     OnMouseMotion,
     OnMousePress,
     OnMouseRelease,
-    OnSetup,
+    OnGameSetup,
     BeforeGameInit,
     OnGameInit,
     OnUpdate,
