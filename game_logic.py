@@ -1,6 +1,6 @@
 from utils import coordinate_to_grid
 from map import Map
-from events import OnDraw, OnMouseRelease, OnGameInit
+from events import OnDraw, OnMouseRelease, OnGameInit, OnCellSelected, EventsManager
 from config import (
     ROW_COUNT,
     COLUMN_COUNT,
@@ -11,22 +11,21 @@ from config import (
 )
 
 
-def on_mouse_release(game, event: OnMouseRelease):
+def on_mouse_release(game, event: OnMouseRelease, em: EventsManager):
     row, column = coordinate_to_grid(event.x - SIDEBAR_WIDTH, event.y)
     if event.x < SIDEBAR_WIDTH or event.x > SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH:
         return
+    em.new_event(OnCellSelected(row, column))
 
-    game.select_cell(row, column)
 
-
-def on_draw(game, event: OnDraw):
+def on_draw(game, event: OnDraw, em: EventsManager):
     game.clear()
 
     for sprite in game.draw_list:
         sprite.draw()
 
 
-def on_game_init(game, event):
+def on_game_init(game, event, em: EventsManager):
     # actually the color of boarder
     game.grid_selected = None
     game.map = Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)

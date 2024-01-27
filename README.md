@@ -22,6 +22,13 @@ Events are used for connections between modules.
 
 Register your events by `events_manager.register()`, trigger them by `events_manager.new_event()`, and bind your callbacks by `events_manager.subscribe()`.
 
+Your callbacks should accept three parameters:
+
+```python
+def my_callback(game, event: EventName, em: EventsManager):
+    pass
+```
+
 Using a subscription dictionary is strongly recommended and bind them by `events_manager.multi_subscribe()` or `events_manager.import_module()`.
 
 ## Dev Tips

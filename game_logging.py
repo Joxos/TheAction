@@ -1,10 +1,10 @@
 from loguru import logger
-from events import OnMouseRelease
+from events import OnMouseRelease, EventsManager
 from config import SIDEBAR_WIDTH, GRID_WIDTH, BOARDER_WIDTH
 from utils import coordinate_to_grid
 
 
-def log_mouse_release(game, event: OnMouseRelease):
+def log_mouse_release(game, event: OnMouseRelease, em: EventsManager):
     row, column = coordinate_to_grid(event.x - SIDEBAR_WIDTH, event.y)
     if event.x < SIDEBAR_WIDTH or event.x > SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH:
         logger.debug(f"Click on sidebar. Coordinates: ({event.x}, {event.y}).")

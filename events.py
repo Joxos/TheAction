@@ -37,7 +37,7 @@ class EventsManager:
         for event, func_list in self.events.items():
             if event == event_type:
                 for func in func_list:
-                    func(self.game_ref, new_event)
+                    func(self.game_ref, new_event, self)
                 return
 
     def import_module(self, name):
@@ -111,6 +111,12 @@ class OnGameInit(Event):
         pass
 
 
+class OnCellSelected(Event):
+    def __init__(self, row, column):
+        self.row = row
+        self.column = column
+
+
 default_events_list = [
     OnDraw,
     OnMouseMotion,
@@ -122,4 +128,5 @@ default_events_list = [
     OnUpdate,
     OnKeyPress,
     OnKeyRelease,
+    OnCellSelected,
 ]

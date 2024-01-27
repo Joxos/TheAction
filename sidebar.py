@@ -1,5 +1,5 @@
 import arcade
-from events import OnMouseMotion, OnGameSetup
+from events import OnMouseMotion, OnGameSetup, OnCellSelected, EventsManager
 from utils import coordinate_to_grid
 from config import (
     SCREEN_HEIGHT,
@@ -14,7 +14,7 @@ from config import (
 )
 
 
-def update_sidebar_info(game, event: OnMouseMotion):
+def update_sidebar_info(game, event: OnMouseMotion, em: EventsManager):
     row, column = coordinate_to_grid(event.x - SIDEBAR_WIDTH, event.y)
     if (
         event.x <= SIDEBAR_WIDTH
@@ -32,7 +32,7 @@ def update_sidebar_info(game, event: OnMouseMotion):
         )
 
 
-def on_setup(game, event: OnGameSetup):
+def on_setup(game, event: OnGameSetup, em: EventsManager):
     game.left_sidebar = arcade.SpriteList()
     sidebar_bg = arcade.SpriteSolidColor(
         SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
@@ -96,4 +96,23 @@ def on_setup(game, event: OnGameSetup):
     game.draw_list.append(game.right_sidebar)
 
 
-subscriptions = {OnMouseMotion: update_sidebar_info, OnGameSetup: on_setup}
+def on_cell_selected(game, event: OnCellSelected, em: EventsManager):
+    row, column = event.row, event.column
+    # update sidebar info
+    height = f"{game.map.height_map[row][column]}"
+    grid_coordinate = f"({row}, {column})"
+    game.grid_info.text = f"{grid_coordinate}: {height}"
+
+    text = ""
+    for army in game.map.armies:
+        if army.pos[0] == row and army.pos[1] == column:
+            text = f"army {army.id}"
+    game.army_info.text = text
+    text = ""
+
+
+subscriptions = {
+    OnMouseMotion: update_sidebar_info,
+    OnGameSetup: on_setup,
+    OnCellSelected: on_cell_selected,
+}

@@ -3,7 +3,7 @@ import arcade
 from enum import Enum, auto
 from collections import OrderedDict
 from line import sampling, distance_squared
-from events import OnKeyPress, OnKeyRelease
+from events import OnKeyPress, OnKeyRelease, EventsManager
 from utils import mix_color
 from config import HEIGHT_COLOR
 from render import recover_all_cell
@@ -108,7 +108,7 @@ class Map:
         return HEIGHT_COLOR[self.height_map[row][column]]
 
 
-def dim_all_obstructed_cell(game, event: OnKeyPress):
+def dim_all_obstructed_cell(game, event: OnKeyPress, em: EventsManager):
     if event.key == arcade.key.D:
         obstructed_cells = game.map.return_all_obstructed(game.grid_selected)
         for cell in obstructed_cells:
@@ -117,7 +117,7 @@ def dim_all_obstructed_cell(game, event: OnKeyPress):
             )
 
 
-def recover_all_obstructed_cell(game, event: OnKeyRelease):
+def recover_all_obstructed_cell(game, event: OnKeyRelease, em: EventsManager):
     if event.key == arcade.key.D:
         recover_all_cell(game)
 
