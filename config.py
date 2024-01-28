@@ -41,7 +41,6 @@ HEIGHT_COLOR = [
 DEFAULT_MODULES = [
     "sidebar.render",
     "game_logic",
-    "map.map",
     "map.render",
     "game_logging",
 ]
