@@ -1,7 +1,7 @@
 import random
 from enum import Enum, auto
 from collections import OrderedDict
-from line import sampling, distance_squared
+from map.line import sampling, distance_squared
 from config import HEIGHT_COLOR
 
 
