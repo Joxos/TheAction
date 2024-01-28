@@ -1,7 +1,4 @@
 import arcade
-import sys
-
-sys.path.append("..")
 from events import (
     OnKeyPress,
     EventsManager,
