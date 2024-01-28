@@ -1,12 +1,8 @@
 import random
-import arcade
 from enum import Enum, auto
 from collections import OrderedDict
 from line import sampling, distance_squared
-from events import OnKeyPress, OnKeyRelease, EventsManager
-from utils import mix_color
 from config import HEIGHT_COLOR
-from render import recover_all_cell
 
 
 class Biome(Enum):
@@ -107,25 +103,6 @@ class Map:
     def get_cell_color(self, row, column):
         return HEIGHT_COLOR[self.height_map[row][column]]
 
-
-def dim_all_obstructed_cell(game, event: OnKeyPress, em: EventsManager):
-    if event.key == arcade.key.D:
-        obstructed_cells = game.map.return_all_obstructed(game.grid_selected)
-        for cell in obstructed_cells:
-            game.cell_sprites_2d[cell[0]][cell[1]].color = mix_color(
-                game.cell_sprites_2d[cell[0]][cell[1]].color, (255, 0, 0)
-            )
-
-
-def recover_all_obstructed_cell(game, event: OnKeyRelease, em: EventsManager):
-    if event.key == arcade.key.D:
-        recover_all_cell(game)
-
-
-subscriptions = {
-    OnKeyPress: dim_all_obstructed_cell,
-    OnKeyRelease: recover_all_obstructed_cell,
-}
 
 if __name__ == "__main__":
     map = Map(6, 2, 1)

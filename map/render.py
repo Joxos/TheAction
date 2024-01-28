@@ -1,30 +1,25 @@
-from events import OnGameSetup, OnGameInit, OnCellSelected, EventsManager
 import arcade
-from config import ROW_COUNT, COLUMN_COUNT, CELL_WIDTH, CELL_HEIGHT, SIDEBAR_WIDTH
-from utils import grid_to_central_coordinate, mix_color
+import sys
+
+sys.path.append("..")
+from events import (
+    OnKeyPress,
+    EventsManager,
+    OnKeyRelease,
+    OnGameInit,
+    OnGameSetup,
+    OnCellSelected,
+)
+from utils import mix_color, grid_to_central_coordinate
+from config import ROW_COUNT, COLUMN_COUNT, CELL_HEIGHT, CELL_WIDTH, SIDEBAR_WIDTH
 
 
 def on_init(game, event: OnGameInit, em: EventsManager):
-    game.background_color = arcade.color.BLACK
-
-    # we use a draw list to avoid problems
-    # when multiple modules want to draw and clear the screen after previous module has drawn up
-    game.draw_list = []
-
-    # cell render setup
     # 1d list for arcade to render
     game.cell_sprites = arcade.SpriteList()
 
     # 2d list to control the game
     game.cell_sprites_2d = []
-
-
-def recover_all_cell(game):
-    for cell_sprite_list in range(len(game.cell_sprites_2d)):
-        for cell_sprite in range(len(game.cell_sprites_2d[cell_sprite_list])):
-            game.cell_sprites_2d[cell_sprite_list][
-                cell_sprite
-            ].color = game.map.get_cell_color(cell_sprite_list, cell_sprite)
 
 
 def on_setup(game, event: OnGameSetup, em: EventsManager):
@@ -43,7 +38,30 @@ def on_setup(game, event: OnGameSetup, em: EventsManager):
     game.draw_list.append(game.cell_sprites)
 
 
+def recover_all_cell(game):
+    for cell_sprite_list in range(len(game.cell_sprites_2d)):
+        for cell_sprite in range(len(game.cell_sprites_2d[cell_sprite_list])):
+            game.cell_sprites_2d[cell_sprite_list][
+                cell_sprite
+            ].color = game.map.get_cell_color(cell_sprite_list, cell_sprite)
+
+
+def dim_all_obstructed_cell(game, event: OnKeyPress, em: EventsManager):
+    if event.key == arcade.key.D:
+        obstructed_cells = game.map.return_all_obstructed(game.grid_selected)
+        for cell in obstructed_cells:
+            game.cell_sprites_2d[cell[0]][cell[1]].color = mix_color(
+                game.cell_sprites_2d[cell[0]][cell[1]].color, (255, 0, 0)
+            )
+
+
+def recover_all_obstructed_cell(game, event: OnKeyRelease, em: EventsManager):
+    if event.key == arcade.key.D:
+        recover_all_cell(game)
+
+
 def on_cell_selected(game, event: OnCellSelected, em: EventsManager):
+    """Render selection cell."""
     row, column = event.row, event.column
     if game.grid_selected:
         # recover the color of last selected cell
@@ -57,7 +75,9 @@ def on_cell_selected(game, event: OnCellSelected, em: EventsManager):
 
 
 subscriptions = {
-    OnGameSetup: on_setup,
+    OnKeyPress: dim_all_obstructed_cell,
+    OnKeyRelease: recover_all_obstructed_cell,
     OnGameInit: on_init,
+    OnGameSetup: on_setup,
     OnCellSelected: on_cell_selected,
 }

@@ -1,5 +1,6 @@
+import arcade
 from utils import coordinate_to_grid
-from map import Map
+from map.map import Map
 from events import OnDraw, OnMouseRelease, OnGameInit, OnCellSelected, EventsManager
 from config import (
     ROW_COUNT,
@@ -26,9 +27,13 @@ def on_draw(game, event: OnDraw, em: EventsManager):
 
 
 def on_game_init(game, event, em: EventsManager):
-    # actually the color of boarder
     game.grid_selected = None
     game.map = Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
+    game.background_color = arcade.color.BLACK
+
+    # we use a draw list to avoid problems
+    # when multiple modules want to draw and clear the screen after previous module has drawn up
+    game.draw_list = []
 
 
 subscriptions = {
