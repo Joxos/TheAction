@@ -43,4 +43,6 @@ DEFAULT_MODULES = [
     "game_logic",
     "map.render",
     "game_logging",
+    "army.logic",
+    "army.render",
 ]

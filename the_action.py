@@ -23,6 +23,7 @@ from events import (
 events_manager = EventsManager()
 events_manager.register(default_events_list)
 events_manager.import_modules(DEFAULT_MODULES)
+events_manager.verbose_subscription_info()
 events_manager.new_event(BeforeGameInit())
 
 

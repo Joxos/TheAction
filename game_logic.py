@@ -16,7 +16,8 @@ def on_mouse_release(game, event: OnMouseRelease, em: EventsManager):
     row, column = coordinate_to_grid(event.x - SIDEBAR_WIDTH, event.y)
     if event.x < SIDEBAR_WIDTH or event.x > SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH:
         return
-    em.new_event(OnCellSelected(row, column))
+    if event.button == arcade.MOUSE_BUTTON_LEFT:
+        em.new_event(OnCellSelected(row, column))
 
 
 def on_draw(game, event: OnDraw, em: EventsManager):
@@ -27,6 +28,7 @@ def on_draw(game, event: OnDraw, em: EventsManager):
 
 
 def on_game_init(game, event, em: EventsManager):
+    game.center_window()
     game.grid_selected = None
     game.map = Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
     game.background_color = arcade.color.BLACK

@@ -1,4 +1,5 @@
 import importlib
+from loguru import logger
 
 
 class Event:
@@ -15,6 +16,7 @@ class EventsManager:
         self.game_ref = game_ref
 
     def register(self, event):
+        logger.debug(f"Registering event: {event}")
         if isinstance(event, list):
             for e in event:
                 self.events[e] = []
@@ -22,6 +24,7 @@ class EventsManager:
             self.events[event] = []
 
     def subscribe(self, event, func):
+        logger.debug(f"Subscribing to event: {event} with function: {func}")
         if isinstance(event, list):
             for f in func:
                 self.events[event].append(f)
@@ -29,25 +32,39 @@ class EventsManager:
             self.events[event].append(func)
 
     def multi_subscribe(self, subscriptions):
+        logger.debug(f"Subscribing to multiple events: {subscriptions}")
         for event, func in subscriptions.items():
             self.subscribe(event, func)
 
     def new_event(self, new_event):
         event_type = type(new_event)
+        # logger.debug(f"New event: {new_event}")
         for event, func_list in self.events.items():
             if event == event_type:
                 for func in func_list:
+                    # logger.debug(f"Calling function: {func} with event: {new_event}")
                     func(self.game_ref, new_event, self)
                 return
 
     def import_module(self, name):
+        logger.debug(f"Importing module: {name}")
         module = importlib.import_module(name)
         if hasattr(module, "subscriptions"):
+            logger.debug(f"Found subscriptions in module: {name}")
             self.multi_subscribe(module.subscriptions)
+        if hasattr(module, "registrations"):
+            logger.debug(f"Found registrations in module: {name}")
+            self.register(module.registrations)
 
     def import_modules(self, names):
         for name in names:
             self.import_module(name)
+
+    def verbose_subscription_info(self):
+        for event, func_list in self.events.items():
+            logger.info(f"{event.__name__}:")
+            for func in func_list:
+                logger.info(f"  {func.__name__}")
 
 
 class OnMouseMotion(Event):
