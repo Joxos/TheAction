@@ -15,7 +15,7 @@ from config import (
 
 
 def update_sidebar_info(game, event: OnMouseMotion, em: EventsManager):
-    row, column = coordinate_to_grid(event.x - SIDEBAR_WIDTH, event.y)
+    row, column = coordinate_to_grid(event.x, event.y)
     if (
         event.x <= SIDEBAR_WIDTH
         or event.x >= SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH

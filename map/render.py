@@ -23,12 +23,11 @@ def map_setup(game, event: OnGameSetup, em: EventsManager):
     for row in range(ROW_COUNT):
         game.cell_sprites_2d.append([])
         for column in range(COLUMN_COUNT):
-            x, y = grid_to_central_coordinate(row, column)
             sprite = arcade.SpriteSolidColor(
                 CELL_WIDTH, CELL_HEIGHT, arcade.color.WHITE
             )
             sprite.color = game.map.get_cell_color(row, column)
-            sprite.center_x, sprite.center_y = SIDEBAR_WIDTH + x, y
+            sprite.center_x, sprite.center_y = grid_to_central_coordinate(row, column)
             game.cell_sprites.append(sprite)
             game.cell_sprites_2d[row].append(sprite)
 

@@ -2,7 +2,6 @@ from events import OnGameInit, OnGameSetup, EventsManager
 import arcade
 from army.army import Army
 from utils import grid_to_central_coordinate
-from config import SIDEBAR_WIDTH
 
 
 def army_init(game, event: OnGameInit, em: EventsManager):
@@ -14,7 +13,6 @@ def generate_army(game, army_info: Army):
     army.center_x, army.center_y = grid_to_central_coordinate(
         army_info.pos[0], army_info.pos[1]
     )
-    army.center_x += SIDEBAR_WIDTH
     game.draw_list.append(army)
     game.army_list.append(army_info)
 
