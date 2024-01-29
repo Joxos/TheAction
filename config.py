@@ -1,5 +1,8 @@
 import arcade
 
+# game configuration
+ENABLE_LOGGING = True
+
 # map configuration
 # Set how many rows and columns we will have
 ROW_COUNT = 40
@@ -38,11 +41,12 @@ HEIGHT_COLOR = [
     arcade.color.RED,
 ]
 
+# consequence matters
 DEFAULT_MODULES = [
-    "sidebar.render",
     "game_logic",
+    "sidebar.render",
     "map.render",
-    "game_logging",
     "army.logic",
-    "army.render",
 ]
+if ENABLE_LOGGING:
+    DEFAULT_MODULES.append("game_logging")
