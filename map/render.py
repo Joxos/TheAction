@@ -11,7 +11,7 @@ from utils import mix_color, grid_to_central_coordinate
 from config import ROW_COUNT, COLUMN_COUNT, CELL_HEIGHT, CELL_WIDTH, SIDEBAR_WIDTH
 
 
-def on_init(game, event: OnGameInit, em: EventsManager):
+def map_init(game, event: OnGameInit, em: EventsManager):
     # 1d list for arcade to render
     game.cell_sprites = arcade.SpriteList()
 
@@ -19,7 +19,7 @@ def on_init(game, event: OnGameInit, em: EventsManager):
     game.cell_sprites_2d = []
 
 
-def on_setup(game, event: OnGameSetup, em: EventsManager):
+def map_setup(game, event: OnGameSetup, em: EventsManager):
     for row in range(ROW_COUNT):
         game.cell_sprites_2d.append([])
         for column in range(COLUMN_COUNT):
@@ -57,8 +57,7 @@ def recover_all_obstructed_cell(game, event: OnKeyRelease, em: EventsManager):
         recover_all_cell(game)
 
 
-def on_cell_selected(game, event: OnCellSelected, em: EventsManager):
-    """Render selection cell."""
+def render_cell_selected(game, event: OnCellSelected, em: EventsManager):
     row, column = event.row, event.column
     if game.grid_selected:
         # recover the color of last selected cell
@@ -74,7 +73,7 @@ def on_cell_selected(game, event: OnCellSelected, em: EventsManager):
 subscriptions = {
     OnKeyPress: dim_all_obstructed_cell,
     OnKeyRelease: recover_all_obstructed_cell,
-    OnGameInit: on_init,
-    OnGameSetup: on_setup,
-    OnCellSelected: on_cell_selected,
+    OnGameInit: map_init,
+    OnGameSetup: map_setup,
+    OnCellSelected: render_cell_selected,
 }

@@ -1,5 +1,5 @@
 import arcade
-from events import OnMouseMotion, OnGameSetup, OnCellSelected, EventsManager
+from events import OnMouseMotion, OnGameInit, OnCellSelected, EventsManager
 from utils import coordinate_to_grid
 from config import (
     SCREEN_HEIGHT,
@@ -32,7 +32,7 @@ def update_sidebar_info(game, event: OnMouseMotion, em: EventsManager):
         )
 
 
-def on_setup(game, event: OnGameSetup, em: EventsManager):
+def sidebar_init(game, event: OnGameInit, em: EventsManager):
     game.left_sidebar = arcade.SpriteList()
     sidebar_bg = arcade.SpriteSolidColor(
         SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
@@ -96,7 +96,7 @@ def on_setup(game, event: OnGameSetup, em: EventsManager):
     game.draw_list.append(game.right_sidebar)
 
 
-def on_cell_selected(game, event: OnCellSelected, em: EventsManager):
+def render_sidebar_selected_cell_info(game, event: OnCellSelected, em: EventsManager):
     row, column = event.row, event.column
     # update sidebar info
     height = f"{game.map.height_map[row][column]}"
@@ -113,6 +113,6 @@ def on_cell_selected(game, event: OnCellSelected, em: EventsManager):
 
 subscriptions = {
     OnMouseMotion: update_sidebar_info,
-    OnGameSetup: on_setup,
-    OnCellSelected: on_cell_selected,
+    OnGameInit: sidebar_init,
+    OnCellSelected: render_sidebar_selected_cell_info,
 }
