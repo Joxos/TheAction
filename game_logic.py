@@ -1,5 +1,5 @@
 import arcade
-from utils import coordinate_to_grid
+from utils import coordinate_to_grid, on_grid
 from map.map import Map
 from events import OnDraw, OnMouseRelease, OnGameInit, OnCellSelected, EventsManager
 from config import (
@@ -13,9 +13,9 @@ from config import (
 
 
 def on_mouse_release(game, event: OnMouseRelease, em: EventsManager):
-    row, column = coordinate_to_grid(event.x, event.y)
-    if event.x < SIDEBAR_WIDTH or event.x > SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH:
+    if not on_grid(event.x, event.y):
         return
+    row, column = coordinate_to_grid(event.x, event.y)
     if event.button == arcade.MOUSE_BUTTON_LEFT:
         em.new_event(OnCellSelected(row, column))
 

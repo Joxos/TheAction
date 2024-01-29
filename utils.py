@@ -1,4 +1,4 @@
-from config import CELL_WIDTH, CELL_HEIGHT, BOARDER_WIDTH, SIDEBAR_WIDTH
+from config import CELL_WIDTH, CELL_HEIGHT, BOARDER_WIDTH, SIDEBAR_WIDTH, GRID_WIDTH
 
 
 def mix_color(a, b):
@@ -15,3 +15,9 @@ def coordinate_to_grid(x, y):
     column = (x - SIDEBAR_WIDTH) // (CELL_WIDTH + BOARDER_WIDTH)
     row = y // (CELL_HEIGHT + BOARDER_WIDTH)
     return [row, column]
+
+
+def on_grid(x, y):
+    if x < SIDEBAR_WIDTH or x > SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH:
+        return False
+    return True
