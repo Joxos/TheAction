@@ -16,15 +16,16 @@ class EventsManager:
         self.game_ref = game_ref
 
     def register(self, event):
-        logger.debug(f"Registering event: {event}")
         if isinstance(event, list):
             for e in event:
+                logger.debug(f"Registering event: {e.__name__}")
                 self.events[e] = []
         else:
+            logger.debug(f"Registering event: {event}")
             self.events[event] = []
 
     def subscribe(self, event, func):
-        logger.debug(f"Subscribing to event: {event} with function: {func}")
+        logger.debug(f"{event.__name__} -> {func.__name__}")
         if isinstance(event, list):
             for f in func:
                 self.events[event].append(f)
@@ -32,7 +33,6 @@ class EventsManager:
             self.events[event].append(func)
 
     def multi_subscribe(self, subscriptions):
-        logger.debug(f"Subscribing to multiple events: {subscriptions}")
         for event, func in subscriptions.items():
             self.subscribe(event, func)
 
