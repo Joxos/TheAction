@@ -61,6 +61,7 @@ class EventsManager:
             self.import_module(name)
 
     def verbose_subscription_info(self):
+        logger.info("Event subscriptions:")
         for event, func_list in self.events.items():
             logger.info(f"{event.__name__}:")
             for func in func_list:
