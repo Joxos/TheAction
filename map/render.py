@@ -1,4 +1,5 @@
 import arcade
+from map.map import Map
 from events import (
     OnKeyPress,
     EventsManager,
@@ -6,12 +7,18 @@ from events import (
     OnGameInit,
     OnGameSetup,
     OnCellSelected,
+    OnMouseRelease,
 )
 from utils import mix_color, grid_to_central_coordinate
-from config import ROW_COUNT, COLUMN_COUNT, CELL_HEIGHT, CELL_WIDTH
+from config import ROW_COUNT, COLUMN_COUNT, CELL_HEIGHT, CELL_WIDTH, BIOME_STEP
+from layout import on_grid
+from utils import coordinate_to_grid
 
 
 def map_init(game, event: OnGameInit, em: EventsManager):
+    game.grid_selected = None
+    game.map = Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
+
     # 1d list for arcade to render
     game.cell_sprites = arcade.SpriteList()
 
@@ -69,10 +76,19 @@ def render_cell_selected(game, event: OnCellSelected, em: EventsManager):
     game.grid_selected = [row, column]
 
 
+def on_mouse_release(game, event: OnMouseRelease, em: EventsManager):
+    if not on_grid(event.x, event.y):
+        return
+    row, column = coordinate_to_grid(event.x, event.y)
+    if event.button == arcade.MOUSE_BUTTON_LEFT:
+        em.new_event(OnCellSelected(row, column))
+
+
 subscriptions = {
     OnKeyPress: dim_all_obstructed_cell,
     OnKeyRelease: recover_all_obstructed_cell,
     OnGameInit: map_init,
     OnGameSetup: map_setup,
     OnCellSelected: render_cell_selected,
+    OnMouseRelease: on_mouse_release,
 }

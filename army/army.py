@@ -1,5 +1,3 @@
-
-
 class Army:
     def __init__(self, id, pos, color, max_hp, attack, attack_interval):
         self.id = id
