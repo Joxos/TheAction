@@ -1,4 +1,3 @@
-from utils import grid_to_central_coordinate
 
 
 class Army:

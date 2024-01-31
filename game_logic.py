@@ -1,14 +1,12 @@
 import arcade
-from utils import coordinate_to_grid, on_grid
+from utils import coordinate_to_grid
+from layout import on_grid
 from map.map import Map
 from events import OnDraw, OnMouseRelease, OnGameInit, OnCellSelected, EventsManager
 from config import (
     ROW_COUNT,
     COLUMN_COUNT,
     BIOME_STEP,
-    SIDEBAR_WIDTH,
-    GRID_WIDTH,
-    BOARDER_WIDTH,
 )
 
 

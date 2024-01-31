@@ -8,7 +8,7 @@ from events import (
     OnCellSelected,
 )
 from utils import mix_color, grid_to_central_coordinate
-from config import ROW_COUNT, COLUMN_COUNT, CELL_HEIGHT, CELL_WIDTH, SIDEBAR_WIDTH
+from config import ROW_COUNT, COLUMN_COUNT, CELL_HEIGHT, CELL_WIDTH
 
 
 def map_init(game, event: OnGameInit, em: EventsManager):

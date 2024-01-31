@@ -104,7 +104,7 @@ def render_sidebar_selected_cell_info(game, event: OnCellSelected, em: EventsMan
     game.grid_info.text = f"{grid_coordinate}: {height}"
 
     text = ""
-    for army in game.map.armies:
+    for army in game.army_list:
         if army.pos[0] == row and army.pos[1] == column:
             text = f"army {army.id}"
     game.army_info.text = text

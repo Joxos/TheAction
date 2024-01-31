@@ -1,7 +1,7 @@
 from loguru import logger
 from events import OnMouseRelease, EventsManager, OnKeyPress, OnKeyRelease
-from config import SIDEBAR_WIDTH, GRID_WIDTH, BOARDER_WIDTH
-from utils import coordinate_to_grid, on_grid
+from utils import coordinate_to_grid
+from layout import on_grid
 import arcade
 
 
