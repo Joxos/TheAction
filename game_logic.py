@@ -11,7 +11,6 @@ def on_draw(game, event: OnDraw, em: EventsManager):
 
 def on_game_init(game, event, em: EventsManager):
     game.center_window()
-    game.background_color = arcade.color.BLACK
 
     # we use a draw list to avoid problems
     # when multiple modules want to draw and clear the screen after previous module has drawn up

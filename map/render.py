@@ -16,6 +16,9 @@ from utils import coordinate_to_grid
 
 
 def map_init(game, event: OnGameInit, em: EventsManager):
+    # actually the color of the boarder
+    game.background_color = arcade.color.BLACK
+
     game.grid_selected = None
     game.map = Map(ROW_COUNT, COLUMN_COUNT, BIOME_STEP)
 
