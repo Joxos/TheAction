@@ -76,19 +76,31 @@ class OnMouseMotion(Event):
         self.delta_y = delta_y
 
 
-class OnMousePress(Event):
-    def __init__(self, x, y, button, key_modifiers):
+class OnLeftMousePress(Event):
+    def __init__(self, x, y, key_modifiers):
         self.x = x
         self.y = y
-        self.button = button
         self.key_modifiers = key_modifiers
 
 
-class OnMouseRelease(Event):
-    def __init__(self, x, y, button, key_modifiers):
+class OnRightMousePress(Event):
+    def __init__(self, x, y, key_modifiers):
         self.x = x
         self.y = y
-        self.button = button
+        self.key_modifiers = key_modifiers
+
+
+class OnLeftMouseRelease(Event):
+    def __init__(self, x, y, key_modifiers):
+        self.x = x
+        self.y = y
+        self.key_modifiers = key_modifiers
+
+
+class OnRightMouseRelease(Event):
+    def __init__(self, x, y, key_modifiers):
+        self.x = x
+        self.y = y
         self.key_modifiers = key_modifiers
 
 
@@ -138,8 +150,10 @@ class OnCellSelected(Event):
 default_events_list = [
     OnDraw,
     OnMouseMotion,
-    OnMousePress,
-    OnMouseRelease,
+    OnLeftMousePress,
+    OnRightMousePress,
+    OnLeftMouseRelease,
+    OnRightMouseRelease,
     OnGameSetup,
     BeforeGameInit,
     OnGameInit,

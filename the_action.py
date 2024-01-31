@@ -11,8 +11,10 @@ from events import (
     OnGameSetup,
     OnDraw,
     OnMouseMotion,
-    OnMousePress,
-    OnMouseRelease,
+    OnLeftMousePress,
+    OnRightMousePress,
+    OnLeftMouseRelease,
+    OnRightMouseRelease,
     BeforeGameInit,
     OnUpdate,
     OnKeyPress,
@@ -43,10 +45,16 @@ class Game(arcade.Window):
         events_manager.new_event(OnMouseMotion(x, y, delta_x, delta_y))
 
     def on_mouse_press(self, x, y, button, key_modifiers):
-        events_manager.new_event(OnMousePress(x, y, button, key_modifiers))
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            events_manager.new_event(OnLeftMousePress(x, y, key_modifiers))
+        elif button == arcade.MOUSE_BUTTON_RIGHT:
+            events_manager.new_event(OnRightMousePress(x, y, key_modifiers))
 
     def on_mouse_release(self, x, y, button, key_modifiers):
-        events_manager.new_event(OnMouseRelease(x, y, button, key_modifiers))
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            events_manager.new_event(OnLeftMouseRelease(x, y, key_modifiers))
+        elif button == arcade.MOUSE_BUTTON_RIGHT:
+            events_manager.new_event(OnRightMouseRelease(x, y, key_modifiers))
 
     def on_update(self, delta_time):
         events_manager.new_event(OnUpdate(delta_time))

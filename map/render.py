@@ -7,7 +7,7 @@ from events import (
     OnGameInit,
     OnGameSetup,
     OnCellSelected,
-    OnMouseRelease,
+    OnLeftMouseRelease,
 )
 from utils import mix_color, grid_to_central_coordinate
 from config import ROW_COUNT, COLUMN_COUNT, CELL_HEIGHT, CELL_WIDTH, BIOME_STEP
@@ -76,12 +76,11 @@ def render_cell_selected(game, event: OnCellSelected, em: EventsManager):
     game.grid_selected = [row, column]
 
 
-def on_mouse_release(game, event: OnMouseRelease, em: EventsManager):
+def on_mouse_release(game, event: OnLeftMouseRelease, em: EventsManager):
     if not on_grid(event.x, event.y):
         return
     row, column = coordinate_to_grid(event.x, event.y)
-    if event.button == arcade.MOUSE_BUTTON_LEFT:
-        em.new_event(OnCellSelected(row, column))
+    em.new_event(OnCellSelected(row, column))
 
 
 subscriptions = {
@@ -90,5 +89,5 @@ subscriptions = {
     OnGameInit: map_init,
     OnGameSetup: map_setup,
     OnCellSelected: render_cell_selected,
-    OnMouseRelease: on_mouse_release,
+    OnLeftMouseRelease: on_mouse_release,
 }
