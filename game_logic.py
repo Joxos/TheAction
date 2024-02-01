@@ -1,4 +1,3 @@
-import arcade
 from events import OnDraw, OnGameInit, EventsManager
 
 

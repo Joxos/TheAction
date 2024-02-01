@@ -7,7 +7,7 @@ from config import (
 )
 from events import (
     EventsManager,
-    default_events_list,
+    DEFAULT_EVENT_LIST,
     OnGameSetup,
     OnDraw,
     OnMouseMotion,
@@ -23,7 +23,7 @@ from events import (
 )
 
 events_manager = EventsManager()
-events_manager.register(default_events_list)
+events_manager.register(DEFAULT_EVENT_LIST)
 events_manager.import_modules(DEFAULT_MODULES)
 events_manager.verbose_subscription_info()
 events_manager.new_event(BeforeGameInit())

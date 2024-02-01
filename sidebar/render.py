@@ -26,9 +26,9 @@ def update_sidebar_info(game, event: OnMouseMotion, em: EventsManager):
     height = f"{game.map.height_map[row][column]}"
     grid_coordinate = f"({row}, {column})"
     game.hover_info.text = f"{grid_coordinate}: {height}"
-    if game.grid_selected:
+    if game.cell_selected:
         game.obstruct_info.text = game.map.is_obstructed(
-            (row, column), game.grid_selected
+            (row, column), game.cell_selected
         )
 
 
