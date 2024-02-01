@@ -79,7 +79,7 @@ def render_cell_selected(game, event: OnCellSelected, em: EventsManager):
     game.cell_selected = [row, column]
 
 
-def on_mouse_release(game, event: OnLeftMouseRelease, em: EventsManager):
+def map_select_cell(game, event: OnLeftMouseRelease, em: EventsManager):
     if not on_grid(event.x, event.y):
         return
     row, column = coordinate_to_grid(event.x, event.y)
@@ -92,5 +92,5 @@ subscriptions = {
     OnGameInit: map_init,
     OnGameSetup: map_setup,
     OnCellSelected: render_cell_selected,
-    OnLeftMouseRelease: on_mouse_release,
+    OnLeftMouseRelease: map_select_cell,
 }
