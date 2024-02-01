@@ -9,12 +9,12 @@ from events import (
     OnRightMouseRelease,
 )
 from utils import coordinate_to_grid
-from layout import on_grid
+from layout import coordinate_on_grid
 import arcade
 
 
 def log_left_mouse_press(game, event: OnLeftMousePress, em: EventsManager):
-    if on_grid(event.x, event.y):
+    if coordinate_on_grid(event.x, event.y):
         row, column = coordinate_to_grid(event.x, event.y)
         logger.debug(
             f"Left mouse press on cell. Coordinates: ({event.x}, {event.y}). Grid coordinates: ({row}, {column}), Height: {game.map.height_map[row][column]}, Color: {game.cell_sprites_2d[row][column].color}"
@@ -25,7 +25,7 @@ def log_left_mouse_press(game, event: OnLeftMousePress, em: EventsManager):
 
 
 def log_right_mouse_press(game, event: OnRightMousePress, em: EventsManager):
-    if on_grid(event.x, event.y):
+    if coordinate_on_grid(event.x, event.y):
         row, column = coordinate_to_grid(event.x, event.y)
         logger.debug(
             f"Right mouse press on cell. Coordinates: ({event.x}, {event.y}). Grid coordinates: ({row}, {column}), Height: {game.map.height_map[row][column]}, Color: {game.cell_sprites_2d[row][column].color}"
@@ -36,7 +36,7 @@ def log_right_mouse_press(game, event: OnRightMousePress, em: EventsManager):
 
 
 def log_left_mouse_release(game, event: OnLeftMouseRelease, em: EventsManager):
-    if on_grid(event.x, event.y):
+    if coordinate_on_grid(event.x, event.y):
         row, column = coordinate_to_grid(event.x, event.y)
         logger.debug(
             f"Left mouse release on cell. Coordinates: ({event.x}, {event.y}). Grid coordinates: ({row}, {column}), Height: {game.map.height_map[row][column]}, Color: {game.cell_sprites_2d[row][column].color}"
@@ -47,7 +47,7 @@ def log_left_mouse_release(game, event: OnLeftMouseRelease, em: EventsManager):
 
 
 def log_right_mouse_release(game, event: OnRightMouseRelease, em: EventsManager):
-    if on_grid(event.x, event.y):
+    if coordinate_on_grid(event.x, event.y):
         row, column = coordinate_to_grid(event.x, event.y)
         logger.debug(
             f"Right mouse release on cell. Coordinates: ({event.x}, {event.y}). Grid coordinates: ({row}, {column}), Height: {game.map.height_map[row][column]}, Color: {game.cell_sprites_2d[row][column].color}"

@@ -9,3 +9,5 @@ class Army:
         self.attack_interval = attack_interval
         self.last_attack_tick = 0
         self.sprite = sprite
+        self.marching = False
+        self.waypoints = []

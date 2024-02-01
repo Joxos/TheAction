@@ -11,7 +11,7 @@ from events import (
 )
 from utils import mix_color, grid_to_central_coordinate
 from config import ROW_COUNT, COLUMN_COUNT, CELL_HEIGHT, CELL_WIDTH, BIOME_STEP
-from layout import on_grid
+from layout import coordinate_on_grid
 from utils import coordinate_to_grid
 
 
@@ -80,7 +80,7 @@ def render_cell_selected(game, event: OnCellSelected, em: EventsManager):
 
 
 def map_select_cell(game, event: OnLeftMouseRelease, em: EventsManager):
-    if not on_grid(event.x, event.y):
+    if not coordinate_on_grid(event.x, event.y):
         return
     row, column = coordinate_to_grid(event.x, event.y)
     em.new_event(OnCellSelected(row, column))
