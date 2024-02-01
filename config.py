@@ -1,4 +1,6 @@
 import arcade
+import sys
+from loguru import logger
 
 # game configuration
 ENABLE_LOGGING = True
@@ -48,5 +50,8 @@ DEFAULT_MODULES = [
     "map.render",
     "army.logic",
 ]
+LOG_LEVEL = "INFO"
+logger.remove()
+logger.add(sys.stderr, level=LOG_LEVEL, colorize=True)
 if ENABLE_LOGGING:
     DEFAULT_MODULES.append("game_logging")
