@@ -1,5 +1,5 @@
 class Army:
-    def __init__(self, id, pos, color, max_hp, attack, attack_interval):
+    def __init__(self, id, pos, color, max_hp, attack, attack_interval, sprite=None):
         self.id = id
         self.pos = pos
         self.color = color
@@ -8,3 +8,4 @@ class Army:
         self.attack = attack
         self.attack_interval = attack_interval
         self.last_attack_tick = 0
+        self.sprite = sprite
