@@ -21,7 +21,7 @@ def generate_army(game, army_info: Army):
 
 
 def army_setup(game, event: OnGameSetup, em: EventsManager):
-    generate_army(game, Army(1, [0, 0], arcade.color.RED, 100, 10, 10))
+    generate_army(game, Army(1, [0, 0], arcade.color.RED, 100, 10, 10,speed=30))
 
 
 def get_selected_army(game):
@@ -95,11 +95,15 @@ def update_army(game, event: OnUpdate, em: EventsManager):
     for army in game.army_list:
         if army.marching:
             if army.waypoints:
-                row, column = army.waypoints.pop(0)
-                army.sprite.center_x, army.sprite.center_y = grid_to_central_coordinate(
-                    row, column
-                )
-                army.pos = [row, column]
+                if army.last_move_tick == 0:
+                    row, column = army.waypoints.pop(0)
+                    army.sprite.center_x, army.sprite.center_y = grid_to_central_coordinate(
+                        row, column
+                    )
+                    army.pos = [row, column]
+                    army.last_move_tick = army.speed
+                else:
+                    army.last_move_tick -= 1
             else:
                 army.marching = False
 
