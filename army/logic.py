@@ -2,6 +2,8 @@ from events import OnGameInit, OnGameSetup, EventsManager, OnRightMousePress
 import arcade
 from army.army import Army
 from utils import grid_to_central_coordinate, coordinate_to_grid
+from layout import on_grid
+from loguru import logger
 
 
 def army_init(game, event: OnGameInit, em: EventsManager):
@@ -31,13 +33,13 @@ def get_selected_army(game):
 
 def march_army(game, event: OnRightMousePress, em: EventsManager):
     army = get_selected_army(game)
-    if army is not None:
+    if army is not None and on_grid(event.x, event.y):
         row, column = coordinate_to_grid(event.x, event.y)
         army.pos = [row, column]
         army.sprite.center_x, army.sprite.center_y = grid_to_central_coordinate(
             row, column
         )
-        print(f"Army {army.id} moved to {army.pos}")
+        logger.info(f"Army {army.id} moved to {army.pos}")
 
 
 subscriptions = {
