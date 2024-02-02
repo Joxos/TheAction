@@ -1,5 +1,5 @@
 import arcade
-from events import OnUpdate, OnGameInit, OnCellSelected, EventsManager
+from events import OnUpdate, OnGameInit, EventsManager
 from layout import layout_manager, LAYOUTS
 from utils import coordinate_to_grid
 from config import (
@@ -11,6 +11,7 @@ from config import (
     DEFAULT_FONT_SIZE,
     LINE_SPACING,
     FONT_COLOR,
+    BOTTOM_SIDEBAR_HEIGHT,
 )
 
 
@@ -102,24 +103,35 @@ def sidebar_init(game, event: OnGameInit, em: EventsManager):
     game.left_sidebar.append(sidebar_bg)
     game.draw_list.append(game.right_sidebar)
 
+    game.bottom_sidebar = arcade.SpriteList()
+    sidebar_bg = arcade.SpriteSolidColor(
+        SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
+    )
+    sidebar_bg.color = arcade.color.ARSENIC
+    sidebar_bg.center_x, sidebar_bg.center_y = (
+        SIDEBAR_WIDTH + GRID_WIDTH + SIDEBAR_WIDTH / 2,
+        SCREEN_HEIGHT - BOTTOM_SIDEBAR_HEIGHT / 2,
+    )
+    game.bottom_sidebar.append(sidebar_bg)
+    game.draw_list.append(game.bottom_sidebar)
 
-def render_sidebar_selected_cell_info(game, event: OnCellSelected, em: EventsManager):
-    row, column = event.row, event.column
-    # update sidebar info
-    height = f"{game.map.height_map[row][column]}"
-    grid_coordinate = f"({row}, {column})"
-    game.grid_info.text = f"{grid_coordinate}: {height}"
 
-    text = ""
-    for army in game.army_list:
-        if army.pos[0] == row and army.pos[1] == column:
-            text = f"army {army.id}"
-    game.army_info.text = text
-    text = ""
+# def render_sidebar_selected_cell_info(game, event: OnCellSelected, em: EventsManager):
+#     row, column = event.row, event.column
+#     # update sidebar info
+#     height = f"{game.map.height_map[row][column]}"
+#     grid_coordinate = f"({row}, {column})"
+#     game.grid_info.text = f"{grid_coordinate}: {height}"
+
+#     text = ""
+#     for army in game.army_list:
+#         if army.pos[0] == row and army.pos[1] == column:
+#             text = f"army {army.id}"
+#     game.army_info.text = text
+#     text = ""
 
 
 subscriptions = {
     OnUpdate: update_sidebar_info,
     OnGameInit: sidebar_init,
-    OnCellSelected: render_sidebar_selected_cell_info,
 }

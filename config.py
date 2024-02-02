@@ -53,7 +53,7 @@ DEFAULT_MODULES = [
     "map.render",
     "army.logic",
 ]
-LOG_LEVEL = "INFO"
+LOG_LEVEL = "DEBUG"
 logger.remove()
 logger.add(sys.stderr, level=LOG_LEVEL, colorize=True)
 if ENABLE_LOGGING:
