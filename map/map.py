@@ -1,15 +1,26 @@
 from map.line import sampling, distance_squared
-from config import HEIGHT_COLOR
+from config import (
+    HEIGHT_COLOR,
+    TERRAIN_AMPLITUDE,
+    TERRAIN_FREQUENCY,
+    TERRAIN_COMPLEXITY,
+    TERRAIN_SCALE,
+)
 from map.terrains import generate_terrain
-from random import random
 
 
 # map object
 class Map:
-    def __init__(self, row_count, column_count, biome_step, seed=None):
-        if not seed:
-            seed = int(random()*10)
-        self.height_map = generate_terrain(row_count, column_count, 8, 6, 0.5, 2, seed)
+    def __init__(self, row_count, column_count, seed):
+        self.height_map = generate_terrain(
+            row_count,
+            column_count,
+            TERRAIN_SCALE,
+            TERRAIN_COMPLEXITY,
+            TERRAIN_AMPLITUDE,
+            TERRAIN_FREQUENCY,
+            seed,
+        )
 
     def point(self, pos):
         return self.height_map[pos[0]][pos[1]]

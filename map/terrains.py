@@ -60,6 +60,21 @@ import noise
 
 
 def generate_terrain(rows, cols, scale, octaves, persistence, lacunarity, seed):
+    """
+    Generates a 2D array of terrain values using Perlin noise.
+
+    Parameters:
+    rows (int): The number of rows in the 2D array.
+    cols (int): The number of columns in the 2D array.
+    scale (float): The scale of the noise. Deciding the changing speed of the generated terrain.
+    octaves (int): The number of octaves in the noise. Deciding the complexity of the generated terrain.
+    persistence (float): The persistence of the noise. Deciding the amplitude of the generated terrain.
+    lacunarity (float): The lacunarity of the noise. Deciding the frequency of the generated terrain.
+    seed (int): The seed for the random number generator.
+
+    Returns:
+    A 2D array of terrain height values.
+    """
     terrain_map = np.zeros((rows, cols))
 
     for i in range(rows):
@@ -75,11 +90,10 @@ def generate_terrain(rows, cols, scale, octaves, persistence, lacunarity, seed):
                 base=seed,
             )
 
-    # 将噪声值映射到合适的高度范围
     min_val = np.min(terrain_map)
     max_val = np.max(terrain_map)
-    terrain_map = (terrain_map - min_val) / (max_val - min_val)  # 归一化到0-1之间
-    terrain_map = np.interp(terrain_map, (0, 1), (0, 8))  # 映射到合适的高度范围
+    terrain_map = (terrain_map - min_val) / (max_val - min_val)
+    terrain_map = np.interp(terrain_map, (0, 1), (0, 8))
 
     return terrain_map.astype(int)
 

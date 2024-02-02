@@ -1,6 +1,7 @@
 import arcade
 import sys
 from loguru import logger
+from random import random
 
 # game configuration
 ENABLE_LOGGING = True
@@ -9,7 +10,15 @@ ENABLE_LOGGING = True
 # Set how many rows and columns we will have
 ROW_COUNT = 40
 COLUMN_COUNT = 40
-BIOME_STEP = 5
+
+# terrain configuration
+TERRAIN_SCALE = 15
+TERRAIN_COMPLEXITY = 100
+TERRAIN_AMPLITUDE = 0.6
+TERRAIN_FREQUENCY = 2.3
+SEED = None
+if not SEED:
+    SEED = int(random() * 10)
 
 # display configuration
 GAME_TITLE = "The Action"
@@ -50,17 +59,16 @@ SCREEN_HEIGHT = GRID_WIDTH + BOTTOM_SIDEBAR_HEIGHT
 #     arcade.color.RED,
 # ]
 HEIGHT_COLOR = [
-    (0, 102, 0),      # 0m - 深绿色
-    (51, 153, 51),    # 100m - 绿色
+    (0, 102, 0),  # 0m - 深绿色
+    (51, 153, 51),  # 100m - 绿色
     (102, 204, 102),  # 200m - 浅绿色
     (204, 255, 153),  # 300m - 浅绿色
     (255, 255, 153),  # 400m - 浅黄色
     (255, 204, 102),  # 500m - 浅橙色
-    (255, 153, 51),   # 600m - 橙黄色
+    (255, 153, 51),  # 600m - 橙黄色
     (204, 102, 102),  # 700m - 浅红色
-    (153, 0, 0)       # 800m - 深红色
+    (153, 0, 0),  # 800m - 深红色
 ]
-
 
 
 # consequence matters
