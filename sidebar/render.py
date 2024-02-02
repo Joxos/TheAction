@@ -1,5 +1,6 @@
 import arcade
-from events import OnMouseMotion, OnGameInit, OnCellSelected, EventsManager
+from events import OnUpdate, OnGameInit, OnCellSelected, EventsManager
+from layout import coordinate_on_grid
 from utils import coordinate_to_grid
 from config import (
     SCREEN_HEIGHT,
@@ -10,26 +11,22 @@ from config import (
     DEFAULT_FONT_SIZE,
     LINE_SPACING,
     FONT_COLOR,
-    BOARDER_WIDTH,
 )
 
 
-def update_sidebar_info(game, event: OnMouseMotion, em: EventsManager):
-    row, column = coordinate_to_grid(event.x, event.y)
-    if (
-        event.x <= SIDEBAR_WIDTH
-        or event.x >= SIDEBAR_WIDTH + GRID_WIDTH - BOARDER_WIDTH
-        or event.y >= SCREEN_HEIGHT - BOARDER_WIDTH
-    ):
-        # not in grid
-        return
-    height = f"{game.map.height_map[row][column]}"
-    grid_coordinate = f"({row}, {column})"
-    game.hover_info.text = f"{grid_coordinate}: {height}"
-    if game.cell_selected:
-        game.obstruct_info.text = game.map.is_obstructed(
-            (row, column), game.cell_selected
-        )
+def update_sidebar_info(game, event: OnUpdate, em: EventsManager):
+    if coordinate_on_grid(game.mouse_x, game.mouse_y):
+        row, column = coordinate_to_grid(game.mouse_x, game.mouse_y)
+        height = f"{game.map.height_map[row][column]}"
+        grid_coordinate = f"({row}, {column})"
+        game.hover_info.text = f"{grid_coordinate}: {height}"
+
+    if game.army_selected:
+        army = game.army_selected
+        text = f"army {army.id} selected"
+        game.army_selected_info.text = text
+    else:
+        game.army_selected_info.text = ""
 
 
 def sidebar_init(game, event: OnGameInit, em: EventsManager):
@@ -83,6 +80,16 @@ def sidebar_init(game, event: OnGameInit, em: EventsManager):
     game.draw_list.append(game.obstruct_info)
     start_y -= LINE_SPACING
 
+    game.army_selected_info = arcade.Text(
+        "",
+        start_x,
+        start_y,
+        FONT_COLOR,
+        DEFAULT_FONT_SIZE,
+    )
+    game.draw_list.append(game.army_selected_info)
+    start_y -= LINE_SPACING
+
     game.right_sidebar = arcade.SpriteList()
     sidebar_bg = arcade.SpriteSolidColor(
         SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
@@ -112,7 +119,7 @@ def render_sidebar_selected_cell_info(game, event: OnCellSelected, em: EventsMan
 
 
 subscriptions = {
-    OnMouseMotion: update_sidebar_info,
+    OnUpdate: update_sidebar_info,
     OnGameInit: sidebar_init,
     OnCellSelected: render_sidebar_selected_cell_info,
 }
