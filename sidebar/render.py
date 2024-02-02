@@ -4,19 +4,21 @@ from layout import layout_manager, LAYOUTS
 from utils import coordinate_to_grid
 from config import (
     SCREEN_HEIGHT,
+    SCREEN_WIDTH,
     SIDEBAR_WIDTH,
     GRID_WIDTH,
-    SIDEBAR_TEXT_X_MARGIN,
-    SIDEBAR_TEXT_Y_MARGIN,
     DEFAULT_FONT_SIZE,
-    LINE_SPACING,
     FONT_COLOR,
     BOTTOM_SIDEBAR_HEIGHT,
+    BOTTOM_SIDEBAR_Y_SPACING,
+    BOTTOM_SIDEBAR_FONT_SIZE,
+    BOTTOM_SIDEBAR_X_MARGIN,
+    BOTTOM_SIDEBAR_X_SPACING,
 )
 
 
 def update_sidebar_info(game, event: OnUpdate, em: EventsManager):
-    if layout_manager.on_layout(LAYOUTS.LEFT_SIDEBAR, game.mouse_x, game.mouse_y):
+    if layout_manager.on_layout(LAYOUTS.GRID, game.mouse_x, game.mouse_y):
         row, column = coordinate_to_grid(game.mouse_x, game.mouse_y)
         height = f"{game.map.height_map[row][column]}"
         grid_coordinate = f"({row}, {column})"
@@ -24,7 +26,7 @@ def update_sidebar_info(game, event: OnUpdate, em: EventsManager):
 
     if game.army_selected:
         army = game.army_selected
-        text = f"army {army.id} selected"
+        text = f"army {army.id}"
         game.army_selected_info.text = text
     else:
         game.army_selected_info.text = ""
@@ -43,54 +45,6 @@ def sidebar_init(game, event: OnGameInit, em: EventsManager):
     game.left_sidebar.append(sidebar_bg)
     game.draw_list.append(game.left_sidebar)
 
-    # sidebar text render setup
-    start_x = SIDEBAR_TEXT_X_MARGIN
-    start_y = SCREEN_HEIGHT - SIDEBAR_TEXT_Y_MARGIN
-
-    game.hover_info = arcade.Text("", start_x, start_y, FONT_COLOR, DEFAULT_FONT_SIZE)
-    game.draw_list.append(game.hover_info)
-    start_y -= LINE_SPACING
-
-    game.grid_info = arcade.Text(
-        "",
-        start_x,
-        start_y,
-        FONT_COLOR,
-        DEFAULT_FONT_SIZE,
-    )
-    game.draw_list.append(game.grid_info)
-    start_y -= LINE_SPACING
-
-    game.army_info = arcade.Text(
-        "",
-        start_x,
-        start_y,
-        FONT_COLOR,
-        DEFAULT_FONT_SIZE,
-    )
-    game.draw_list.append(game.army_info)
-    start_y -= LINE_SPACING
-
-    game.obstruct_info = arcade.Text(
-        "",
-        start_x,
-        start_y,
-        FONT_COLOR,
-        DEFAULT_FONT_SIZE,
-    )
-    game.draw_list.append(game.obstruct_info)
-    start_y -= LINE_SPACING
-
-    game.army_selected_info = arcade.Text(
-        "",
-        start_x,
-        start_y,
-        FONT_COLOR,
-        DEFAULT_FONT_SIZE,
-    )
-    game.draw_list.append(game.army_selected_info)
-    start_y -= LINE_SPACING
-
     game.right_sidebar = arcade.SpriteList()
     sidebar_bg = arcade.SpriteSolidColor(
         SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
@@ -105,15 +59,34 @@ def sidebar_init(game, event: OnGameInit, em: EventsManager):
 
     game.bottom_sidebar = arcade.SpriteList()
     sidebar_bg = arcade.SpriteSolidColor(
-        SIDEBAR_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE
+        SCREEN_WIDTH - SIDEBAR_WIDTH * 2, BOTTOM_SIDEBAR_HEIGHT, arcade.color.WHITE
     )
     sidebar_bg.color = arcade.color.ARSENIC
     sidebar_bg.center_x, sidebar_bg.center_y = (
-        SIDEBAR_WIDTH + GRID_WIDTH + SIDEBAR_WIDTH / 2,
-        SCREEN_HEIGHT - BOTTOM_SIDEBAR_HEIGHT / 2,
+        SIDEBAR_WIDTH + GRID_WIDTH / 2,
+        BOTTOM_SIDEBAR_HEIGHT / 2,
     )
     game.bottom_sidebar.append(sidebar_bg)
     game.draw_list.append(game.bottom_sidebar)
+
+    start_x = BOTTOM_SIDEBAR_X_MARGIN + SIDEBAR_WIDTH
+    start_y = BOTTOM_SIDEBAR_Y_SPACING
+
+    game.hover_info = arcade.Text(
+        "", start_x, start_y, FONT_COLOR, BOTTOM_SIDEBAR_FONT_SIZE, 80
+    )
+    game.draw_list.append(game.hover_info)
+    start_x += BOTTOM_SIDEBAR_X_SPACING + game.hover_info.width
+
+    game.army_selected_info = arcade.Text(
+        "",
+        start_x,
+        start_y,
+        FONT_COLOR,
+        DEFAULT_FONT_SIZE,
+    )
+    game.draw_list.append(game.army_selected_info)
+    start_x += BOTTOM_SIDEBAR_X_SPACING
 
 
 # def render_sidebar_selected_cell_info(game, event: OnCellSelected, em: EventsManager):

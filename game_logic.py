@@ -27,4 +27,5 @@ def on_game_init(game, event, em: EventsManager):
 subscriptions = {
     OnDraw: on_draw,
     OnGameInit: on_game_init,
+    OnMouseMotion: on_mouse_motion,
 }
