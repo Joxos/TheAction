@@ -5,6 +5,7 @@ from config import (
     TERRAIN_FREQUENCY,
     TERRAIN_COMPLEXITY,
     TERRAIN_SCALE,
+    MAX_HEIGHT,
 )
 from map.terrains import generate_terrain
 
@@ -19,6 +20,7 @@ class Map:
             TERRAIN_COMPLEXITY,
             TERRAIN_AMPLITUDE,
             TERRAIN_FREQUENCY,
+            MAX_HEIGHT,
             seed,
         )
 

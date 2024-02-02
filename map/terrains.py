@@ -1,5 +1,6 @@
 import numpy as np
 import noise
+from random import randint
 # import random
 # from enum import Enum, auto
 # from collections import OrderedDict
@@ -59,7 +60,9 @@ import noise
 #     return grid
 
 
-def generate_terrain(rows, cols, scale, octaves, persistence, lacunarity, seed):
+def generate_terrain(
+    rows, cols, scale, octaves, persistence, lacunarity, max_height, seed
+):
     """
     Generates a 2D array of terrain values using Perlin noise.
 
@@ -75,6 +78,9 @@ def generate_terrain(rows, cols, scale, octaves, persistence, lacunarity, seed):
     Returns:
     A 2D array of terrain height values.
     """
+    if not seed:
+        seed = randint(0, 100)
+
     terrain_map = np.zeros((rows, cols))
 
     for i in range(rows):
@@ -93,7 +99,7 @@ def generate_terrain(rows, cols, scale, octaves, persistence, lacunarity, seed):
     min_val = np.min(terrain_map)
     max_val = np.max(terrain_map)
     terrain_map = (terrain_map - min_val) / (max_val - min_val)
-    terrain_map = np.interp(terrain_map, (0, 1), (0, 8))
+    terrain_map = np.interp(terrain_map, (0, 1), (0, max_height))
 
     return terrain_map.astype(int)
 
