@@ -9,7 +9,7 @@ from events import (
 import arcade
 from army.army import Army
 from utils import grid_to_central_coordinate, coordinate_to_grid
-from layout import row_column_on_grid
+from layout import row_column_on_grid, coordinate_on_grid
 import heapq
 
 
@@ -19,24 +19,38 @@ def army_init(game, event: OnGameInit, em: EventsManager):
 
 
 def generate_army(game, army_info: Army):
-    army = arcade.SpriteCircle(5, army_info.color)
-    army.center_x, army.center_y = grid_to_central_coordinate(
-        army_info.pos[0], army_info.pos[1]
+    army_sprite = arcade.SpriteCircle(5, army_info.color)
+    army_sprite.center_x, army_sprite.center_y = grid_to_central_coordinate(
+        army_info.position[0], army_info.position[1]
     )
-    army_info.sprite = army
-    game.draw_list.append(army)
+    army_info.sprite = army_sprite
+    game.draw_list.append(army_sprite)
     game.army_list.append(army_info)
 
 
 def army_setup(game, event: OnGameSetup, em: EventsManager):
-    generate_army(game, Army(1, [0, 0], arcade.color.RED, 100, 10, 10, speed=10))
+    generate_army(
+        game, Army(id=1, position=(0, 0), color=arcade.color.RED, move_interval=30)
+    )
 
 
-def get_army(game, pos):
+def get_army(game, position):
     for army in game.army_list:
-        if army.pos == pos:
+        if army.position == position:
             return army
     return None
+
+
+# Define a function to calculate the distance between two points based on their heights
+def calculate_distance(game, p1, p2):
+    dx, dy, dh = (
+        abs(p2[0] - p1[0]),
+        abs(p2[1] - p1[1]),
+        abs(game.map.point(p2) - game.map.point(p1)),
+    )
+    return (
+        dx**2 + dy**2 + dh**2
+    ) ** 0.5  # Multiply by the square root of 2 for diagonal movement
 
 
 def get_minimum_waypoints(game, p1, p2):
@@ -54,17 +68,6 @@ def get_minimum_waypoints(game, p1, p2):
 
     # Convert points to tuple type to make them hashable
     p1, p2 = tuple(p1), tuple(p2)
-
-    # Define a function to calculate the distance between two points based on their heights
-    def calculate_distance(p1, p2):
-        dx, dy, dh = (
-            abs(p2[0] - p1[0]),
-            abs(p2[1] - p1[1]),
-            abs(game.map.point(p2) - game.map.point(p1)),
-        )
-        return (
-            dx**2 + dy**2 + dh**2
-        ) ** 0.5  # Multiply by the square root of 2 for diagonal movement
 
     # Initialize the priority queue and the distance dictionary
     queue = [(0, p1)]  # Priority queue with distance as the first element
@@ -100,7 +103,7 @@ def get_minimum_waypoints(game, p1, p2):
                     and neighbor not in distances
                 ):
                     new_distance = current_distance + calculate_distance(
-                        current_point, neighbor
+                        game, current_point, neighbor
                     )
 
                     if neighbor not in distances or new_distance < distances[neighbor]:
@@ -115,32 +118,52 @@ def get_minimum_waypoints(game, p1, p2):
     return []
 
 
-def march_army(game, event: OnRightMousePress, em: EventsManager):
-    if game.army_selected:
-        army = game.army_selected
-        army.waypoints = get_minimum_waypoints(
-            game, army.pos, coordinate_to_grid(event.x, event.y)
+def army_set_destination(game, event: OnRightMousePress, em: EventsManager):
+    if (
+        game.army_selected
+        and coordinate_on_grid(event.x, event.y)
+        and not event.key_modifiers & arcade.key.MOD_SHIFT
+    ):
+        game.army_selected.waypoints = get_minimum_waypoints(
+            game, game.army_selected.position, coordinate_to_grid(event.x, event.y)
         )
-        print(army.waypoints)
-        army.marching = True
+
+
+def army_append_destination(game, event: OnRightMousePress, em: EventsManager):
+    if (
+        game.army_selected
+        and coordinate_on_grid(event.x, event.y)
+        and event.key_modifiers & arcade.key.MOD_SHIFT
+    ):
+        if game.army_selected.waypoints:
+            game.army_selected.waypoints.extend(
+                get_minimum_waypoints(
+                    game,
+                    game.army_selected.waypoints[-1],
+                    coordinate_to_grid(event.x, event.y),
+                )
+            )
+        else:
+            game.army_selected.waypoints = get_minimum_waypoints(
+                game, game.army_selected.position, coordinate_to_grid(event.x, event.y)
+            )
 
 
 def update_armies(game, event: OnUpdate, em: EventsManager):
     for army in game.army_list:
-        if army.marching:
-            if army.waypoints:
-                if army.last_move_tick == 0:
-                    row, column = army.waypoints.pop(0)
-                    (
-                        army.sprite.center_x,
-                        army.sprite.center_y,
-                    ) = grid_to_central_coordinate(row, column)
-                    army.pos = [row, column]
-                    army.last_move_tick = army.speed
-                else:
-                    army.last_move_tick -= 1
-            else:
-                army.marching = False
+        # Move the army smoothly through the waypoints within army.move_interval
+        # If there are no more waypoints, stop moving
+        # The army should reach the next waypoint within the move_interval
+        # and then stop until the move_interval is up again
+        if army.waypoints and army.move_interval_counter >= army.move_interval:
+            # Move the army to the next waypoint
+            army.position = army.waypoints.pop(0)
+            army.sprite.center_x, army.sprite.center_y = grid_to_central_coordinate(
+                army.position[0], army.position[1]
+            )
+            army.move_interval_counter = 0
+        else:
+            army.move_interval_counter += 1
 
 
 def select_army(game, event: OnLeftMousePress, em: EventsManager):
@@ -153,7 +176,7 @@ def select_army(game, event: OnLeftMousePress, em: EventsManager):
 subscriptions = {
     OnGameInit: army_init,
     OnGameSetup: army_setup,
-    OnRightMousePress: march_army,
+    OnRightMousePress: [army_set_destination, army_append_destination],
     OnUpdate: update_armies,
     OnLeftMousePress: select_army,
 }

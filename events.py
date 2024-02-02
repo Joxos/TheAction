@@ -123,11 +123,12 @@ class EventsManager:
             self.events[event] = []
 
     def subscribe(self, event, func):
-        logger.debug(f"{event.__name__} -> {func.__name__}")
-        if isinstance(event, list):
+        if isinstance(func, list):
             for f in func:
+                logger.debug(f"{event.__name__} -> {f.__name__}")
                 self.events[event].append(f)
         else:
+            logger.debug(f"{event.__name__} -> {func.__name__}")
             self.events[event].append(func)
 
     def multi_subscribe(self, subscriptions):
