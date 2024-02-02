@@ -4,6 +4,7 @@ from events import (
     EventsManager,
     OnGameInit,
     OnGameSetup,
+    OnKeyPress,
 )
 from utils import grid_to_central_coordinate
 from config import ROW_COUNT, COLUMN_COUNT, CELL_HEIGHT, CELL_WIDTH, BIOME_STEP
@@ -36,6 +37,12 @@ def map_setup(game, event: OnGameSetup, em: EventsManager):
 
     game.draw_list.append(game.cell_sprites)
 
+def regenerate_map(game,event:OnKeyPress,em:EventsManager):
+    if event.key == arcade.key.R:
+        game.map=Map(ROW_COUNT,COLUMN_COUNT,BIOME_STEP)
+        for row in range(ROW_COUNT):
+            for column in range(COLUMN_COUNT):
+                game.cell_sprites_2d[row][column].color = game.map.get_cell_color(row, column)
 
 def recover_all_cell(game):
     for cell_sprite_list in range(len(game.cell_sprites_2d)):
@@ -43,7 +50,6 @@ def recover_all_cell(game):
             game.cell_sprites_2d[cell_sprite_list][
                 cell_sprite
             ].color = game.map.get_cell_color(cell_sprite_list, cell_sprite)
-
 
 # def dim_all_obstructed_cell(game, event: OnKeyPress, em: EventsManager):
 #     if event.key == arcade.key.D:
@@ -86,4 +92,5 @@ subscriptions = {
     OnGameSetup: map_setup,
     # OnCellSelected: render_cell_selected,
     # OnLeftMouseRelease: map_select_cell,
+    OnKeyPress: regenerate_map
 }

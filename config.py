@@ -41,14 +41,27 @@ SCREEN_WIDTH = GRID_WIDTH + SIDEBAR_WIDTH * 2
 SCREEN_HEIGHT = GRID_WIDTH + BOTTOM_SIDEBAR_HEIGHT
 
 # different colors of heights
+# HEIGHT_COLOR = [
+#     arcade.color.BLACK,
+#     arcade.color.GREEN,
+#     arcade.color.YELLOW_GREEN,
+#     arcade.color.YELLOW,
+#     arcade.color.ORANGE,
+#     arcade.color.RED,
+# ]
 HEIGHT_COLOR = [
-    arcade.color.BLACK,
-    arcade.color.GREEN,
-    arcade.color.YELLOW_GREEN,
-    arcade.color.YELLOW,
-    arcade.color.ORANGE,
-    arcade.color.RED,
+    (0, 102, 0),      # 0m - 深绿色
+    (51, 153, 51),    # 100m - 绿色
+    (102, 204, 102),  # 200m - 浅绿色
+    (204, 255, 153),  # 300m - 浅绿色
+    (255, 255, 153),  # 400m - 浅黄色
+    (255, 204, 102),  # 500m - 浅橙色
+    (255, 153, 51),   # 600m - 橙黄色
+    (204, 102, 102),  # 700m - 浅红色
+    (153, 0, 0)       # 800m - 深红色
 ]
+
+
 
 # consequence matters
 DEFAULT_MODULES = [
