@@ -168,7 +168,10 @@ def update_armies(game, event: OnUpdate, em: EventsManager):
 
 def select_army(game, event: OnLeftMousePress, em: EventsManager):
     for army in game.army_list:
-        if army.sprite.collides_with_point((event.x, event.y)):
+        # check if the cell of the army is clicked
+        if layout_manager.on_layout(
+            LAYOUTS.GRID, event.x, event.y
+        ) and coordinate_to_grid(event.x, event.y) == list(army.position):
             game.army_selected = army
             break
 
