@@ -67,6 +67,7 @@ DEFAULT_MODULES = [
     "sidebar.render",
     "map.render",
     "army.logic",
+    "army.render",
 ]
 LOG_LEVEL = "DEBUG"
 logger.remove()

@@ -3,7 +3,6 @@ from events import (
     OnGameSetup,
     EventsManager,
     OnRightMousePress,
-    OnUpdate,
     OnLeftMousePress,
 )
 import arcade
@@ -149,26 +148,8 @@ def army_append_destination(game, event: OnRightMousePress, em: EventsManager):
             )
 
 
-def update_armies(game, event: OnUpdate, em: EventsManager):
-    for army in game.army_list:
-        # Move the army smoothly through the waypoints within army.move_interval
-        # If there are no more waypoints, stop moving
-        # The army should reach the next waypoint within the move_interval
-        # and then stop until the move_interval is up again
-        if army.waypoints and army.move_interval_counter >= army.move_interval:
-            # Move the army to the next waypoint
-            army.position = army.waypoints.pop(0)
-            army.sprite.center_x, army.sprite.center_y = grid_to_central_coordinate(
-                army.position[0], army.position[1]
-            )
-            army.move_interval_counter = 0
-        else:
-            army.move_interval_counter += 1
-
-
 def select_army(game, event: OnLeftMousePress, em: EventsManager):
     for army in game.army_list:
-        # check if the cell of the army is clicked
         if layout_manager.on_layout(
             LAYOUTS.GRID, event.x, event.y
         ) and coordinate_to_grid(event.x, event.y) == list(army.position):
@@ -180,6 +161,5 @@ subscriptions = {
     OnGameInit: army_init,
     OnGameSetup: army_setup,
     OnRightMousePress: [army_set_destination, army_append_destination],
-    OnUpdate: update_armies,
     OnLeftMousePress: select_army,
 }

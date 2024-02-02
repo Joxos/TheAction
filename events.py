@@ -86,22 +86,6 @@ class OnCellSelected(Event):
         self.column = column
 
 
-DEFAULT_EVENT_LIST = [
-    OnDraw,
-    OnMouseMotion,
-    OnLeftMousePress,
-    OnRightMousePress,
-    OnLeftMouseRelease,
-    OnRightMouseRelease,
-    OnGameSetup,
-    BeforeGameInit,
-    OnGameInit,
-    OnUpdate,
-    OnKeyPress,
-    OnKeyRelease,
-    OnCellSelected,
-]
-
 IGNORED_EVENTS_LOGGING = [OnUpdate, OnDraw, OnMouseMotion]
 
 
@@ -169,3 +153,20 @@ class EventsManager:
             logger.info(f"{event.__name__}:")
             for func in func_list:
                 logger.info(f"  {func.__name__}")
+
+
+DEFAULT_EVENT_LIST = [
+    OnDraw,
+    OnMouseMotion,
+    OnLeftMousePress,
+    OnRightMousePress,
+    OnLeftMouseRelease,
+    OnRightMouseRelease,
+    OnGameSetup,
+    BeforeGameInit,
+    OnGameInit,
+    OnUpdate,
+    OnKeyPress,
+    OnKeyRelease,
+    OnCellSelected,
+]
