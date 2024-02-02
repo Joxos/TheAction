@@ -1,6 +1,6 @@
 import arcade
 from events import OnUpdate, OnGameInit, OnCellSelected, EventsManager
-from layout import coordinate_on_grid
+from layout import layout_manager, LAYOUTS
 from utils import coordinate_to_grid
 from config import (
     SCREEN_HEIGHT,
@@ -15,7 +15,7 @@ from config import (
 
 
 def update_sidebar_info(game, event: OnUpdate, em: EventsManager):
-    if coordinate_on_grid(game.mouse_x, game.mouse_y):
+    if layout_manager.on_layout(LAYOUTS.LEFT_SIDEBAR, game.mouse_x, game.mouse_y):
         row, column = coordinate_to_grid(game.mouse_x, game.mouse_y)
         height = f"{game.map.height_map[row][column]}"
         grid_coordinate = f"({row}, {column})"

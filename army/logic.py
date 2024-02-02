@@ -9,7 +9,7 @@ from events import (
 import arcade
 from army.army import Army
 from utils import grid_to_central_coordinate, coordinate_to_grid
-from layout import row_column_on_grid, coordinate_on_grid
+from layout import row_column_on_grid, layout_manager, LAYOUTS
 import heapq
 
 
@@ -121,7 +121,7 @@ def get_minimum_waypoints(game, p1, p2):
 def army_set_destination(game, event: OnRightMousePress, em: EventsManager):
     if (
         game.army_selected
-        and coordinate_on_grid(event.x, event.y)
+        and layout_manager.on_layout(LAYOUTS.GRID, event.x, event.y)
         and not event.key_modifiers & arcade.key.MOD_SHIFT
     ):
         game.army_selected.waypoints = get_minimum_waypoints(
@@ -132,7 +132,7 @@ def army_set_destination(game, event: OnRightMousePress, em: EventsManager):
 def army_append_destination(game, event: OnRightMousePress, em: EventsManager):
     if (
         game.army_selected
-        and coordinate_on_grid(event.x, event.y)
+        and layout_manager.on_layout(LAYOUTS.GRID, event.x, event.y)
         and event.key_modifiers & arcade.key.MOD_SHIFT
     ):
         if game.army_selected.waypoints:
