@@ -3,8 +3,6 @@ from config import (
     SIDEBAR_WIDTH,
     GRID_WIDTH,
     BOARDER_WIDTH,
-    ROW_COUNT,
-    COLUMN_COUNT,
     BOTTOM_SIDEBAR_HEIGHT,
     GRID_HEIGHT,
     SCREEN_HEIGHT,
@@ -52,12 +50,6 @@ class LayoutManager:
             if result is not None:
                 layouts.append(result)
         return layouts
-
-
-def row_column_on_grid(row, column):
-    if row < 0 or row >= ROW_COUNT or column < 0 or column >= COLUMN_COUNT:
-        return False
-    return True
 
 
 layout_manager = LayoutManager()

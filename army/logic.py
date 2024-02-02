@@ -8,8 +8,7 @@ from events import (
 import arcade
 from army.army import Army
 from utils import grid_to_central_coordinate, coordinate_to_grid
-from layout import row_column_on_grid, layout_manager, LAYOUTS
-import heapq
+from layout import layout_manager, LAYOUTS
 
 
 def army_init(game, event: OnGameInit, em: EventsManager):
@@ -40,91 +39,14 @@ def get_army(game, position):
     return None
 
 
-# Define a function to calculate the distance between two points based on their heights
-def calculate_distance(game, p1, p2):
-    dx, dy, dh = (
-        abs(p2[0] - p1[0]),
-        abs(p2[1] - p1[1]),
-        abs(game.map.point(p2) - game.map.point(p1)),
-    )
-    return (
-        dx**2 + dy**2 + dh**2
-    ) ** 0.5  # Multiply by the square root of 2 for diagonal movement
-
-
-def get_minimum_waypoints(game, p1, p2):
-    """
-    A function to find the minimum number of waypoints between two points using Dijkstra's algorithm.
-
-    Args:
-    game: game.map.point(p) is used to get the height of point p.
-    p1: Starting point.
-    p2: Ending point.
-
-    Returns:
-    A list of waypoints from p1 to p2 with the minimum distance based on point heights.
-    """
-
-    # Convert points to tuple type to make them hashable
-    p1, p2 = tuple(p1), tuple(p2)
-
-    # Initialize the priority queue and the distance dictionary
-    queue = [(0, p1)]  # Priority queue with distance as the first element
-    distances = {p1: 0}  # Store the minimum distance to each point
-
-    # Loop until the queue is empty
-    while queue:
-        current_distance, current_point = heapq.heappop(queue)
-
-        # Check if the current point is the destination
-        if current_point == p2:
-            # Reconstruct the path using the distances
-            waypoints = []
-            while current_point in distances:
-                waypoints.insert(
-                    0, current_point
-                )  # Insert the current point at the beginning of the list
-                current_point = distances[current_point]  # Move to the previous point
-            waypoints.insert(
-                0, p1
-            )  # Insert the starting point at the beginning of the list
-            return waypoints[1:]
-
-        # Explore neighbors of the current point, including the four corners
-        for dx in range(-1, 2):
-            for dy in range(-1, 2):
-                nx, ny = current_point[0] + dx, current_point[1] + dy
-                neighbor = (nx, ny)
-
-                if (
-                    neighbor != current_point
-                    and row_column_on_grid(nx, ny)
-                    and neighbor not in distances
-                ):
-                    new_distance = current_distance + calculate_distance(
-                        game, current_point, neighbor
-                    )
-
-                    if neighbor not in distances or new_distance < distances[neighbor]:
-                        distances[
-                            neighbor
-                        ] = current_point  # Update the distance and previous point
-                        heapq.heappush(
-                            queue, (new_distance, neighbor)
-                        )  # Push the neighbor and its distance to the queue
-
-    # If no waypoints are found, return an empty list
-    return []
-
-
 def army_set_destination(game, event: OnRightMousePress, em: EventsManager):
     if (
         game.army_selected
         and layout_manager.on_layout(LAYOUTS.GRID, event.x, event.y)
         and not event.key_modifiers & arcade.key.MOD_SHIFT
     ):
-        game.army_selected.waypoints = get_minimum_waypoints(
-            game, game.army_selected.position, coordinate_to_grid(event.x, event.y)
+        game.army_selected.waypoints = game.map.get_minimum_waypoints(
+            game.army_selected.position, coordinate_to_grid(event.x, event.y)
         )
 
 
@@ -136,15 +58,14 @@ def army_append_destination(game, event: OnRightMousePress, em: EventsManager):
     ):
         if game.army_selected.waypoints:
             game.army_selected.waypoints.extend(
-                get_minimum_waypoints(
-                    game,
+                game.map.get_minimum_waypoints(
                     game.army_selected.waypoints[-1],
                     coordinate_to_grid(event.x, event.y),
                 )
             )
         else:
-            game.army_selected.waypoints = get_minimum_waypoints(
-                game, game.army_selected.position, coordinate_to_grid(event.x, event.y)
+            game.army_selected.waypoints = game.map.get_minimum_waypoints(
+                game.army_selected.position, coordinate_to_grid(event.x, event.y)
             )
 
 

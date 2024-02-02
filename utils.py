@@ -38,3 +38,9 @@ def coordinate_to_grid(x, y):
             return [row, column]
         else:
             return [row - 1, column - 1]
+
+
+def row_column_on_grid(row, column):
+    if row < 0 or row >= ROW_COUNT or column < 0 or column >= COLUMN_COUNT:
+        return False
+    return True
