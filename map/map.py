@@ -3,25 +3,23 @@ import heapq
 from config import (
     HEIGHT_COLOR,
     TERRAIN_AMPLITUDE,
-    TERRAIN_FREQUENCY,
     TERRAIN_COMPLEXITY,
     TERRAIN_SCALE,
     MAX_HEIGHT,
 )
-from map.terrains import generate_terrain
+from map.terrains import simplex_noise_generate_terrain
 from utils import row_column_on_grid
 
 
 # map object
 class Map:
     def __init__(self, row_count, column_count, seed):
-        self.height_map = generate_terrain(
+        self.height_map = simplex_noise_generate_terrain(
             row_count,
             column_count,
             TERRAIN_SCALE,
             TERRAIN_COMPLEXITY,
             TERRAIN_AMPLITUDE,
-            TERRAIN_FREQUENCY,
             MAX_HEIGHT,
             seed,
         )
