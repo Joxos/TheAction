@@ -73,3 +73,6 @@ logger.remove()
 logger.add(sys.stderr, level=LOG_LEVEL, colorize=True)
 if ENABLE_LOGGING:
     DEFAULT_MODULES.append("game_logging")
+
+# anime configuration
+ANIME_DURATION = 5
