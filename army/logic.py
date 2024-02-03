@@ -48,6 +48,7 @@ def army_set_destination(game, event: OnRightMousePress, em: EventsManager):
         game.army_selected.waypoints = game.map.get_minimum_waypoints(
             game.army_selected.position, coordinate_to_grid(event.x, event.y)
         )
+        game.army_selected.is_marching = True
 
 
 def army_append_destination(game, event: OnRightMousePress, em: EventsManager):
@@ -63,10 +64,12 @@ def army_append_destination(game, event: OnRightMousePress, em: EventsManager):
                     coordinate_to_grid(event.x, event.y),
                 )
             )
+            game.army_selected.is_marching = True
         else:
             game.army_selected.waypoints = game.map.get_minimum_waypoints(
                 game.army_selected.position, coordinate_to_grid(event.x, event.y)
             )
+            game.army_selected.is_marching = True
 
 
 def select_army(game, event: OnLeftMousePress, em: EventsManager):
