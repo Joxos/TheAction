@@ -106,7 +106,7 @@ class Map:
                 waypoints.insert(
                     0, p1
                 )  # Insert the starting point at the beginning of the list
-                return waypoints[1:]
+                return waypoints[2:]
 
             # Explore neighbors of the current point, including the four corners
             for dx in range(-1, 2):

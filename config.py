@@ -68,7 +68,7 @@ DEFAULT_MODULES = [
     "army.logic",
     "army.render",
 ]
-LOG_LEVEL = "DEBUG"
+LOG_LEVEL = "INFO"
 logger.remove()
 logger.add(sys.stderr, level=LOG_LEVEL, colorize=True)
 if ENABLE_LOGGING:
