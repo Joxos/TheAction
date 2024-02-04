@@ -11,7 +11,7 @@ ROW_COUNT = 40
 COLUMN_COUNT = 40
 
 # terrain configuration
-TERRAIN_SCALE = 15
+TERRAIN_SCALE = 10
 TERRAIN_COMPLEXITY = 100
 TERRAIN_AMPLITUDE = 0.6
 SEED = None
@@ -47,16 +47,24 @@ SCREEN_HEIGHT = GRID_WIDTH + BOTTOM_SIDEBAR_HEIGHT
 
 # different colors of heights
 HEIGHT_COLOR = [
-    (0, 102, 0),  # 0m - 深绿色
-    (51, 153, 51),  # 100m - 绿色
-    (102, 204, 102),  # 200m - 浅绿色
-    (204, 255, 153),  # 300m - 浅绿色
-    (255, 255, 153),  # 400m - 浅黄色
-    (255, 204, 102),  # 500m - 浅橙色
-    (255, 153, 51),  # 600m - 橙黄色
-    (204, 102, 102),  # 700m - 浅红色
-    (153, 0, 0),  # 800m - 深红色
+    (0, 102, 0),       # 0m - 深绿色
+    (51, 153, 51),     # 100m - 绿色
+    (102, 204, 102),   # 200m - 浅绿色
+    (204, 255, 153),   # 300m - 浅绿色
+    (255, 255, 153),   # 400m - 浅黄色
+    (255, 204, 102),   # 500m - 浅橙色
+    (255, 153, 51),    # 600m - 橙黄色
+    (204, 102, 102),   # 700m - 浅红色
+    (153, 0, 0),       # 800m - 深红色
+    (128, 0, 0),       # 900m - 更深红色
+    (153, 76, 0),      # 1000m - 褐色
+    (128, 128, 0),     # 1100m - 橄榄色
+    (102, 51, 0),      # 1200m - 暗褐色
+    (102, 102, 51),    # 1300m - 暗橄榄色
+    (102, 102, 0),     # 1400m - 暗黄色
+    (51, 51, 0),       # 1500m - 暗深黄色
 ]
+
 MAX_HEIGHT = len(HEIGHT_COLOR) - 1
 
 
@@ -75,4 +83,4 @@ if ENABLE_LOGGING:
     DEFAULT_MODULES.append("game_logging")
 
 # anime configuration
-ANIME_DURATION = 5
+ANIME_DURATION = 3
