@@ -80,62 +80,42 @@ class Map:
         Returns:
         A list of waypoints from p1 to p2 with the minimum distance based on point heights.
         """
-
-        # Convert points to tuple type to make them hashable
         p1, p2 = tuple(p1), tuple(p2)
 
-        # Initialize the priority queue and the distance dictionary
-        queue = [(0, p1)]  # Priority queue with distance as the first element
-        distances = {p1: 0}  # Store the minimum distance to each point
+        queue = [(0, p1)]
+        distances = {p1: 0}
+        prev_point = {p1: None}
 
-        # Loop until the queue is empty
+        visited = set()
+
         while queue:
             current_distance, current_point = heapq.heappop(queue)
+            visited.add(current_point)
 
-            # Check if the current point is the destination
             if current_point == p2:
-                # Reconstruct the path using the distances
                 waypoints = []
-                while current_point in distances:
-                    waypoints.insert(
-                        0, current_point
-                    )  # Insert the current point at the beginning of the list
-                    current_point = distances[
-                        current_point
-                    ]  # Move to the previous point
-                waypoints.insert(
-                    0, p1
-                )  # Insert the starting point at the beginning of the list
-                return waypoints[2:]
+                # prev_point to rebuilt the path
+                while current_point:
+                    waypoints.append(current_point)
+                    current_point = prev_point[current_point]
+                return waypoints[::-1]  # reverse the list to get the correct order
 
-            # Explore neighbors of the current point, including the four corners
-            for dx in range(-1, 2):
-                for dy in range(-1, 2):
+            for dx in (-1, 0, 1):
+                for dy in (-1, 0, 1):
+                    if dx == 0 and dy == 0:
+                        continue  # skip the current point
                     nx, ny = current_point[0] + dx, current_point[1] + dy
                     neighbor = (nx, ny)
 
-                    if (
-                        neighbor != current_point
-                        and row_column_on_grid(nx, ny)
-                        and neighbor not in distances
-                    ):
-                        new_distance = current_distance + self.calculate_3d_distance(
-                            current_point, neighbor
-                        )
+                    if neighbor not in visited and row_column_on_grid(nx, ny):
+                        new_distance = current_distance + self.calculate_3d_distance(current_point, neighbor)
 
-                        if (
-                            neighbor not in distances
-                            or new_distance < distances[neighbor]
-                        ):
-                            distances[
-                                neighbor
-                            ] = current_point  # Update the distance and previous point
-                            heapq.heappush(
-                                queue, (new_distance, neighbor)
-                            )  # Push the neighbor and its distance to the queue
+                        if neighbor not in distances or new_distance < distances[neighbor]:
+                            distances[neighbor] = new_distance
+                            prev_point[neighbor] = current_point
+                            heapq.heappush(queue, (new_distance, neighbor))
 
-        # If no waypoints are found, return an empty list
-        return []
+        return []  # return empty list if no waypoints are found
 
 
 if __name__ == "__main__":
