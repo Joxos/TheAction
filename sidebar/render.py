@@ -14,6 +14,9 @@ from config import (
     BOTTOM_SIDEBAR_FONT_SIZE,
     BOTTOM_SIDEBAR_X_MARGIN,
     BOTTOM_SIDEBAR_X_SPACING,
+    SIDEBAR_TEXT_X_MARGIN,
+    SIDEBAR_TEXT_Y_MARGIN,
+    LINE_SPACING,
 )
 
 
@@ -31,6 +34,17 @@ def update_sidebar_info(game, event: OnUpdate, em: EventsManager):
     else:
         game.army_selected_info.text = ""
 
+    # update army 1 info
+    if game.army_list:
+        army = game.army_list[0]
+        text = f"army {army.id}"
+        game.army_name_1.text = text
+        text = f"{army.position}"
+        dest = ""
+        if army.waypoints:
+            dest = f"{army.waypoints[-1]}"
+        game.army_position_1.text = f"{text} -> {dest}"
+
 
 def sidebar_init(game, event: OnGameInit, em: EventsManager):
     game.left_sidebar = arcade.SpriteList()
@@ -44,6 +58,27 @@ def sidebar_init(game, event: OnGameInit, em: EventsManager):
     )
     game.left_sidebar.append(sidebar_bg)
     game.draw_list.append(game.left_sidebar)
+
+    start_x = SIDEBAR_TEXT_X_MARGIN
+    start_y = SCREEN_HEIGHT - SIDEBAR_TEXT_Y_MARGIN
+    game.army_name_1 = arcade.Text(
+        "Army 1",
+        start_x,
+        start_y,
+        FONT_COLOR,
+        DEFAULT_FONT_SIZE,
+    )
+    start_y -= LINE_SPACING
+    game.army_position_1 = arcade.Text(
+        "Position",
+        start_x,
+        start_y,
+        FONT_COLOR,
+        DEFAULT_FONT_SIZE,
+    )
+    start_y -= LINE_SPACING
+    game.draw_list.append(game.army_name_1)
+    game.draw_list.append(game.army_position_1)
 
     game.right_sidebar = arcade.SpriteList()
     sidebar_bg = arcade.SpriteSolidColor(

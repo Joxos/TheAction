@@ -28,7 +28,7 @@ def generate_army(game, army_info: Army):
 
 def army_setup(game, event: OnGameSetup, em: EventsManager):
     generate_army(
-        game, Army(id=1, position=(0, 0), color=arcade.color.RED, move_interval=10)
+        game, Army(id=1, position=(0, 0), color=arcade.color.GO_GREEN, move_interval=10)
     )
 
 
