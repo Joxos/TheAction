@@ -7,7 +7,7 @@ def update_armies(game, event: OnUpdate, em: EventsManager):
     for army in game.army_list:
         if army.waypoints and army.move_interval_counter >= army.move_interval:
             # Move the army to the next waypoint
-            army.position = army.waypoints.pop(0)
+            army.position = army.waypoints.popleft()
             army.move_interval_counter = 0
         else:
             px, py = grid_to_central_coordinate(army.position[0], army.position[1])

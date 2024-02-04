@@ -1,3 +1,6 @@
+from collections import deque
+
+
 class Army:
     def __init__(self, id, position, color, move_interval, sprite=None):
         self.id = id
@@ -6,7 +9,7 @@ class Army:
         self.move_interval = move_interval  # ticks between move
         self.move_interval_counter = 0
         self.sprite = sprite
-        self.waypoints = []
+        self.waypoints = deque()
         self.is_marching = False
         self.change_x = 0
         self.change_y = 0

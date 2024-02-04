@@ -1,5 +1,6 @@
 from map.line import sampling, calculate_2d_distance_squared
 import heapq
+from collections import deque
 from config import (
     HEIGHT_COLOR,
     TERRAIN_AMPLITUDE,
@@ -93,12 +94,13 @@ class Map:
             visited.add(current_point)
 
             if current_point == p2:
-                waypoints = []
+                waypoints = deque()
                 # prev_point to rebuilt the path
                 while current_point:
                     waypoints.append(current_point)
                     current_point = prev_point[current_point]
-                return waypoints[::-1]  # reverse the list to get the correct order
+                waypoints.reverse()  # reverse the list to get the correct order
+                return waypoints
 
             for dx in (-1, 0, 1):
                 for dy in (-1, 0, 1):
@@ -108,14 +110,19 @@ class Map:
                     neighbor = (nx, ny)
 
                     if neighbor not in visited and row_column_on_grid(nx, ny):
-                        new_distance = current_distance + self.calculate_3d_distance(current_point, neighbor)
+                        new_distance = current_distance + self.calculate_3d_distance(
+                            current_point, neighbor
+                        )
 
-                        if neighbor not in distances or new_distance < distances[neighbor]:
+                        if (
+                            neighbor not in distances
+                            or new_distance < distances[neighbor]
+                        ):
                             distances[neighbor] = new_distance
                             prev_point[neighbor] = current_point
                             heapq.heappush(queue, (new_distance, neighbor))
 
-        return []  # return empty list if no waypoints are found
+        return deque()  # return empty list if no waypoints are found
 
 
 if __name__ == "__main__":
