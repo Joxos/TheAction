@@ -82,5 +82,7 @@ logger.add(sys.stderr, level=LOG_LEVEL, colorize=True)
 if ENABLE_LOGGING:
     DEFAULT_MODULES.append("game_logging")
 
+# army configuration
+SPEED_PRECISION = 0.1
 # anime configuration
 ANIME_DURATION = 3

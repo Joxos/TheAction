@@ -1,4 +1,5 @@
 from collections import deque
+from config import SPEED_PRECISION
 
 
 class Army:
@@ -6,7 +7,7 @@ class Army:
         self.id = id
         self.position = position
         self.color = color
-        self.move_interval = move_interval  # ticks between move
+        self.move_interval = move_interval * SPEED_PRECISION  # ticks between move
         self.move_interval_counter = 0
         self.sprite = sprite
         self.waypoints = deque()
