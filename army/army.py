@@ -13,6 +13,7 @@ class Army:
         self.move_interval_counter = 0  # ticks since last move
         self.sprite = sprite
         self.waypoints = deque()
+        self.path_line_sprites = deque()
 
     def update_position(self, new_position):
         """Updates the army's current position."""
@@ -43,3 +44,7 @@ class Army:
             if self.sprite
             else (None, None)
         )
+
+    def popleft_path_line_sprite(self):
+        """Pops the leftmost path line sprite from the army's list."""
+        return self.path_line_sprites.pop(0) if self.path_line_sprites else None

@@ -19,6 +19,7 @@ def process_army_movement(army, game):
             next_position = army.pop_waypoint()  # Pops the next waypoint
             if next_position:
                 army.update_position(next_position)
+                army.popleft_path_line_sprite()
                 if army.has_waypoints():
                     # Calculate the factor based on 3D distance to next waypoint
                     factor = game.map.calculate_3d_distance(
