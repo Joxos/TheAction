@@ -65,7 +65,7 @@ HEIGHT_COLOR = [
     (51, 51, 0),  # 1500m - 暗深黄色
 ]
 
-MAX_HEIGHT = len(HEIGHT_COLOR) - 1
+MAX_HEIGHT = 10
 
 
 # consequence matters
