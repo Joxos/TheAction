@@ -21,7 +21,7 @@ def simplex_noise_generate_terrain(
     A 2D array of terrain height values.
     """
     if not seed:
-        seed = randint(0, 100)
+        seed = randint(0, 10000)
     simplex = OpenSimplex(seed)
     noise = np.zeros((width, height))
     for y in range(height):
