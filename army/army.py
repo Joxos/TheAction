@@ -13,7 +13,7 @@ class Army:
         self.move_interval_counter = 0  # ticks since last move
         self.sprite = sprite
         self.waypoints = deque()
-        self.path_line_sprites = deque()
+        self.path_line_sprites = None
 
     def update_position(self, new_position):
         """Updates the army's current position."""

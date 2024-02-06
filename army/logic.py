@@ -3,7 +3,13 @@ import arcade
 from army.army import Army
 from utils import grid_to_central_coordinate, coordinate_to_grid
 from layout import layout_manager, LAYOUTS
-from events import OnGameInit, OnGameSetup, OnLeftMousePress, OnRightMousePress
+from events import (
+    OnGameInit,
+    OnGameSetup,
+    OnLeftMousePress,
+    OnRightMousePress,
+    OnKeyPress,
+)
 import math
 
 
@@ -19,6 +25,7 @@ def generate_army(game, army_info):
         *army_info.position
     )  # star to unpackage tuple
     army_info.sprite = army_sprite
+    army_info.path_line_sprites = arcade.SpriteList()
     game.draw_list.append(army_sprite)
     game.army_list.append(army_info)
 
@@ -63,6 +70,15 @@ def create_path_sprites(points, line_color, line_width, alpha=255):
         path_sprites.append(line_sprite)
 
     return path_sprites
+
+
+def army_deselect(game, event, em):
+    """
+    Deselect with escape key.
+    """
+
+    if event.key == arcade.key.ESCAPE:
+        game.army_selected = None
 
 
 def set_destination(game, event_x, event_y):
@@ -129,4 +145,5 @@ subscriptions = {
     OnGameSetup: army_setup,
     OnRightMousePress: [army_set_destination, army_append_destination],
     OnLeftMousePress: select_army,
+    OnKeyPress: army_deselect,
 }
