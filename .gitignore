@@ -1,2 +1,5 @@
 *.pyc
 test*.py
+server/server.key
+server/server.crt
+server/users.json
