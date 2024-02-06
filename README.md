@@ -53,7 +53,7 @@ Adding a new action in `pyasync_server` could be no more easier with following s
 
    `package` is the minimum unit where data is stored of each request. To define a new package type, you should:
 
-   1. Add new enumeration to the class `PACKAGE`.
+   1. Add new enumeration to the class `PACKAGE` in common/package.py.
 
    2. Define functions to pack your new packages.
 

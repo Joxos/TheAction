@@ -13,10 +13,18 @@ def pack_json(obj):
 # package declaration
 class PACKAGE(Enum):
     UNKNOWN_PACKAGE_TYPE = auto()
+
     REQUEST_CHANGE_QUESTION_MARK = auto()
-    REQUEST_MARIADB_TEST = auto()
     ANSWER_CHANGE_QUESTION_MARK = auto()
+
+    REQUEST_MARIADB_TEST = auto()
     ANSWER_MARIADB_TEST = auto()
+
+    REQUEST_LOGIN = auto()
+    ANSWER_LOGIN = auto()
+
+    REQUEST_REGISTER = auto()
+    ANSWER_REGISTER = auto()
 
 
 def pack_unknown_package_type():

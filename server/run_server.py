@@ -3,6 +3,8 @@ server.py: High-performance async server codes.
 """
 import asyncio
 import ssl
+import sys
+sys.path.append("..")
 
 from common.protocol import on_init, is_framed
 from common.utils import (
@@ -13,8 +15,8 @@ from common.utils import (
     handle_run_main,
     logger,
 )
-from server.package import unpack_and_process
-from server.config import *
+from package import unpack_and_process
+from config import *
 
 
 # callback style server:

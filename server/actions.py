@@ -1,11 +1,11 @@
 """
 actions.py: Main logic of actions to process after recieved packages.
 """
-from common.utils import logger
 from sys import exit
 import json
 import os
 from server.config import *
+from common.utils import logger
 
 # resolve SQL connection
 if SQL_TYPE == SQLTYPE.MYSQL:

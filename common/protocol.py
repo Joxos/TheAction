@@ -1,7 +1,7 @@
 """
 protocol.py: Define how to frame a package.
 """
-from package import *
+from .package import *
 
 
 def on_init(sp):
