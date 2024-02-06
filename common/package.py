@@ -1,13 +1,13 @@
-'''
+"""
 package.py: Define the format of different packages and ways to parse them.
-'''
+"""
 from enum import Enum, auto
 import json
 
 
 def pack_json(obj):
     message = json.dumps(obj)
-    return f'{len(message)}:{message}'
+    return f"{len(message)}:{message}"
 
 
 # package declaration
@@ -20,4 +20,4 @@ class PACKAGE(Enum):
 
 
 def pack_unknown_package_type():
-    return pack_json({'type': PACKAGE.UNKNOWN_PACKAGE_TYPE.name})
+    return pack_json({"type": PACKAGE.UNKNOWN_PACKAGE_TYPE.name})

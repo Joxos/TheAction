@@ -1,6 +1,6 @@
-'''
+"""
 config.py: Configuration defines here.
-'''
+"""
 from enum import Enum, auto
 
 
@@ -14,5 +14,5 @@ class COMPRESSER(Enum):
 
 # configuration starts here
 compresser = COMPRESSER.NONE
-default_coding = 'utf-8'
+default_coding = "utf-8"
 enable_tls = True
