@@ -4,6 +4,7 @@ server.py: High-performance async server codes.
 import asyncio
 import ssl
 import sys
+
 sys.path.append("..")
 
 from common.protocol import on_init, is_framed
@@ -57,7 +58,7 @@ async def main():
         try:
             context.load_cert_chain(CRT_PATH, KEY_PATH)
         except FileNotFoundError:
-            logger.error(f"File missing when using TLS.")
+            logger.error("File missing when using TLS.")
             return
         else:
             logger.info("TLS enabled.")

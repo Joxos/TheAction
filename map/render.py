@@ -11,9 +11,6 @@ from config import ROW_COUNT, COLUMN_COUNT, CELL_HEIGHT, CELL_WIDTH, SEED
 
 
 def map_init(game, event: OnGameInit, em: EventsManager):
-    # actually the color of the boarder
-    game.background_color = arcade.color.BLACK
-
     game.map = Map(ROW_COUNT, COLUMN_COUNT, SEED)
 
     # 1d list for arcade to render
@@ -24,6 +21,9 @@ def map_init(game, event: OnGameInit, em: EventsManager):
 
 
 def map_setup(game, event: OnGameSetup, em: EventsManager):
+    # actually the color of the boarder
+    arcade.set_background_color(arcade.color.BLACK)
+
     for row in range(ROW_COUNT):
         game.cell_sprites_2d.append([])
         for column in range(COLUMN_COUNT):

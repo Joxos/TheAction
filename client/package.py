@@ -14,11 +14,22 @@ def pack_request_change_question_mark(sentence):
 def pack_request_mariadb_test(sql):
     return pack_json({"type": PACKAGE.REQUEST_MARIADB_TEST.name, "sql": sql})
 
+
 def pack_request_login(username, password):
-    return pack_json({"type": PACKAGE.REQUEST_LOGIN.name, "username": username, "password": password})
+    return pack_json(
+        {"type": PACKAGE.REQUEST_LOGIN.name, "username": username, "password": password}
+    )
+
 
 def pack_request_register(username, password):
-    return pack_json({"type": PACKAGE.REQUEST_REGISTER.name, "username": username, "password": password})
+    return pack_json(
+        {
+            "type": PACKAGE.REQUEST_REGISTER.name,
+            "username": username,
+            "password": password,
+        }
+    )
+
 
 def unpack_and_process(package):
     """Main logic to process every package."""

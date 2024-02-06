@@ -4,6 +4,7 @@ client.py: High-performance async client codes.
 import asyncio
 import ssl
 import sys
+
 sys.path.append("..")
 
 from common.protocol import on_init, is_framed
@@ -59,7 +60,7 @@ async def main():
         try:
             context.load_verify_locations(CRT_PATH)
         except FileNotFoundError:
-            logger.error(f"File missing when using TLS.")
+            logger.error("File missing when using TLS.")
             return
         else:
             logger.info("TLS enabled.")
@@ -68,7 +69,7 @@ async def main():
 
     loop = asyncio.get_running_loop()
     on_con_lost = loop.create_future()
-    mypackage = pack_request_register('Joxos','114514')
+    mypackage = pack_request_register("Joxos", "114514")
 
     transport, protocol = await loop.create_connection(
         lambda: ClientProtocol(mypackage, on_con_lost),

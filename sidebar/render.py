@@ -7,7 +7,7 @@ from config import (
     SCREEN_WIDTH,
     SIDEBAR_WIDTH,
     GRID_WIDTH,
-    DEFAULT_FONT_SIZE,
+    SIDEBAR_DEFAULT_FONT_SIZE,
     FONT_COLOR,
     BOTTOM_SIDEBAR_HEIGHT,
     BOTTOM_SIDEBAR_Y_SPACING,
@@ -16,7 +16,7 @@ from config import (
     BOTTOM_SIDEBAR_X_SPACING,
     SIDEBAR_TEXT_X_MARGIN,
     SIDEBAR_TEXT_Y_MARGIN,
-    LINE_SPACING,
+    SIDEBAR_LINE_SPACING,
 )
 
 
@@ -66,17 +66,17 @@ def sidebar_init(game, event: OnGameInit, em: EventsManager):
         start_x,
         start_y,
         FONT_COLOR,
-        DEFAULT_FONT_SIZE,
+        SIDEBAR_DEFAULT_FONT_SIZE,
     )
-    start_y -= LINE_SPACING
+    start_y -= SIDEBAR_LINE_SPACING
     game.army_position_1 = arcade.Text(
         "Position",
         start_x,
         start_y,
         FONT_COLOR,
-        DEFAULT_FONT_SIZE,
+        SIDEBAR_DEFAULT_FONT_SIZE,
     )
-    start_y -= LINE_SPACING
+    start_y -= SIDEBAR_LINE_SPACING
     game.draw_list.append(game.army_name_1)
     game.draw_list.append(game.army_position_1)
 
@@ -118,7 +118,7 @@ def sidebar_init(game, event: OnGameInit, em: EventsManager):
         start_x,
         start_y,
         FONT_COLOR,
-        DEFAULT_FONT_SIZE,
+        SIDEBAR_DEFAULT_FONT_SIZE,
     )
     game.draw_list.append(game.army_selected_info)
     start_x += BOTTOM_SIDEBAR_X_SPACING
