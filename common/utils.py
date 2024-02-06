@@ -5,7 +5,7 @@ from asyncio import run
 from enum import Enum, auto
 from sys import stderr
 from loguru import logger
-from config import *
+from common.config import *
 
 # logger settings
 logger.remove()
@@ -15,16 +15,16 @@ logger.add(
     format="<green>{time}</green> <level>{message}</level>",
 )
 
-logger.info(f"{compresser.name.lower().title()} compress selected.")
-if compresser == COMPRESSER.ZLIB:
+logger.info(f"{DEFAULT_COMPRESSER.name.lower().title()} compress selected.")
+if DEFAULT_COMPRESSER == COMPRESSER.ZLIB:
     from zlib import compress, decompress
-elif compresser == COMPRESSER.GZIP:
+elif DEFAULT_COMPRESSER == COMPRESSER.GZIP:
     from gzip import compress, decompress
-elif compresser == COMPRESSER.BZ2:
+elif DEFAULT_COMPRESSER == COMPRESSER.BZ2:
     from bz2 import compress, decompress
-elif compresser == COMPRESSER.LZMA:
+elif DEFAULT_COMPRESSER == COMPRESSER.LZMA:
     from lzma import compress, decompress
-elif compresser == COMPRESSER.NONE:
+elif DEFAULT_COMPRESSER == COMPRESSER.NONE:
 
     def compress(m):
         return m

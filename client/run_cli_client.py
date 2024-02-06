@@ -4,6 +4,7 @@ client.py: High-performance async client codes.
 import asyncio
 import ssl
 import sys
+sys.path.append("..")
 
 from common.protocol import on_init, is_framed
 from common.utils import (
@@ -14,8 +15,8 @@ from common.utils import (
     handle_run_main,
     logger,
 )
-from .package import *
-from .config import *
+from client.package import *
+from client.config import *
 
 
 class ClientProtocol(asyncio.Protocol):
@@ -29,7 +30,7 @@ class ClientProtocol(asyncio.Protocol):
         self.transport = transport
         self.address = transport.get_extra_info("peername")
         show_status(STATUS.CONNECTED, self.address)
-        transport.write(compress(bytes(self.package_to_send, encoding=default_coding)))
+        transport.write(compress(bytes(self.package_to_send, encoding=DEFAULT_CODING)))
         show_status(STATUS.SEND, self.address, self.package_to_send)
 
     def data_received(self, more_data):
@@ -42,7 +43,6 @@ class ClientProtocol(asyncio.Protocol):
         if is_framed(self):
             show_status(STATUS.RECV, self.address, self.recieved_data)
             res = unpack_and_process(self.recieved_data)
-            self.transport.write(compress(bytes(res, encoding=default_coding)))
             show_status(STATUS.RECV, self.address, res)
             self.transport.close()
 
@@ -53,11 +53,11 @@ class ClientProtocol(asyncio.Protocol):
 
 async def main():
     context = None
-    if enable_tls:
+    if ENABLE_TLS:
         context = ssl.create_default_context()
         context.check_hostname = False
         try:
-            context.load_verify_locations(crt_path)
+            context.load_verify_locations(CRT_PATH)
         except FileNotFoundError:
             logger.error(f"File missing when using TLS.")
             return
@@ -68,12 +68,12 @@ async def main():
 
     loop = asyncio.get_running_loop()
     on_con_lost = loop.create_future()
-    mypackage = pack_request_mariadb_test("show databases")
+    mypackage = pack_request_register('Joxos','114514')
 
     transport, protocol = await loop.create_connection(
         lambda: ClientProtocol(mypackage, on_con_lost),
-        server_address[0],
-        server_address[1],
+        SERVER_ADDRESS[0],
+        SERVER_ADDRESS[1],
         ssl=context,
     )
 
@@ -84,4 +84,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    handle_run_main(main, server_address)
+    handle_run_main(main, SERVER_ADDRESS)

@@ -15,8 +15,8 @@ from common.utils import (
     handle_run_main,
     logger,
 )
-from package import unpack_and_process
-from config import *
+from server.package import unpack_and_process
+from server.config import *
 
 
 # callback style server:
@@ -41,7 +41,7 @@ class ServerProtocol(asyncio.Protocol):
             show_status(STATUS.RECV, self.address, self.recieved_data)
             # transfer control to actions.py
             res = unpack_and_process(self.recieved_data)
-            self.transport.write(compress(bytes(res, encoding=default_coding)))
+            self.transport.write(compress(bytes(res, encoding=DEFAULT_CODING)))
             show_status(STATUS.SEND, self.address, res)
             self.transport.close()
 
@@ -51,7 +51,7 @@ class ServerProtocol(asyncio.Protocol):
 
 async def main():
     context = None
-    if enable_tls:
+    if ENABLE_TLS:
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
         context.check_hostname = False
         try:
