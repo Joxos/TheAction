@@ -1,4 +1,3 @@
-import arcade
 import sys
 from loguru import logger
 
@@ -18,8 +17,6 @@ SEED = None
 
 # display configuration
 GAME_TITLE = "The Action"
-FONT_NAME = "Consolas"
-FONT_COLOR = arcade.color.BEIGE
 
 # cell and boarder
 CELL_WIDTH = 20

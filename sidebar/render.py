@@ -8,7 +8,6 @@ from config import (
     SIDEBAR_WIDTH,
     GRID_WIDTH,
     SIDEBAR_DEFAULT_FONT_SIZE,
-    FONT_COLOR,
     BOTTOM_SIDEBAR_HEIGHT,
     BOTTOM_SIDEBAR_Y_SPACING,
     BOTTOM_SIDEBAR_FONT_SIZE,
@@ -18,6 +17,8 @@ from config import (
     SIDEBAR_TEXT_Y_MARGIN,
     SIDEBAR_LINE_SPACING,
 )
+
+FONT_COLOR = arcade.color.WHITE
 
 
 def update_sidebar_info(game, event: OnUpdate, em: EventsManager):
