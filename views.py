@@ -102,7 +102,6 @@ class MainMenuView(arcade.View):
     def setup(self):
         self.ui_manager = arcade.gui.UIManager()
         self.ui_manager.enable()
-        # create a vertical box to align buttons
         self.v_box = arcade.gui.UIBoxLayout(space_between=20)
         arcade.set_background_color(arcade.color.ARSENIC)
 
@@ -252,36 +251,31 @@ class LoginView(arcade.View):
             self.error_label.text = "用户名或密码错误"
 
     def setup(self):
-        arcade.set_background_color(arcade.color.BEIGE)
         self.ui_manager = arcade.gui.UIManager()
         self.ui_manager.enable()
+        self.v_box = arcade.gui.UIBoxLayout(space_between=20)
+        arcade.set_background_color(arcade.color.ARSENIC)
 
         self.username_input = arcade.gui.UIInputText(
             text="username",
-            x=520,
-            y=320 - 40,
             width=300,
             height=40,
             font_size=16,
             font_name="Consolas",
         )
-        self.ui_manager.add(self.username_input)
+        self.v_box.add(self.username_input)
 
         self.password_input = arcade.gui.UIInputText(
             text="password",
-            x=520,
-            y=380 - 40,
             width=300,
             height=40,
             font_size=16,
             font_name="Consolas",
         )
-        self.ui_manager.add(self.password_input)
+        self.v_box.add(self.password_input)
 
         login_button = arcade.gui.UIFlatButton(
             text="登录",
-            x=520,
-            y=440 - 50,
             width=300,
             height=50,
             font_size=20,
@@ -301,7 +295,7 @@ class LoginView(arcade.View):
             },
         )
         login_button.on_click = self.verify_login
-        self.ui_manager.add(login_button)
+        self.v_box.add(login_button)
 
         self.error_label = arcade.gui.UILabel(
             text="",
@@ -311,7 +305,7 @@ class LoginView(arcade.View):
             font_name="微软雅黑",
             text_color=ERROR_TEXT_COLOR,
         )
-        self.ui_manager.add(self.error_label)
+        self.v_box.add(self.error_label)
 
         back_button = arcade.gui.UIFlatButton(
             text="返回主菜单",
@@ -336,7 +330,9 @@ class LoginView(arcade.View):
             },
         )
         back_button.on_click = self.back_to_main_menu
-        self.ui_manager.add(back_button)
+        self.v_box.add(back_button)
+
+        self.ui_manager.add(arcade.gui.UIAnchorWidget(child=self.v_box))
 
     def on_draw(self):
         self.clear()
