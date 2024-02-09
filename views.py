@@ -70,18 +70,36 @@ class GameView(arcade.View):
         self.events_manager.new_event(OnKeyRelease(key, key_modifiers))
 
 
-BUTTON_NORMAL = arcade.color.LIGHT_GRAY
-BUTTON_HOVER = arcade.color.GRAY
-BUTTON_PRESSED = arcade.color.DARK_GRAY
-INPUT_BOX_COLOR = arcade.color.WHITE
-ERROR_TEXT_COLOR = arcade.color.RED
+def create_style(font_color_pressed, border_color, border_color_hovered, border_color_pressed, bg_color, bg_color_hovered, bg_color_pressed):
+    return {
+        "font_name": ("calibri", "arial"),
+        "font_size": 15,
+        "font_color": arcade.color.WHITE,
+        "font_color_pressed": font_color_pressed,
+        "border_width": 2,
+        "border_color": border_color,
+        "border_color_hovered": border_color_hovered,
+        "border_color_pressed": border_color_pressed,
+        "bg_color": bg_color,
+        "bg_color_hovered": bg_color_hovered,
+        "bg_color_pressed": bg_color_pressed,
+    }
 
+def create_button(text, width, height, style, action):
+    button = arcade.gui.UIFlatButton(text=text, width=width, height=height, style=style)
+    button.on_click = action
+    return button
 
 class MainMenuView(arcade.View):
+    BUTTON_WIDTH = 600
+    BUTTON_HEIGHT = 50
+    SPACE_BETWEEN = 20
+    H_SPACE = 20
+
     def __init__(self, events_manager):
         super().__init__()
         self.events_manager = events_manager
-        self.ui_manager = None
+        self.ui_manager = arcade.gui.UIManager()
 
     def on_show_view(self):
         self.setup()
@@ -100,135 +118,107 @@ class MainMenuView(arcade.View):
         arcade.exit()
 
     def setup(self):
-        self.ui_manager = arcade.gui.UIManager()
-        self.ui_manager.enable()
-        self.v_box = arcade.gui.UIBoxLayout(space_between=20)
         arcade.set_background_color(arcade.color.ARSENIC)
+        self.ui_manager.enable()
 
+        # Vertical box
+        v_box = arcade.gui.UIBoxLayout(space_between=self.SPACE_BETWEEN)
+        
+        # Horizontal box
+        h_box = arcade.gui.UIBoxLayout(space_between=self.H_SPACE, vertical=False)
+
+        # Create and add game label
         style = {"font_color": (79, 74, 45)}
         game_label = arcade.gui.UILabel(
             text="The Action",
-            width=400,
-            height=100,
-            style=style,
+            width=self.BUTTON_WIDTH,
             id="game_label",
             font_size=48,
+            style=style
         )
-        self.v_box.add(game_label)
+        v_box.add(game_label)
 
-        style = {
-            "font_name": ("calibri", "arial"),
-            "font_size": 15,
-            "font_color": arcade.color.WHITE,
-            "font_color_pressed": (230, 230, 230),
-            "border_width": 2,
-            "border_color": (90, 115, 87),
-            "border_color_hovered": (109, 130, 106),
-            "border_color_pressed": (98, 123, 89),
-            "bg_color": (90, 115, 87),
-            "bg_color_hovered": (109, 130, 106),
-            "bg_color_pressed": (82, 107, 79),
-        }
-        start_button = arcade.gui.UIFlatButton(
-            text="Carry out the Action",
-            width=300,
-            height=70,
-            id="start_button",
-            style=style,
+        # Button styles
+        start_button_style = create_style(
+            (230, 230, 230), *[(90, 115, 87), (109, 130, 106), (98, 123, 89), (90, 115, 87), (109, 130, 106), (82, 107, 79)]
         )
-        start_button.on_click = self.show_game_view
-        self.v_box.add(start_button)
+        login_button_style = create_style(
+            (230, 230, 230), *[(74, 99, 120), (94, 122, 142), (67, 89, 108), (74, 99, 120), (94, 122, 142), (59, 79, 98)]
+        )
+        settings_button_style = create_style(
+            (230, 230, 230), *[(106, 78, 66), (126, 98, 88), (96, 70, 60), (106, 78, 66), (126, 98, 88), (85, 62, 54)]
+        )
+        exit_button_style = create_style(
+            (245, 245, 245), *[(128, 35, 35), (180, 50, 50), (115, 22, 22), (155, 30, 30), (175, 45, 45), (140, 25, 25)]
+        )
+        print(start_button_style)
+        
+        print(login_button_style)
+        print(settings_button_style)
+        print(exit_button_style)
 
-        style = {
-            "font_name": ("calibri", "arial"),
-            "font_size": 15,
-            "font_color": arcade.color.WHITE,
-            "font_color_pressed": (230, 230, 230),
-            "border_width": 2,
-            "border_color": (74, 99, 120),
-            "border_color_hovered": (94, 122, 142),
-            "border_color_pressed": (67, 89, 108),
-            "bg_color": (74, 99, 120),
-            "bg_color_hovered": (94, 122, 142),
-            "bg_color_pressed": (59, 79, 98),
-        }
-        login_button = arcade.gui.UIFlatButton(
-            text="登录Login",
-            width=300,
-            height=50,
-            font_size=18,
-            font_name="Consolas",
-            id="show_login_view_button",
-            style=style,
-        )
-        login_button.on_click = self.show_login_view
-        self.v_box.add(login_button)
+        # Create and add buttons
+        v_box.add(create_button("Carry out the Action", self.BUTTON_WIDTH, self.BUTTON_HEIGHT, start_button_style, self.show_game_view))
+        v_box.add(create_button("登录Login", self.BUTTON_WIDTH, self.BUTTON_HEIGHT, login_button_style, self.show_login_view))
 
-        style = {
-            "font_name": ("calibri", "arial"),
-            "font_size": 15,
-            "font_color": arcade.color.WHITE,
-            "font_color_pressed": (230, 230, 230),
-            "border_width": 2,
-            "border_color": (106, 78, 66),
-            "border_color_hovered": (126, 98, 88),
-            "border_color_pressed": (96, 70, 60),
-            "bg_color": (106, 78, 66),
-            "bg_color_hovered": (126, 98, 88),
-            "bg_color_pressed": (85, 62, 54),
-        }
-        settings_button = arcade.gui.UIFlatButton(
-            text="设置",
-            width=300,
-            height=50,
-            font_size=18,
-            font_name="Consolas",
-            id="settings_button",
-            style=style,
-        )
-        self.v_box.add(settings_button)
+        # Horizontal box for settings and exit buttons
+        h_box.add(create_button("设置", (self.BUTTON_WIDTH - self.H_SPACE)//2, self.BUTTON_HEIGHT, settings_button_style, lambda x: x))
+        h_box.add(create_button("退出", (self.BUTTON_WIDTH - self.H_SPACE)//2, self.BUTTON_HEIGHT, exit_button_style, self.exit_game))
+        
+        # Add horizontal box to the vertical box
+        v_box.add(h_box)
 
-        style = {
-            "font_name": ("calibri", "arial"),
-            "font_size": 15,
-            "font_color": arcade.color.WHITE,
-            "font_color_pressed": (245, 245, 245),
-            "border_width": 2,
-            "border_color": (128, 35, 35),
-            "border_color_hovered": (180, 50, 50),
-            "border_color_pressed": (115, 22, 22),
-            "bg_color": (155, 30, 30),
-            "bg_color_hovered": (175, 45, 45),
-            "bg_color_pressed": (140, 25, 25),
-        }
-        exit_button = arcade.gui.UIFlatButton(
-            text="退出",
-            width=300,
-            height=50,
-            font_size=18,
-            font_name="Consolas",
-            id="settings_button",
-            style=style,
-        )
-        exit_button.on_click = self.exit_game
-        self.v_box.add(exit_button)
-
-        self.ui_manager.add(
-            arcade.gui.UIAnchorWidget(
-                anchor_x="center_x", anchor_y="center_y", child=self.v_box
-            )
-        )
+        self.ui_manager.add(arcade.gui.UIAnchorWidget(anchor_x="center_x", anchor_y="center_y", child=v_box))
 
     def on_draw(self):
         self.clear()
         self.ui_manager.draw()
 
 
+class PasswordInputBox(arcade.gui.UIInputText):
+    def __init__(self, x=0, y=0, width=0, height=0, text="", style=None):
+        super().__init__(x=x, y=y, width=width, height=height, text=text, style=style)
+        self.password_char = '*'
+
+    def draw(self):
+        temp_text = self.text
+        if self.focused:
+            self.text = self.password_char * len(self.text)
+        super().draw()
+        self.text = temp_text
+class PlaceholderInputBox(arcade.gui.UIInputText):
+    def __init__(self, x=0, y=0, width=0, height=0, text="", placeholder="", style=None):
+        super().__init__(x=x, y=y, width=width, height=height, text=text, style=style)
+        self.placeholder = placeholder
+        self.is_focused = False
+
+    def on_focus(self):
+        self.is_focused = True
+        if not self.text:
+            self.text = ""
+
+    def on_unfocus(self):
+        self.is_focused = False
+        if self.text.strip() == "":
+            self.text = self.placeholder
+
+    def draw(self):
+        if not self.is_focused and not self.text:
+            self.text = self.placeholder
+        super().draw()
+        # if self.text:
+        #     self.text = ""
+
 class LoginView(arcade.View):
+    BUTTON_WIDTH = 350
+    BUTTON_HEIGHT = 50
+    SPACE_BETWEEN = 20
+    H_SPACE = 60
+
     def __init__(self, events_manager):
         super().__init__()
         self.events_manager = events_manager
-        self.ui_manager = None
+        self.ui_manager = arcade.gui.UIManager()
         self.username_input = None
         self.password_input = None
         self.error_label = None
@@ -251,10 +241,20 @@ class LoginView(arcade.View):
             self.error_label.text = "用户名或密码错误"
 
     def setup(self):
-        self.ui_manager = arcade.gui.UIManager()
-        self.ui_manager.enable()
-        self.v_box = arcade.gui.UIBoxLayout(space_between=20)
         arcade.set_background_color(arcade.color.ARSENIC)
+        self.ui_manager.enable()
+        self.v_box = arcade.gui.UIBoxLayout(space_between=self.SPACE_BETWEEN)
+        self.h_box= arcade.gui.UIBoxLayout(space_between=self.H_SPACE, vertical=False)
+
+        self.username_label = arcade.gui.UILabel(
+            text="用户名",
+            width=300,
+            height=40,
+            font_size=16,
+            font_name="微软雅黑",
+            dpi=100,
+        )
+        self.v_box.add(self.username_label)
 
         self.username_input = arcade.gui.UIInputText(
             text="username",
@@ -262,8 +262,19 @@ class LoginView(arcade.View):
             height=40,
             font_size=16,
             font_name="Consolas",
+            text_color=(229, 231, 233),
         )
         self.v_box.add(self.username_input)
+
+        self.password_label = arcade.gui.UILabel(
+            text="密码",
+            width=300,
+            height=40,
+            font_size=16,
+            font_name="微软雅黑",
+            dpi=100,
+        )
+        self.v_box.add(self.password_label)
 
         self.password_input = arcade.gui.UIInputText(
             text="password",
@@ -271,66 +282,27 @@ class LoginView(arcade.View):
             height=40,
             font_size=16,
             font_name="Consolas",
+            style={"bg_color":(240, 240, 240),"border_color":(200, 200, 200),"font_color":(32, 32, 32)}
         )
         self.v_box.add(self.password_input)
 
-        login_button = arcade.gui.UIFlatButton(
-            text="登录",
-            width=300,
-            height=50,
-            font_size=20,
-            font_name="Consolas",
-            id="login_button",
-            style={
-                "font_name": ("微软雅黑", "Consolas"),
-                "font_size": 20,
-                "font_color": arcade.color.BLACK,
-                "bg_color": BUTTON_NORMAL,
-                "bg_color_hover": BUTTON_HOVER,
-                "bg_color_press": BUTTON_PRESSED,
-                "border_width": 2,
-                "border_color": arcade.color.BLACK,
-                "border_color_hover": arcade.color.WHITE,
-                "border_color_press": arcade.color.WHITE,
-            },
-        )
-        login_button.on_click = self.verify_login
-        self.v_box.add(login_button)
+        login_button_style = create_style((230, 230, 230),*[(0, 123, 255),(30, 144, 255),(0, 95, 230)],*[(0, 104, 255),(30, 130, 255),(0, 78, 204)])
+        self.h_box.add(create_button("登录", (self.BUTTON_WIDTH - self.H_SPACE)//2, self.BUTTON_HEIGHT,login_button_style, self.verify_login))
 
-        self.error_label = arcade.gui.UILabel(
-            text="",
-            x=520,
-            y=500,
-            font_size=16,
-            font_name="微软雅黑",
-            text_color=ERROR_TEXT_COLOR,
-        )
-        self.v_box.add(self.error_label)
+        back_button_style = create_style((245,245,245), *[(130, 130, 130),(165, 165, 165),(120, 120, 120)],*[(150, 150, 150),(170, 170, 170),(140, 140, 140)])
+        self.h_box.add(create_button("返回主菜单", (self.BUTTON_WIDTH - self.H_SPACE)//2, self.BUTTON_HEIGHT, back_button_style, self.back_to_main_menu))
 
-        back_button = arcade.gui.UIFlatButton(
-            text="返回主菜单",
-            x=670,
-            y=716 - 50,
-            width=150,
-            height=50,
-            font_size=18,
-            font_name="Consolas",
-            id="back_button",
-            style={
-                "font_name": ("微软雅黑", "Consolas"),
-                "font_size": 20,
-                "font_color": arcade.color.BLACK,
-                "bg_color": BUTTON_NORMAL,
-                "bg_color_hover": BUTTON_HOVER,
-                "bg_color_press": BUTTON_PRESSED,
-                "border_width": 2,
-                "border_color": arcade.color.BLACK,
-                "border_color_hover": arcade.color.WHITE,
-                "border_color_press": arcade.color.WHITE,
-            },
-        )
-        back_button.on_click = self.back_to_main_menu
-        self.v_box.add(back_button)
+        self.v_box.add(self.h_box)
+
+        # self.error_label = arcade.gui.UILabel(
+        #     text="",
+        #     x=520,
+        #     y=500,
+        #     font_size=16,
+        #     font_name="微软雅黑",
+        #     text_color=ERROR_TEXT_COLOR,
+        # )
+        # self.v_box.add(self.error_label)
 
         self.ui_manager.add(arcade.gui.UIAnchorWidget(child=self.v_box))
 

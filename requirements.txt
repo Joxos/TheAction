@@ -4,3 +4,4 @@ opensimplex
 # SQL Support
 # pymysql
 # mariadb
+PySide6

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>839</width>
+    <height>522</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(43, 43, 43); /* 红色背景 */</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>-50</y>
+      <width>441</width>
+      <height>431</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="banner">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>250</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>48</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+    color: rgb(79, 74, 45)
+}</string>
+       </property>
+       <property name="text">
+        <string>The Action</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    font-family: &quot;Calibri&quot;, &quot;Arial&quot;;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    border: 2px solid rgb(90, 115, 87);
+    background-color: rgb(90, 115, 87);
+    padding: 5px;
+}
+
+QPushButton:hover {
+    border-color: rgb(109, 130, 106);
+    background-color: rgb(109, 130, 106);
+}
+
+QPushButton:pressed {
+    color: rgb(230, 230, 230);
+    border-color: rgb(98, 123, 89);
+    background-color: rgb(82, 107, 79);
+}</string>
+       </property>
+       <property name="text">
+        <string>开始游戏</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    font-family: &quot;Calibri&quot;, &quot;Arial&quot;;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    border: 2px solid rgb(74, 99, 120);
+    background-color: rgb(74, 99, 120);
+    padding: 5px;
+}
+
+QPushButton:hover {
+    border-color: rgb(94, 122, 142);
+    background-color: rgb(94, 122, 142);
+}
+
+QPushButton:pressed {
+    color: rgb(230, 230, 230);
+    border-color: rgb(67, 89, 108);
+    background-color: rgb(59, 79, 98);
+}</string>
+       </property>
+       <property name="text">
+        <string>登录</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="pushButton_4">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    font-family: &quot;Calibri&quot;, &quot;Arial&quot;;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    border: 2px solid rgb(106, 78, 66);
+    background-color: rgb(106, 78, 66);
+    padding: 5px;
+}
+
+QPushButton:hover {
+    border-color: rgb(126, 98, 88);
+    background-color: rgb(126, 98, 88);
+}
+
+QPushButton:pressed {
+    color: rgb(230, 230, 230);
+    border-color: rgb(96, 70, 60);
+    background-color: rgb(85, 62, 54);
+}</string>
+         </property>
+         <property name="text">
+          <string>设置</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    font-family: &quot;Calibri&quot;, &quot;Arial&quot;; /* 字体名称 */
+    font-size: 15px; /* 字体大小 */
+    color: rgb(255, 255, 255); /* 默认字体颜色 */
+    border-width: 2px; /* 边框宽度 */
+    border-color: rgb(128, 35, 35); /* 默认边框颜色 */
+    background-color: rgb(155, 30, 30); /* 默认背景颜色 */
+    border-style: solid; /* 边框样式 */
+    padding: 5px; /* 按钮的内边距 */
+}
+
+QPushButton:hover {
+    border-color: rgb(180, 50, 50); /* 鼠标悬停时的边框颜色 */
+    background-color: rgb(175, 45, 45); /* 鼠标悬停时的背景颜色 */
+}
+
+QPushButton:pressed {
+    color: rgb(245, 245, 245); /* 按钮按下时的字体颜色 */
+    border-color: rgb(115, 22, 22); /* 按钮按下时的边框颜色 */
+    background-color: rgb(140, 25, 25); /* 按钮按下时的背景颜色 */
+}</string>
+         </property>
+         <property name="text">
+          <string>退出</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
