@@ -70,7 +70,15 @@ class GameView(arcade.View):
         self.events_manager.new_event(OnKeyRelease(key, key_modifiers))
 
 
-def create_style(font_color_pressed, border_color, border_color_hovered, border_color_pressed, bg_color, bg_color_hovered, bg_color_pressed):
+def create_style(
+    font_color_pressed,
+    border_color,
+    border_color_hovered,
+    border_color_pressed,
+    bg_color,
+    bg_color_hovered,
+    bg_color_pressed,
+):
     return {
         "font_name": ("calibri", "arial"),
         "font_size": 15,
@@ -85,10 +93,12 @@ def create_style(font_color_pressed, border_color, border_color_hovered, border_
         "bg_color_pressed": bg_color_pressed,
     }
 
+
 def create_button(text, width, height, style, action):
     button = arcade.gui.UIFlatButton(text=text, width=width, height=height, style=style)
     button.on_click = action
     return button
+
 
 class MainMenuView(arcade.View):
     BUTTON_WIDTH = 600
@@ -123,7 +133,7 @@ class MainMenuView(arcade.View):
 
         # Vertical box
         v_box = arcade.gui.UIBoxLayout(space_between=self.SPACE_BETWEEN)
-        
+
         # Horizontal box
         h_box = arcade.gui.UIBoxLayout(space_between=self.H_SPACE, vertical=False)
 
@@ -134,41 +144,109 @@ class MainMenuView(arcade.View):
             width=self.BUTTON_WIDTH,
             id="game_label",
             font_size=48,
-            style=style
+            style=style,
         )
         v_box.add(game_label)
 
         # Button styles
         start_button_style = create_style(
-            (230, 230, 230), *[(90, 115, 87), (109, 130, 106), (98, 123, 89), (90, 115, 87), (109, 130, 106), (82, 107, 79)]
+            (230, 230, 230),
+            *[
+                (90, 115, 87),
+                (109, 130, 106),
+                (98, 123, 89),
+                (90, 115, 87),
+                (109, 130, 106),
+                (82, 107, 79),
+            ],
         )
         login_button_style = create_style(
-            (230, 230, 230), *[(74, 99, 120), (94, 122, 142), (67, 89, 108), (74, 99, 120), (94, 122, 142), (59, 79, 98)]
+            (230, 230, 230),
+            *[
+                (74, 99, 120),
+                (94, 122, 142),
+                (67, 89, 108),
+                (74, 99, 120),
+                (94, 122, 142),
+                (59, 79, 98),
+            ],
         )
         settings_button_style = create_style(
-            (230, 230, 230), *[(106, 78, 66), (126, 98, 88), (96, 70, 60), (106, 78, 66), (126, 98, 88), (85, 62, 54)]
+            (230, 230, 230),
+            *[
+                (106, 78, 66),
+                (126, 98, 88),
+                (96, 70, 60),
+                (106, 78, 66),
+                (126, 98, 88),
+                (85, 62, 54),
+            ],
         )
         exit_button_style = create_style(
-            (245, 245, 245), *[(128, 35, 35), (180, 50, 50), (115, 22, 22), (155, 30, 30), (175, 45, 45), (140, 25, 25)]
+            (245, 245, 245),
+            *[
+                (128, 35, 35),
+                (180, 50, 50),
+                (115, 22, 22),
+                (155, 30, 30),
+                (175, 45, 45),
+                (140, 25, 25),
+            ],
         )
         print(start_button_style)
-        
+
         print(login_button_style)
         print(settings_button_style)
         print(exit_button_style)
 
         # Create and add buttons
-        v_box.add(create_button("Carry out the Action", self.BUTTON_WIDTH, self.BUTTON_HEIGHT, start_button_style, self.show_game_view))
-        v_box.add(create_button("登录Login", self.BUTTON_WIDTH, self.BUTTON_HEIGHT, login_button_style, self.show_login_view))
+        v_box.add(
+            create_button(
+                "Carry out the Action",
+                self.BUTTON_WIDTH,
+                self.BUTTON_HEIGHT,
+                start_button_style,
+                self.show_game_view,
+            )
+        )
+        v_box.add(
+            create_button(
+                "登录Login",
+                self.BUTTON_WIDTH,
+                self.BUTTON_HEIGHT,
+                login_button_style,
+                self.show_login_view,
+            )
+        )
 
         # Horizontal box for settings and exit buttons
-        h_box.add(create_button("设置", (self.BUTTON_WIDTH - self.H_SPACE)//2, self.BUTTON_HEIGHT, settings_button_style, lambda x: x))
-        h_box.add(create_button("退出", (self.BUTTON_WIDTH - self.H_SPACE)//2, self.BUTTON_HEIGHT, exit_button_style, self.exit_game))
-        
+        h_box.add(
+            create_button(
+                "设置",
+                (self.BUTTON_WIDTH - self.H_SPACE) // 2,
+                self.BUTTON_HEIGHT,
+                settings_button_style,
+                lambda x: x,
+            )
+        )
+        h_box.add(
+            create_button(
+                "退出",
+                (self.BUTTON_WIDTH - self.H_SPACE) // 2,
+                self.BUTTON_HEIGHT,
+                exit_button_style,
+                self.exit_game,
+            )
+        )
+
         # Add horizontal box to the vertical box
         v_box.add(h_box)
 
-        self.ui_manager.add(arcade.gui.UIAnchorWidget(anchor_x="center_x", anchor_y="center_y", child=v_box))
+        self.ui_manager.add(
+            arcade.gui.UIAnchorWidget(
+                anchor_x="center_x", anchor_y="center_y", child=v_box
+            )
+        )
 
     def on_draw(self):
         self.clear()
@@ -178,7 +256,7 @@ class MainMenuView(arcade.View):
 class PasswordInputBox(arcade.gui.UIInputText):
     def __init__(self, x=0, y=0, width=0, height=0, text="", style=None):
         super().__init__(x=x, y=y, width=width, height=height, text=text, style=style)
-        self.password_char = '*'
+        self.password_char = "*"
 
     def draw(self):
         temp_text = self.text
@@ -186,8 +264,12 @@ class PasswordInputBox(arcade.gui.UIInputText):
             self.text = self.password_char * len(self.text)
         super().draw()
         self.text = temp_text
+
+
 class PlaceholderInputBox(arcade.gui.UIInputText):
-    def __init__(self, x=0, y=0, width=0, height=0, text="", placeholder="", style=None):
+    def __init__(
+        self, x=0, y=0, width=0, height=0, text="", placeholder="", style=None
+    ):
         super().__init__(x=x, y=y, width=width, height=height, text=text, style=style)
         self.placeholder = placeholder
         self.is_focused = False
@@ -208,6 +290,7 @@ class PlaceholderInputBox(arcade.gui.UIInputText):
         super().draw()
         # if self.text:
         #     self.text = ""
+
 
 class LoginView(arcade.View):
     BUTTON_WIDTH = 350
@@ -244,7 +327,7 @@ class LoginView(arcade.View):
         arcade.set_background_color(arcade.color.ARSENIC)
         self.ui_manager.enable()
         self.v_box = arcade.gui.UIBoxLayout(space_between=self.SPACE_BETWEEN)
-        self.h_box= arcade.gui.UIBoxLayout(space_between=self.H_SPACE, vertical=False)
+        self.h_box = arcade.gui.UIBoxLayout(space_between=self.H_SPACE, vertical=False)
 
         self.username_label = arcade.gui.UILabel(
             text="用户名",
@@ -282,15 +365,43 @@ class LoginView(arcade.View):
             height=40,
             font_size=16,
             font_name="Consolas",
-            style={"bg_color":(240, 240, 240),"border_color":(200, 200, 200),"font_color":(32, 32, 32)}
+            style={
+                "bg_color": (240, 240, 240),
+                "border_color": (200, 200, 200),
+                "font_color": (32, 32, 32),
+            },
         )
         self.v_box.add(self.password_input)
 
-        login_button_style = create_style((230, 230, 230),*[(0, 123, 255),(30, 144, 255),(0, 95, 230)],*[(0, 104, 255),(30, 130, 255),(0, 78, 204)])
-        self.h_box.add(create_button("登录", (self.BUTTON_WIDTH - self.H_SPACE)//2, self.BUTTON_HEIGHT,login_button_style, self.verify_login))
+        login_button_style = create_style(
+            (230, 230, 230),
+            *[(0, 123, 255), (30, 144, 255), (0, 95, 230)],
+            *[(0, 104, 255), (30, 130, 255), (0, 78, 204)],
+        )
+        self.h_box.add(
+            create_button(
+                "登录",
+                (self.BUTTON_WIDTH - self.H_SPACE) // 2,
+                self.BUTTON_HEIGHT,
+                login_button_style,
+                self.verify_login,
+            )
+        )
 
-        back_button_style = create_style((245,245,245), *[(130, 130, 130),(165, 165, 165),(120, 120, 120)],*[(150, 150, 150),(170, 170, 170),(140, 140, 140)])
-        self.h_box.add(create_button("返回主菜单", (self.BUTTON_WIDTH - self.H_SPACE)//2, self.BUTTON_HEIGHT, back_button_style, self.back_to_main_menu))
+        back_button_style = create_style(
+            (245, 245, 245),
+            *[(130, 130, 130), (165, 165, 165), (120, 120, 120)],
+            *[(150, 150, 150), (170, 170, 170), (140, 140, 140)],
+        )
+        self.h_box.add(
+            create_button(
+                "返回主菜单",
+                (self.BUTTON_WIDTH - self.H_SPACE) // 2,
+                self.BUTTON_HEIGHT,
+                back_button_style,
+                self.back_to_main_menu,
+            )
+        )
 
         self.v_box.add(self.h_box)
 

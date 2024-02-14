@@ -68,6 +68,7 @@ MAX_HEIGHT = 10
 
 # consequence matters
 DEFAULT_MODULES = [
+    "game_logic",
     "sidebar.render",
     "map.render",
     "army.logic",
